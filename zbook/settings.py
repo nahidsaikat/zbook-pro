@@ -52,7 +52,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'zbook_pro.urls'
+ROOT_URLCONF = 'zbook.urls'
 
 TEMPLATES = [
     {
@@ -70,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'zbook_pro.wsgi.application'
+WSGI_APPLICATION = 'zbook.wsgi.application'
 
 
 # Database
