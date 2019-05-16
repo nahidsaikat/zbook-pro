@@ -11,6 +11,7 @@ class AccountSubType(models.Model):
 
 
 class Account(models.Model):
+    parent = models.ForeignKey('self', on_delete=models.SET_NULL, default=None, null=True, blank=True)
     name = models.CharField(max_length=64)
     number = models.CharField(max_length=64)
     type = models.IntegerField(choices=AccountType.choices, default=AccountType.Asset, blank=True)
@@ -18,4 +19,3 @@ class Account(models.Model):
     depth = models.IntegerField(default=0, null=True, blank=True)
     entry_date = models.DateField(default=datetime.date.today, null=True, blank=True)
     description = models.TextField(default='', null=True, blank=True)
-    parent = models.ForeignKey('self', on_delete=models.SET_NULL, default=None, null=True, blank=True)
