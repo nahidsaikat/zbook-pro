@@ -25,3 +25,23 @@ class Voucher(models.Model):
     ref_voucher = models.ForeignKey('self', on_delete=models.DO_NOTHING, null=True, blank=True)
     description = models.TextField(default='', null=True, blank=True)
     accounts = models.ManyToManyField(Account, blank=True)
+
+
+class Ledger(models.Model):
+    voucher = models.ForeignKey(Voucher, on_delete=models.CASCADE)
+    account = models.ForeignKey(Account, on_delete=models.DO_NOTHING)
+    party = models.ForeignKey(Party, on_delete=models.DO_NOTHING, null=True, blank=True)
+    entry_date = models.DateField(default=datetime.date.today, null=True, blank=True)
+    amount = models.DecimalField(default=0, max_digits=15, decimal_places=6)
+    description = models.TextField(default='', null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.voucher.voucher_number} - {self.voucher.voucher_date} - {self.account.name} - {self.amount}"
+
+    @property
+    def other_accounts(self):
+        return self.voucher.accounts.exclude(account_id=self.account_id)
+
+    @property
+    def other_accounts_name(self):
+        return [account.name for account in self.other_accounts]
