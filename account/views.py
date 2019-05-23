@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from django.views.generic.edit import CreateView
+from .forms import AccountForm
 
-# Create your views here.
+
+class AccountCreateView(CreateView):
+    form_class = AccountForm
+    template_name = 'account/add.html'
