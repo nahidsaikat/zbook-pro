@@ -1,0 +1,16 @@
+.main-header .navbar-custom-menu-left,
+.main-header .navbar-left {
+  float: left;
+}
+@media (max-width: 991px) {
+  .main-header .navbar-custom-menu a,
+  .main-header .navbar-left a {
+    color: inherit;
+    background: transparent;
+  }
+}
+
+.app-menu {
+  margin-top: -5px;
+  margin-bottom: -15px;
+}
