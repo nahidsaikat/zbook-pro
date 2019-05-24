@@ -392,6 +392,9 @@ a:focus {
   .main-header .navbar-custom-menu {
     float: right;
   }
+  .main-header .navbar-custom-menu-left {
+    float: left;
+  }
 }
 @media (max-width: 991px) {
   .navbar-collapse.pull-left {
@@ -1067,7 +1070,7 @@ a:focus {
   border-top-left-radius: 0;
   padding: 1px 0 0 0;
   border-top-width: 0;
-  width: 280px;
+  width: 288px;
 }
 .navbar-nav > .user-menu > .dropdown-menu,
 .navbar-nav > .user-menu > .dropdown-menu > .user-body {
@@ -1219,10 +1222,13 @@ a:focus {
   .navbar-custom-menu > .navbar-nav {
     float: right;
   }
-  .navbar-custom-menu > .navbar-nav > li {
+  .navbar-custom-menu-left > .navbar-nav {
+    float: right;
+  }
+  .navbar-custom-menu, .navbar-custom-menu-left > .navbar-nav > li {
     position: static;
   }
-  .navbar-custom-menu > .navbar-nav > li > .dropdown-menu {
+  .navbar-custom-menu, .navbar-custom-menu-left > .navbar-nav > li > .dropdown-menu {
     position: absolute;
     right: 5%;
     left: auto;
@@ -2304,8 +2310,8 @@ a:focus {
   height: 60px;
   text-align: center;
   color: #666;
-  border: 1px solid #ddd;
-  background-color: #f4f4f4;
+  border: 1px solid black;
+  background-color: white;
   font-size: 12px;
 }
 .btn-app > .fa,
