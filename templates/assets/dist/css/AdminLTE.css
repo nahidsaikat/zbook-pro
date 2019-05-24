@@ -2310,8 +2310,8 @@ a:focus {
   height: 60px;
   text-align: center;
   color: #666;
-  border: 1px solid #ddd;
-  background-color: #f4f4f4;
+  border: 1px solid black;
+  background-color: white;
   font-size: 12px;
 }
 .btn-app > .fa,
