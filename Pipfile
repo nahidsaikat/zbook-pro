@@ -17,6 +17,9 @@ pytest-cov = "*"
 djangorestframework = "*"
 markdown = "*"
 django-filter = "*"
+coreapi = "*"
+pygments = "*"
+drf-yasg = "*"
 
 [requires]
 python_version = "3.7"
