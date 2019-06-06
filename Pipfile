@@ -14,6 +14,9 @@ pytest-xdist = "*"
 factory-boy = "*"
 faker = "*"
 pytest-cov = "*"
+djangorestframework = "*"
+markdown = "*"
+django-filter = "*"
 
 [requires]
 python_version = "3.7"
