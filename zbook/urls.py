@@ -34,6 +34,12 @@ schema_view = get_schema_view(
    permission_classes=(permissions.AllowAny,),
 )
 
+project_url = [
+    path('account/', include('account.urls')),
+    path('party/', include('party.urls')),
+    path('voucher/', include('voucher.urls')),
+]
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
@@ -41,7 +47,5 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
-    path('account/', include('account.urls')),
-    path('party/', include('party.urls')),
-    path('voucher/', include('voucher.urls')),
+    path('api/v1/', include(project_url), name='v1'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
