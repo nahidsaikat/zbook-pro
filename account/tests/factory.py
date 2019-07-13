@@ -6,8 +6,8 @@ from factory.django import DjangoModelFactory
 from account.models import AccountSubType, Account
 from account.choices import AccountType
 
-
 fake = Faker()
+
 
 class AccountSubTypeFactory(DjangoModelFactory):
     class Meta:
