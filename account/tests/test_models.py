@@ -12,6 +12,12 @@ fake = Faker()
 class TestAccountSubType:
 
     @pytest.mark.django_db
+    def test_name_max_length(self):
+        sub_type = AccountSubTypeFactory()
+        max_length = sub_type._meta.get_field('name').max_length
+        assert max_length == 64
+
+    @pytest.mark.django_db
     def test_create(self):
         sub_type = AccountSubType.objects.create(name=fake.name(), type=AccountType.Asset, order=0)
         sub_type.save()
