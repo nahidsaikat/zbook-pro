@@ -35,7 +35,7 @@ schema_view = get_schema_view(
 )
 
 project_url = [
-    path('account/', include('account.urls')),
+    path('account/', include(('account.urls', 'account'))),
     path('party/', include('party.urls')),
     path('voucher/', include('voucher.urls')),
 ]

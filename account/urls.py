@@ -1,7 +1,11 @@
 from django.urls import path, include
-from .views import AccountCreateView
+from .views import AccountSubTypeListCreateAPIView
 
+
+subtype_urlpatterns = [
+    path('', AccountSubTypeListCreateAPIView.as_view(), name='list-create'),
+]
 
 urlpatterns = [
-    path('add/', AccountCreateView.as_view(), name='account-add'),
+    path('subtype/', include((subtype_urlpatterns, 'subtype'))),
 ]
