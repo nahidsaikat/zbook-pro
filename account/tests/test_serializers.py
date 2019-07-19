@@ -37,6 +37,14 @@ class TestAccountSubTypeSerializer:
         assert sub_type.name == name
 
     @pytest.mark.django_db
+    def test_create_name_error(self):
+        data = factory.build(dict, FACTORY_CLASS=AccountSubTypeFactory)
+        del data['name']
+
+        serializer = AccountSubTypeSerializer(data=data)
+        assert not serializer.is_valid()
+
+    @pytest.mark.django_db
     def test_update(self):
         name = fake.name()
         data = factory.build(dict, FACTORY_CLASS=AccountSubTypeFactory, name=name)
