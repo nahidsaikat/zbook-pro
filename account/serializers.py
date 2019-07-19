@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from account.models import AccountSubType
+from .models import AccountSubType
 
 
 class AccountSubTypeSerializer(serializers.ModelSerializer):
