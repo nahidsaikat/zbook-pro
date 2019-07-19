@@ -6,6 +6,6 @@ from .models import AccountSubType
 
 
 class AccountSubTypeListCreateAPIView(ListCreateAPIView):
-    queryset = AccountSubType.objects.all()
+    queryset = AccountSubType.objects.all().order_by('id')
     serializer_class = AccountSubTypeSerializer
     permission_classes = [IsAuthenticated]
