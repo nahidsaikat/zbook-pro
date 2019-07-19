@@ -1,7 +1,11 @@
-from django.views.generic.edit import CreateView
-from .forms import AccountForm
+from rest_framework.generics import ListCreateAPIView
+from rest_framework.permissions import IsAuthenticated
+
+from .serializers import AccountSubTypeSerializer
+from .models import AccountSubType
 
 
-class AccountCreateView(CreateView):
-    form_class = AccountForm
-    template_name = 'account/add.html'
+class AccountSubTypeListCreateAPIView(ListCreateAPIView):
+    queryset = AccountSubType.objects.all()
+    serializer_class = AccountSubTypeSerializer
+    permission_classes = [IsAuthenticated]
