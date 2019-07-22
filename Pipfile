@@ -21,6 +21,7 @@ coreapi = "*"
 pygments = "*"
 drf-yasg = "*"
 coverage = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.7"

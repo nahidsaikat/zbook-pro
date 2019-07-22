@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'drf_yasg',
 
+    'user',
     'account',
     'voucher',
     'party',
@@ -98,6 +99,7 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
 
+AUTH_USER_MODEL = 'user.User'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
