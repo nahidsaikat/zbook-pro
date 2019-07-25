@@ -1,5 +1,5 @@
 from django.urls import reverse, resolve
-from .factory import AccountSubTypeFactory
+from ..factory import AccountSubTypeFactory
 
 
 class TestAccountSubTypeUrls:

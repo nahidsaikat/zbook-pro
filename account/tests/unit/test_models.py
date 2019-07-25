@@ -2,9 +2,9 @@ import pytest
 from faker import Faker
 from django.db.utils import IntegrityError
 
-from .factory import AccountSubTypeFactory
-from ..models import AccountSubType
-from ..choices import AccountType
+from ..factory import AccountSubTypeFactory
+from ...models import AccountSubType
+from ...choices import AccountType
 
 fake = Faker()
 

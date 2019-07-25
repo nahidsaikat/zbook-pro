@@ -5,10 +5,10 @@ import factory
 from faker import Faker
 from factory.fuzzy import FuzzyChoice
 
-from ..choices import AccountType
-from ..models import AccountSubType
-from ..serializers import AccountSubTypeSerializer
-from .factory import AccountSubTypeFactory
+from ...choices import AccountType
+from ...models import AccountSubType
+from ...serializers import AccountSubTypeSerializer
+from ..factory import AccountSubTypeFactory
 
 fake = Faker()
 
