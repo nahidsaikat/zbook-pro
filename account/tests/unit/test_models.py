@@ -10,7 +10,7 @@ fake = Faker()
 
 
 class TestAccountSubType:
-
+    """TODO: write test for AccountSubType model fields"""
     @pytest.mark.django_db
     def test_name_max_length(self):
         sub_type = AccountSubTypeFactory()

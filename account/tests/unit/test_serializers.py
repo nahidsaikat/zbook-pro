@@ -14,7 +14,7 @@ fake = Faker()
 
 
 class TestAccountSubTypeSerializer:
-
+    """TODO: write test for AccountSubTypeSerializer fields"""
     @pytest.mark.django_db
     def test_create(self):
         name = fake.name()
