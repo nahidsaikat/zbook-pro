@@ -22,6 +22,7 @@ pygments = "*"
 drf-yasg = "*"
 coverage = "*"
 pillow = "*"
+pytest-benchmark = "*"
 
 [requires]
 python_version = "3.7"
