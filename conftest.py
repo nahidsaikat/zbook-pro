@@ -18,7 +18,7 @@ def client():
 
 @pytest.fixture
 def user(db):
-    user = User.objects.create(username=fake.name(), password=fake.name())
+    user = User.objects.create(email=fake.email(), password=fake.name())
     user.save()
     return user
 
