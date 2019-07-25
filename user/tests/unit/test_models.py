@@ -22,3 +22,14 @@ class TestUser:
         assert not field.has_default()
         assert not field.hidden
         assert not field.unique
+
+    def test_email_field(self):
+        user = User()
+        field = user._meta.get_field('email')
+        assert field.verbose_name == 'email address'
+        assert field.max_length == 254
+        assert field.unique
+        assert not field.blank
+        assert not field.null
+        assert not field.has_default()
+        assert not field.hidden
