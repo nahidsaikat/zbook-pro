@@ -1,3 +1,5 @@
+import pytest
+from django.db import IntegrityError
 from faker import Faker
 from django.contrib.auth import get_user_model
 
@@ -11,7 +13,7 @@ class TestUser:
         assert User.__name__ == 'User'
         assert User.USERNAME_FIELD == 'email'
         assert User.EMAIL_FIELD == 'email'
-        assert User.REQUIRED_FIELDS[0] == 'email'
+        assert not User.REQUIRED_FIELDS
         assert User._meta.verbose_name == 'user'
         assert User._meta.verbose_name_plural == 'users'
 
@@ -162,6 +164,10 @@ class TestUser:
         queryset = User.objects.all()
 
         assert queryset.count() == 2
+
+    def test_email_cannot_be_null(self, db):
+        with pytest.raises(IntegrityError) as error:
+            User.objects.create(email=None, first_name=fake.name(), last_name=fake.name())
 
     def test_get_full_name(self, db):
         user = User(
