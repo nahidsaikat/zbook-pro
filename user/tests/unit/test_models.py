@@ -81,3 +81,15 @@ class TestUser:
         assert field.default
         assert not field.hidden
         assert not field.unique
+
+    def test_is_staff_field(self):
+        user = User()
+        field = user._meta.get_field('is_staff')
+        assert field.name == 'is_staff'
+        assert field.verbose_name == 'staff status'
+        assert not field.blank
+        assert not field.null
+        assert field.has_default()
+        assert not field.default
+        assert not field.hidden
+        assert not field.unique
