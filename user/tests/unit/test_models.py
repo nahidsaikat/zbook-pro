@@ -181,3 +181,7 @@ class TestUser:
         user.save()
 
         assert user.get_short_name() == f'{user.first_name}'
+
+    def test_email_user(self):
+        """TODO: need to implement this test when email configuration is done for the project"""
+        assert 1 == 1
