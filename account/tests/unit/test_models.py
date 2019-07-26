@@ -1,6 +1,7 @@
 import pytest
 from faker import Faker
 from django.db.utils import IntegrityError
+from django.urls import reverse
 
 from ..factory import AccountSubTypeFactory
 from ...models import AccountSubType
@@ -114,3 +115,7 @@ class TestAccountSubType:
     def test_type_text(self, db):
         sub_type = AccountSubType.objects.create(name=fake.name(), type=AccountType.Asset, order=0)
         assert sub_type.type_text == sub_type.get_type_display()
+
+    def test_get_absolute_url(self, db):
+        sub_type = AccountSubType.objects.create(name=fake.name(), type=AccountType.Asset, order=0)
+        assert sub_type.get_absolute_url() == reverse('account:subtype:detail-update', args=[sub_type.pk])

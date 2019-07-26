@@ -1,5 +1,6 @@
 import datetime
 from django.db import models
+from django.urls import reverse
 
 from .choices import AccountType
 
@@ -12,6 +13,9 @@ class AccountSubType(models.Model):
 
     def __str__(self):
         return f'{self.name}#{self.get_type_display()}#{self.order}'
+
+    def get_absolute_url(self):
+        return reverse('account:subtype:detail-update', args=[self.pk])
 
     @property
     def type_text(self):
