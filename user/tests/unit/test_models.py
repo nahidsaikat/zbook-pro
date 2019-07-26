@@ -124,3 +124,22 @@ class TestUser:
         assert queryset.first().email == user.email
         assert queryset.first().first_name == user.first_name
         assert queryset.first().last_name == user.last_name
+
+    def test_update(self, db):
+        user = User(
+            email=fake.email(),
+            first_name=fake.name(),
+            last_name=fake.name(),
+        )
+        user.save()
+        username = fake.name()
+        user.username = username
+        user.save()
+
+        queryset = User.objects.all()
+
+        assert queryset.count() == 1
+        assert queryset.first().email == user.email
+        assert queryset.first().first_name == user.first_name
+        assert queryset.first().last_name == user.last_name
+        assert queryset.first().username == username
