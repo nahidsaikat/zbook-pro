@@ -2,10 +2,11 @@ import datetime
 from django.db import models
 from django.urls import reverse
 
+from system.models import BaseModel
 from .choices import AccountType
 
 
-class AccountSubType(models.Model):
+class AccountSubType(BaseModel):
     """TODO: inherit from system base model"""
     name = models.CharField(max_length=64)
     type = models.IntegerField(choices=AccountType.choices, default=AccountType.Asset)
@@ -22,7 +23,7 @@ class AccountSubType(models.Model):
         return self.get_type_display()
 
 
-class Account(models.Model):
+class Account(BaseModel):
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, default=None, null=True, blank=True)
     name = models.CharField(max_length=64)
     number = models.CharField(max_length=64)

@@ -1,11 +1,12 @@
 import datetime
 from django.db import models
 
+from system.models import BaseModel
 from account.models import Account
 from .choices import PartyType, PartyGender
 
 
-class Party(models.Model):
+class Party(BaseModel):
     name = models.CharField(max_length=128)
     phone = models.CharField(max_length=16, null=True)
     email = models.EmailField(max_length=64, null=True)

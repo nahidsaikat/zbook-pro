@@ -1,12 +1,13 @@
 import datetime
 from django.db import models
 
+from system.models import BaseModel
 from account.models import Account
 from party.models import Party
 from .choices import VoucherType
 
 
-class VoucherSubType(models.Model):
+class VoucherSubType(BaseModel):
     type = models.IntegerField(choices=VoucherType.choices, default=VoucherType.Receive)
     name = models.CharField(max_length=64)
     prefix = models.CharField(max_length=64)
@@ -15,7 +16,7 @@ class VoucherSubType(models.Model):
     credit_account = models.ForeignKey(Account, on_delete=models.DO_NOTHING, null=True, blank=True, related_name='voucher_sub_type_credit_account')
 
 
-class Voucher(models.Model):
+class Voucher(BaseModel):
     voucher_number = models.CharField(max_length=64, blank=True)
     voucher_date = models.DateField(default=datetime.date.today)
     type = models.IntegerField(choices=VoucherType.choices, default=VoucherType.Receive, null=True, blank=True)
@@ -27,7 +28,7 @@ class Voucher(models.Model):
     accounts = models.ManyToManyField(Account, blank=True)
 
 
-class Ledger(models.Model):
+class Ledger(BaseModel):
     voucher = models.ForeignKey(Voucher, on_delete=models.CASCADE)
     account = models.ForeignKey(Account, on_delete=models.DO_NOTHING)
     party = models.ForeignKey(Party, on_delete=models.DO_NOTHING, null=True, blank=True)
