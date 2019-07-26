@@ -10,7 +10,7 @@ fake = Faker()
 
 
 class TestAccountSubType:
-    """TODO: write test for AccountSubType model fields"""
+
     def test_name_field(self, db):
         sub_type = AccountSubType()
         field = sub_type._meta.get_field('name')
@@ -106,3 +106,7 @@ class TestAccountSubType:
 
         assert saved_obj.name == new_name
         assert saved_obj.order == 1
+
+    def test_str(self, db):
+        sub_type = AccountSubType.objects.create(name=fake.name(), type=AccountType.Asset, order=0)
+        assert str(sub_type) == f'{sub_type.name}#{sub_type.get_type_display()}#{sub_type.order}'
