@@ -69,3 +69,15 @@ class TestUser:
         assert not field.has_default()
         assert not field.hidden
         assert not field.unique
+
+    def test_is_active_field(self):
+        user = User()
+        field = user._meta.get_field('is_active')
+        assert field.name == 'is_active'
+        assert field.verbose_name == 'active'
+        assert not field.blank
+        assert not field.null
+        assert field.has_default()
+        assert field.default
+        assert not field.hidden
+        assert not field.unique
