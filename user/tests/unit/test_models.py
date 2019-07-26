@@ -173,6 +173,10 @@ class TestUser:
         with pytest.raises(IntegrityError) as error:
             User.objects.create(email=fake.email(), first_name=None, last_name=fake.name())
 
+    def test_last_name_cannot_be_null(self, db):
+        with pytest.raises(IntegrityError) as error:
+            User.objects.create(email=fake.email(), first_name=fake.name(), last_name=None)
+
     def test_get_full_name(self, db):
         user = User(
             email=fake.email(),
