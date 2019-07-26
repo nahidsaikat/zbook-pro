@@ -171,3 +171,13 @@ class TestUser:
         user.save()
 
         assert user.get_full_name() == f'{user.first_name} {user.last_name}'
+
+    def test_get_short_name(self, db):
+        user = User(
+            email=fake.email(),
+            first_name=fake.name(),
+            last_name=fake.name(),
+        )
+        user.save()
+
+        assert user.get_short_name() == f'{user.first_name}'
