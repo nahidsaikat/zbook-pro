@@ -56,3 +56,16 @@ class TestUser:
         assert not field.has_default()
         assert not field.hidden
         assert not field.unique
+
+    def test_date_joined_field(self):
+        user = User()
+        field = user._meta.get_field('date_joined')
+        assert field.name == 'date_joined'
+        assert field.verbose_name == 'date joined'
+        assert field.auto_now_add
+        assert not field.auto_now
+        assert field.blank
+        assert not field.null
+        assert not field.has_default()
+        assert not field.hidden
+        assert not field.unique
