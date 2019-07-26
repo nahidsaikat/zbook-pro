@@ -5,6 +5,7 @@ from .choices import AccountType
 
 
 class AccountSubType(models.Model):
+    """TODO: inherit from system base model"""
     name = models.CharField(max_length=64)
     type = models.IntegerField(choices=AccountType.choices, default=AccountType.Asset)
     order = models.IntegerField(default=0, null=True, blank=True)
