@@ -161,3 +161,13 @@ class TestUser:
         queryset = User.objects.all()
 
         assert queryset.count() == 2
+
+    def test_get_full_name(self, db):
+        user = User(
+            email=fake.email(),
+            first_name=fake.name(),
+            last_name=fake.name(),
+        )
+        user.save()
+
+        assert user.get_full_name() == f'{user.first_name} {user.last_name}'
