@@ -1,13 +1,10 @@
-import os, pytest
-
-import factory
+import os
+import pytest
 from faker import Faker
-from factory.django import ImageField
 
 from django.conf import settings
 from django.db import IntegrityError
 from django.contrib.auth import get_user_model
-from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 User = get_user_model()

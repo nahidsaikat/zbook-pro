@@ -11,24 +11,16 @@ fake = Faker()
 
 class TestAccountSubType:
     """TODO: write test for AccountSubType model fields"""
-    @pytest.mark.django_db
-    def test_name_max_length(self):
-        sub_type = AccountSubTypeFactory()
-        max_length = sub_type._meta.get_field('name').max_length
-        assert max_length == 64
-
-    @pytest.mark.django_db
-    def test_create(self):
-        sub_type = AccountSubType.objects.create(name=fake.name(), type=AccountType.Asset, order=0)
-        sub_type.save()
-
-        query = AccountSubType.objects.all()
-        saved_obj = query.first()
-
-        assert query.count() == 1
-        assert saved_obj.name == sub_type.name
-        assert saved_obj.type == sub_type.type
-        assert saved_obj.order == sub_type.order
+    def test_name_field(self, db):
+        sub_type = AccountSubType()
+        field = sub_type._meta.get_field('name')
+        assert field.verbose_name == 'name'
+        assert field.max_length == 64
+        assert not field.blank
+        assert not field.null
+        assert not field.has_default()
+        assert not field.hidden
+        assert not field.unique
 
     @pytest.mark.django_db
     def test_name_cannot_be_null(self):
@@ -51,7 +43,20 @@ class TestAccountSubType:
         assert query.count() == 1
         assert saved_obj.name == sub_type.name
         assert saved_obj.type == sub_type.type
-        assert saved_obj.order == None
+        assert not saved_obj.order
+
+    @pytest.mark.django_db
+    def test_create(self):
+        sub_type = AccountSubType.objects.create(name=fake.name(), type=AccountType.Asset, order=0)
+        sub_type.save()
+
+        query = AccountSubType.objects.all()
+        saved_obj = query.first()
+
+        assert query.count() == 1
+        assert saved_obj.name == sub_type.name
+        assert saved_obj.type == sub_type.type
+        assert saved_obj.order == sub_type.order
 
     @pytest.mark.django_db
     def test_count(self):
