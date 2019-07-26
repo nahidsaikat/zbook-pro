@@ -1,8 +1,10 @@
 import random
+import factory
 from faker import Faker
 from factory.fuzzy import FuzzyChoice
 from factory.django import DjangoModelFactory
 
+from user.tests.factory import UserFactory
 from account.models import AccountSubType, Account
 from account.choices import AccountType
 
@@ -16,3 +18,4 @@ class AccountSubTypeFactory(DjangoModelFactory):
     name = fake.name()
     type = FuzzyChoice(choices=AccountType.values.keys())
     order = random.randint(0, 10)
+    created_by = factory.SubFactory(UserFactory)

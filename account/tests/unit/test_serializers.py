@@ -15,11 +15,11 @@ fake = Faker()
 
 class TestAccountSubTypeSerializer:
     """TODO: write test for AccountSubTypeSerializer fields"""
-    @pytest.mark.django_db
-    def test_create(self):
+    def test_create(self, user):
         name = fake.name()
         data = factory.build(dict, FACTORY_CLASS=AccountSubTypeFactory,
                              name=name,
+                             created_by=user.pk,
                              type=FuzzyChoice(choices=AccountType.values.keys()),
                              order=random.randint(0, 10))
 
@@ -44,10 +44,9 @@ class TestAccountSubTypeSerializer:
         serializer = AccountSubTypeSerializer(data=data)
         assert not serializer.is_valid()
 
-    @pytest.mark.django_db
-    def test_update(self):
+    def test_update(self, user):
         name = fake.name()
-        data = factory.build(dict, FACTORY_CLASS=AccountSubTypeFactory, name=name)
+        data = factory.build(dict, FACTORY_CLASS=AccountSubTypeFactory, name=name, created_by=user)
         sub_type = AccountSubTypeFactory()
 
         serializer = AccountSubTypeSerializer()

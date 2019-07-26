@@ -49,19 +49,16 @@ class TestAccountSubType:
         assert not field.hidden
         assert not field.unique
 
-    @pytest.mark.django_db
-    def test_name_cannot_be_null(self):
+    def test_name_cannot_be_null(self, user):
         with pytest.raises(IntegrityError) as error:
-            AccountSubType.objects.create(name=None, type=AccountType.Asset, order=0)
+            AccountSubType.objects.create(created_by=user, name=None, type=AccountType.Asset, order=0)
 
-    @pytest.mark.django_db
-    def test_type_cannot_be_null(self):
+    def test_type_cannot_be_null(self, user):
         with pytest.raises(IntegrityError) as error:
-            AccountSubType.objects.create(name=fake.name(), type=None, order=0)
+            AccountSubType.objects.create(created_by=user, name=fake.name(), type=None, order=0)
 
-    @pytest.mark.django_db
-    def test_order_can_be_null(self):
-        sub_type = AccountSubType.objects.create(name=fake.name(), type=AccountType.Asset, order=None)
+    def test_order_can_be_null(self, user):
+        sub_type = AccountSubType.objects.create(created_by=user, name=fake.name(), type=AccountType.Asset, order=None)
         sub_type.save()
 
         query = AccountSubType.objects.all()
@@ -72,9 +69,8 @@ class TestAccountSubType:
         assert saved_obj.type == sub_type.type
         assert not saved_obj.order
 
-    @pytest.mark.django_db
-    def test_create(self):
-        sub_type = AccountSubType.objects.create(name=fake.name(), type=AccountType.Asset, order=0)
+    def test_create(self, user):
+        sub_type = AccountSubType.objects.create(created_by=user, name=fake.name(), type=AccountType.Asset, order=0)
         sub_type.save()
 
         query = AccountSubType.objects.all()
@@ -85,18 +81,16 @@ class TestAccountSubType:
         assert saved_obj.type == sub_type.type
         assert saved_obj.order == sub_type.order
 
-    @pytest.mark.django_db
-    def test_count(self):
-        AccountSubTypeFactory()
-        AccountSubTypeFactory()
+    def test_count(self, user):
+        AccountSubTypeFactory(created_by=user)
+        AccountSubTypeFactory(created_by=user)
 
         query = AccountSubType.objects.all()
 
         assert query.count() == 2
 
-    @pytest.mark.django_db
-    def test_edit(self):
-        sub_type = AccountSubType.objects.create(name=fake.name(), type=AccountType.Asset, order=0)
+    def test_edit(self, user):
+        sub_type = AccountSubType.objects.create(created_by=user, name=fake.name(), type=AccountType.Asset, order=0)
         sub_type.save()
         new_name = 'new name'
         sub_type.name = new_name
@@ -108,14 +102,14 @@ class TestAccountSubType:
         assert saved_obj.name == new_name
         assert saved_obj.order == 1
 
-    def test_str(self, db):
-        sub_type = AccountSubType.objects.create(name=fake.name(), type=AccountType.Asset, order=0)
+    def test_str(self, user):
+        sub_type = AccountSubType.objects.create(created_by=user, name=fake.name(), type=AccountType.Asset, order=0)
         assert str(sub_type) == f'{sub_type.name}#{sub_type.get_type_display()}#{sub_type.order}'
 
-    def test_type_text(self, db):
-        sub_type = AccountSubType.objects.create(name=fake.name(), type=AccountType.Asset, order=0)
+    def test_type_text(self, user):
+        sub_type = AccountSubType.objects.create(created_by=user, name=fake.name(), type=AccountType.Asset, order=0)
         assert sub_type.type_text == sub_type.get_type_display()
 
-    def test_get_absolute_url(self, db):
-        sub_type = AccountSubType.objects.create(name=fake.name(), type=AccountType.Asset, order=0)
+    def test_get_absolute_url(self, user):
+        sub_type = AccountSubType.objects.create(created_by=user, name=fake.name(), type=AccountType.Asset, order=0)
         assert sub_type.get_absolute_url() == reverse('account:subtype:detail-update', args=[sub_type.pk])
