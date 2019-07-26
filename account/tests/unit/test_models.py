@@ -36,6 +36,18 @@ class TestAccountSubType:
         assert not field.hidden
         assert not field.unique
 
+    def test_order_field(self, db):
+        sub_type = AccountSubType()
+        field = sub_type._meta.get_field('order')
+        assert field.verbose_name == 'order'
+        assert field.default == 0
+        assert field.has_default()
+        assert field.editable
+        assert field.blank
+        assert field.null
+        assert not field.hidden
+        assert not field.unique
+
     @pytest.mark.django_db
     def test_name_cannot_be_null(self):
         with pytest.raises(IntegrityError) as error:
