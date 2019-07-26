@@ -10,7 +10,8 @@ class TestUser:
     def test_meta_info(self):
         assert User.__name__ == 'User'
         assert User.USERNAME_FIELD == 'email'
-        assert not User.REQUIRED_FIELDS
+        assert User.EMAIL_FIELD == 'email'
+        assert User.REQUIRED_FIELDS[0] == 'email'
         assert User._meta.verbose_name == 'user'
         assert User._meta.verbose_name_plural == 'users'
 
