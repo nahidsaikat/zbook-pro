@@ -165,6 +165,12 @@ class TestUser:
 
         assert queryset.count() == 2
 
+    def test_email_is_unique(self, db):
+        email = fake.email()
+        User.objects.create(email=email, first_name=fake.name(), last_name=fake.name())
+        with pytest.raises(IntegrityError) as error:
+            User.objects.create(email=email, first_name=fake.name(), last_name=fake.name())
+
     def test_email_cannot_be_null(self, db):
         with pytest.raises(IntegrityError) as error:
             User.objects.create(email=None, first_name=fake.name(), last_name=fake.name())
