@@ -183,6 +183,13 @@ class TestUser:
         with pytest.raises(IntegrityError) as error:
             User.objects.create(email=fake.email(), first_name=fake.name(), last_name=None)
 
+    def test_default_values(self, db):
+        user = User.objects.create(email=fake.email(), first_name=fake.name(), last_name=fake.name())
+
+        assert user.date_joined
+        assert user.is_active
+        assert not user.is_staff
+
     def test_get_full_name(self, db):
         user = User(
             email=fake.email(),
