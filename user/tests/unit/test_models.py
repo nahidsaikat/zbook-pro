@@ -33,3 +33,14 @@ class TestUser:
         assert not field.null
         assert not field.has_default()
         assert not field.hidden
+
+    def test_first_name_field(self):
+        user = User()
+        field = user._meta.get_field('first_name')
+        assert field.verbose_name == 'first name'
+        assert field.max_length == 30
+        assert field.blank
+        assert not field.null
+        assert not field.has_default()
+        assert not field.hidden
+        assert not field.unique
