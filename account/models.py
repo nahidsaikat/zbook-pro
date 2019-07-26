@@ -13,6 +13,10 @@ class AccountSubType(models.Model):
     def __str__(self):
         return f'{self.name}#{self.get_type_display()}#{self.order}'
 
+    @property
+    def type_text(self):
+        return self.get_type_display()
+
 
 class Account(models.Model):
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, default=None, null=True, blank=True)

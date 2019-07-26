@@ -110,3 +110,7 @@ class TestAccountSubType:
     def test_str(self, db):
         sub_type = AccountSubType.objects.create(name=fake.name(), type=AccountType.Asset, order=0)
         assert str(sub_type) == f'{sub_type.name}#{sub_type.get_type_display()}#{sub_type.order}'
+
+    def test_type_text(self, db):
+        sub_type = AccountSubType.objects.create(name=fake.name(), type=AccountType.Asset, order=0)
+        assert sub_type.type_text == sub_type.get_type_display()
