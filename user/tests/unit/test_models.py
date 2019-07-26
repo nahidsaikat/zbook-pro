@@ -1,7 +1,14 @@
-import pytest
-from django.db import IntegrityError
+import os, pytest
+
+import factory
 from faker import Faker
+from factory.django import ImageField
+
+from django.conf import settings
+from django.db import IntegrityError
 from django.contrib.auth import get_user_model
+from django.core.files.base import ContentFile
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 User = get_user_model()
 fake = Faker()
@@ -189,6 +196,23 @@ class TestUser:
         assert user.date_joined
         assert user.is_active
         assert not user.is_staff
+
+    def test_profile_picture(self, db):
+        user = User.objects.create(email=fake.email(), first_name=fake.name(), last_name=fake.name())
+
+        small_gif = (
+            b'\x47\x49\x46\x38\x39\x61\x01\x00\x01\x00\x00\x00\x00\x21\xf9\x04'
+            b'\x01\x0a\x00\x01\x00\x2c\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02'
+            b'\x02\x4c\x01\x00\x3b'
+        )
+        file_name = 'test_picture.gif'
+
+        user.profile_picture = SimpleUploadedFile(file_name, small_gif, content_type='image/gif')
+        user.save()
+
+        assert user.profile_picture.name == f'profile_picture/{file_name}'
+        assert user.profile_picture.path == os.path.join(settings.MEDIA_ROOT, 'profile_picture', file_name)
+        user.profile_picture.delete()
 
     def test_get_full_name(self, db):
         user = User(
