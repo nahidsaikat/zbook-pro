@@ -1,6 +1,8 @@
+from faker import Faker
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
+fake = Faker()
 
 
 class TestUser:
@@ -107,3 +109,18 @@ class TestUser:
         assert not field.hidden
         assert not field.unique
         assert field.upload_to == 'profile_picture/'
+
+    def test_create(self, db):
+        user = User(
+            email=fake.email(),
+            first_name=fake.name(),
+            last_name=fake.name(),
+        )
+        user.save()
+
+        queryset = User.objects.all()
+
+        assert queryset.count() == 1
+        assert queryset.first().email == user.email
+        assert queryset.first().first_name == user.first_name
+        assert queryset.first().last_name == user.last_name
