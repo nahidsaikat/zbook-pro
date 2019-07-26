@@ -16,9 +16,23 @@ class TestAccountSubType:
         field = sub_type._meta.get_field('name')
         assert field.verbose_name == 'name'
         assert field.max_length == 64
+        assert field.editable
         assert not field.blank
         assert not field.null
         assert not field.has_default()
+        assert not field.hidden
+        assert not field.unique
+
+    def test_type_field(self, db):
+        sub_type = AccountSubType()
+        field = sub_type._meta.get_field('type')
+        assert field.verbose_name == 'type'
+        assert field.choices == AccountType.choices
+        assert field.default == AccountType.Asset
+        assert field.has_default()
+        assert field.editable
+        assert not field.blank
+        assert not field.null
         assert not field.hidden
         assert not field.unique
 
