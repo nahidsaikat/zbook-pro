@@ -13,7 +13,7 @@ class AccountSubTypeAdmin(admin.ModelAdmin):
 
 class AccountAdmin(admin.ModelAdmin):
     form = AccountForm
-    list_display = ('name', 'number', 'type', 'sub_type', 'depth', 'entry_date')
+    list_display = ('name', 'code', 'type', 'sub_type', 'depth', 'entry_date')
     list_filter = ('name', 'type', 'sub_type', 'entry_date')
     search_fields = ('name', 'type', 'sub_type', 'entry_date')
     ordering = ('entry_date', 'type', 'sub_type')

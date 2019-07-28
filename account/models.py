@@ -26,7 +26,7 @@ class AccountSubType(BaseModel):
 class Account(BaseModel):
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, default=None, null=True, blank=True)
     name = models.CharField(max_length=64)
-    number = models.CharField(max_length=64)
+    code = models.CharField(max_length=64)
     type = models.IntegerField(choices=AccountType.choices, default=AccountType.Asset, blank=True)
     sub_type = models.ForeignKey(AccountSubType, on_delete=models.DO_NOTHING)
     depth = models.IntegerField(default=0, null=True, blank=True)
