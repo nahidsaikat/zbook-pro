@@ -113,3 +113,20 @@ class TestAccountSubType:
     def test_get_absolute_url(self, user):
         sub_type = AccountSubType.objects.create(created_by=user, name=fake.name(), type=AccountType.Asset, order=0)
         assert sub_type.get_absolute_url() == reverse('account:subtype:detail-update', args=[sub_type.pk])
+
+
+class TestAccount:
+
+    def test_name_field(self, db):
+        sub_type = AccountSubType()
+        field = sub_type._meta.get_field('name')
+
+        assert field.__class__.__name__ == 'CharField'
+        assert field.verbose_name == 'name'
+        assert field.max_length == 64
+        assert field.editable
+        assert not field.blank
+        assert not field.null
+        assert not field.has_default()
+        assert not field.hidden
+        assert not field.unique
