@@ -144,3 +144,18 @@ class TestAccount:
         assert not field.has_default()
         assert not field.hidden
         assert not field.unique
+
+    def test_type_field(self, db):
+        sub_type = Account()
+        field = sub_type._meta.get_field('type')
+
+        assert field.__class__.__name__ == 'IntegerField'
+        assert field.verbose_name == 'type'
+        assert field.editable
+        assert field.blank
+        assert field.has_default()
+        assert field.choices == AccountType.choices
+        assert field.default == AccountType.Asset
+        assert not field.null
+        assert not field.hidden
+        assert not field.unique
