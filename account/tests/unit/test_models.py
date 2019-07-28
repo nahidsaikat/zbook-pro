@@ -4,7 +4,7 @@ from django.db.utils import IntegrityError
 from django.urls import reverse
 
 from ..factory import AccountSubTypeFactory
-from ...models import AccountSubType
+from ...models import AccountSubType, Account
 from ...choices import AccountType
 
 fake = Faker()
@@ -118,11 +118,25 @@ class TestAccountSubType:
 class TestAccount:
 
     def test_name_field(self, db):
-        sub_type = AccountSubType()
+        sub_type = Account()
         field = sub_type._meta.get_field('name')
 
         assert field.__class__.__name__ == 'CharField'
         assert field.verbose_name == 'name'
+        assert field.max_length == 64
+        assert field.editable
+        assert not field.blank
+        assert not field.null
+        assert not field.has_default()
+        assert not field.hidden
+        assert not field.unique
+
+    def test_code_field(self, db):
+        sub_type = Account()
+        field = sub_type._meta.get_field('code')
+
+        assert field.__class__.__name__ == 'CharField'
+        assert field.verbose_name == 'code'
         assert field.max_length == 64
         assert field.editable
         assert not field.blank
