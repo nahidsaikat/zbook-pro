@@ -159,3 +159,17 @@ class TestAccount:
         assert not field.null
         assert not field.hidden
         assert not field.unique
+
+    def test_sub_type_field(self, db):
+        sub_type = Account()
+        field = sub_type._meta.get_field('sub_type')
+
+        assert field.__class__.__name__ == 'ForeignKey'
+        assert field.verbose_name == 'sub type'
+        assert field.editable
+        assert not field.blank
+        assert not field.has_default()
+        assert field.default.__name__ == 'NOT_PROVIDED'
+        assert not field.null
+        assert not field.hidden
+        assert not field.unique
