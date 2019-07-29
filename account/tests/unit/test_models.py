@@ -233,3 +233,7 @@ class TestAccount:
         with pytest.raises(IntegrityError) as error:
             Account.objects.create(name=fake.name(), code=fake.random_int(1, 100), type=AccountType.Liability, sub_type=None, created_by=user)
 
+    def test_type_default_asset(self, user):
+        sub_type = AccountSubTypeFactory()
+        account = Account.objects.create(name=fake.name(), code=fake.random_int(1, 100), sub_type=sub_type, created_by=user)
+        assert account.type == AccountType.Asset
