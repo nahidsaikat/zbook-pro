@@ -237,3 +237,8 @@ class TestAccount:
         sub_type = AccountSubTypeFactory()
         account = Account.objects.create(name=fake.name(), code=fake.random_int(1, 100), sub_type=sub_type, created_by=user)
         assert account.type == AccountType.Asset
+
+    def test_depth_default_0(self, user):
+        sub_type = AccountSubTypeFactory()
+        account = Account.objects.create(name=fake.name(), code=fake.random_int(1, 100), sub_type=sub_type, created_by=user)
+        assert account.depth == 0
