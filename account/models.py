@@ -39,3 +39,7 @@ class Account(BaseModel):
     @property
     def type_text(self):
         return self.get_type_display()
+
+    @property
+    def sub_type_text(self):
+        return self.sub_type.name
