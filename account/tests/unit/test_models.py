@@ -177,6 +177,7 @@ class TestAccount:
     def test_depth_field(self, db):
         account = Account()
         field = account._meta.get_field('depth')
+        assert field.__class__.__name__ == 'IntegerField'
         assert field.verbose_name == 'depth'
         assert field.default == 0
         assert field.has_default()
@@ -184,4 +185,16 @@ class TestAccount:
         assert field.blank
         assert field.null
         assert not field.hidden
+        assert not field.unique
+
+    def test_entry_date_field(self):
+        account = Account()
+        field = account._meta.get_field('entry_date')
+        assert field.__class__.__name__ == 'DateField'
+        assert field.name == 'entry_date'
+        assert field.verbose_name == 'entry date'
+        assert field.blank
+        assert field.null
+        assert field.default
+        assert field.has_default()
         assert not field.unique
