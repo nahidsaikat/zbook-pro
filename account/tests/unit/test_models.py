@@ -213,3 +213,9 @@ class TestAccount:
         assert field.has_default()
         assert not field.hidden
         assert not field.unique
+
+    def test_name_cannot_be_null(self, user):
+        sub_type = AccountSubTypeFactory()
+        with pytest.raises(IntegrityError) as error:
+            Account.objects.create(name=None, code=fake.random_int(0, 100), type=AccountType.Asset, sub_type=sub_type, created_by=user)
+
