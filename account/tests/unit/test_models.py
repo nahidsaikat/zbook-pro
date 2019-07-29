@@ -117,6 +117,10 @@ class TestAccountSubType:
 
 class TestAccount:
 
+    @pytest.fixture
+    def sub_type(self, db):
+        return AccountSubTypeFactory()
+
     def test_name_field(self, db):
         account = Account()
         field = account._meta.get_field('name')
@@ -214,18 +218,15 @@ class TestAccount:
         assert not field.hidden
         assert not field.unique
 
-    def test_name_cannot_be_null(self, user):
-        sub_type = AccountSubTypeFactory()
+    def test_name_cannot_be_null(self, user, sub_type):
         with pytest.raises(IntegrityError) as error:
             Account.objects.create(name=None, code=fake.random_int(0, 100), type=AccountType.Asset, sub_type=sub_type, created_by=user)
 
-    def test_code_cannot_be_null(self, user):
-        sub_type = AccountSubTypeFactory()
+    def test_code_cannot_be_null(self, user, sub_type):
         with pytest.raises(IntegrityError) as error:
             Account.objects.create(name=fake.name(), code=None, type=AccountType.Asset, sub_type=sub_type, created_by=user)
 
-    def test_type_cannot_be_null(self, user):
-        sub_type = AccountSubTypeFactory()
+    def test_type_cannot_be_null(self, user, sub_type):
         with pytest.raises(IntegrityError) as error:
             Account.objects.create(name=fake.name(), code=fake.random_int(1, 100), type=None, sub_type=sub_type, created_by=user)
 
@@ -233,23 +234,19 @@ class TestAccount:
         with pytest.raises(IntegrityError) as error:
             Account.objects.create(name=fake.name(), code=fake.random_int(1, 100), type=AccountType.Liability, sub_type=None, created_by=user)
 
-    def test_type_default_asset(self, user):
-        sub_type = AccountSubTypeFactory()
+    def test_type_default_asset(self, user, sub_type):
         account = Account.objects.create(name=fake.name(), code=fake.random_int(1, 100), sub_type=sub_type, created_by=user)
         assert account.type == AccountType.Asset
 
-    def test_depth_default_0(self, user):
-        sub_type = AccountSubTypeFactory()
+    def test_depth_default_0(self, user, sub_type):
         account = Account.objects.create(name=fake.name(), code=fake.random_int(1, 100), sub_type=sub_type, created_by=user)
         assert account.depth == 0
 
-    def test_str(self, user):
-        sub_type = AccountSubTypeFactory()
+    def test_str(self, user, sub_type):
         account = Account.objects.create(name=fake.name(), code=fake.random_int(1, 100), sub_type=sub_type,created_by=user)
         assert str(account) == f'{account.name}:{account.code}'
 
-    def test_str_with_parent(self, user):
-        sub_type = AccountSubTypeFactory()
+    def test_str_with_parent(self, user, sub_type):
         parent = Account.objects.create(name=fake.name(), code=fake.random_int(1, 100), sub_type=sub_type,created_by=user)
         account = Account.objects.create(parent=parent, name=fake.name(), code=fake.random_int(1, 100), sub_type=sub_type,created_by=user)
         assert str(account) == f'{account.name}:{account.code}#{parent.name}:{parent.code}'
