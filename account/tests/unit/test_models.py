@@ -118,8 +118,8 @@ class TestAccountSubType:
 class TestAccount:
 
     def test_name_field(self, db):
-        sub_type = Account()
-        field = sub_type._meta.get_field('name')
+        account = Account()
+        field = account._meta.get_field('name')
 
         assert field.__class__.__name__ == 'CharField'
         assert field.verbose_name == 'name'
@@ -132,8 +132,8 @@ class TestAccount:
         assert not field.unique
 
     def test_code_field(self, db):
-        sub_type = Account()
-        field = sub_type._meta.get_field('code')
+        account = Account()
+        field = account._meta.get_field('code')
 
         assert field.__class__.__name__ == 'CharField'
         assert field.verbose_name == 'code'
@@ -146,8 +146,8 @@ class TestAccount:
         assert not field.unique
 
     def test_type_field(self, db):
-        sub_type = Account()
-        field = sub_type._meta.get_field('type')
+        account = Account()
+        field = account._meta.get_field('type')
 
         assert field.__class__.__name__ == 'IntegerField'
         assert field.verbose_name == 'type'
@@ -161,8 +161,8 @@ class TestAccount:
         assert not field.unique
 
     def test_sub_type_field(self, db):
-        sub_type = Account()
-        field = sub_type._meta.get_field('sub_type')
+        account = Account()
+        field = account._meta.get_field('sub_type')
 
         assert field.__class__.__name__ == 'ForeignKey'
         assert field.verbose_name == 'sub type'
@@ -171,5 +171,17 @@ class TestAccount:
         assert not field.has_default()
         assert field.default.__name__ == 'NOT_PROVIDED'
         assert not field.null
+        assert not field.hidden
+        assert not field.unique
+
+    def test_depth_field(self, db):
+        account = Account()
+        field = account._meta.get_field('depth')
+        assert field.verbose_name == 'depth'
+        assert field.default == 0
+        assert field.has_default()
+        assert field.editable
+        assert field.blank
+        assert field.null
         assert not field.hidden
         assert not field.unique
