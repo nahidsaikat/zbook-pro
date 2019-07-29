@@ -258,3 +258,9 @@ class TestAccount:
     def test_sub_type_text(self, user, sub_type):
         account = Account.objects.create(name=fake.name(), code=fake.random_int(1, 100), sub_type=sub_type,created_by=user)
         assert account.sub_type_text == account.sub_type.name
+
+    def test_set_depth(self, user, sub_type):
+        parent = Account.objects.create(name=fake.name(), code=fake.random_int(1, 100), sub_type=sub_type,created_by=user)
+        account = Account.objects.create(parent=parent, name=fake.name(), code=fake.random_int(1, 100), sub_type=sub_type,created_by=user)
+        assert parent.depth == 0
+        assert account.depth == 1

@@ -43,3 +43,7 @@ class Account(BaseModel):
     @property
     def sub_type_text(self):
         return self.sub_type.name
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.depth = self.parent.depth + 1 if self.parent else 0
+        super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
