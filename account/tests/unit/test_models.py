@@ -198,3 +198,18 @@ class TestAccount:
         assert field.default
         assert field.has_default()
         assert not field.unique
+
+    def test_description_field(self, db):
+        account = Account()
+        field = account._meta.get_field('description')
+
+        assert field.__class__.__name__ == 'TextField'
+        assert field.verbose_name == 'description'
+        assert not field.max_length
+        assert field.editable
+        assert field.blank
+        assert field.null
+        assert not field.default
+        assert field.has_default()
+        assert not field.hidden
+        assert not field.unique
