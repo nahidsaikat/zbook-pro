@@ -35,3 +35,7 @@ class Account(BaseModel):
 
     def __str__(self):
         return f'{self.name}:{self.code}' + ('#' + str(self.parent) if self.parent else '')
+
+    @property
+    def type_text(self):
+        return self.get_type_display()

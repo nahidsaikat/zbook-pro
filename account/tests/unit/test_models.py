@@ -250,3 +250,7 @@ class TestAccount:
         parent = Account.objects.create(name=fake.name(), code=fake.random_int(1, 100), sub_type=sub_type,created_by=user)
         account = Account.objects.create(parent=parent, name=fake.name(), code=fake.random_int(1, 100), sub_type=sub_type,created_by=user)
         assert str(account) == f'{account.name}:{account.code}#{parent.name}:{parent.code}'
+
+    def test_type_text(self, user, sub_type):
+        account = Account.objects.create(name=fake.name(), code=fake.random_int(1, 100), sub_type=sub_type,created_by=user)
+        assert account.type_text == account.get_type_display()
