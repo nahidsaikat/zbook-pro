@@ -274,6 +274,14 @@ class TestAccount:
 
         assert count.count() == 3
 
+    def test_edit(self, user, sub_type):
+        account = Account.objects.create(name=fake.name(), code=fake.random_int(1, 100), sub_type=sub_type, created_by=user)
+        account.code = str(1234)
+        account.save()
+        instance = Account.objects.get(pk=account.pk)
+
+        assert instance.code == str(1234)
+
     def test_set_depth(self, user, sub_type):
         parent = Account.objects.create(name=fake.name(), code=fake.random_int(1, 100), sub_type=sub_type,created_by=user)
         account = Account.objects.create(parent=parent, name=fake.name(), code=fake.random_int(1, 100), sub_type=sub_type,created_by=user)
