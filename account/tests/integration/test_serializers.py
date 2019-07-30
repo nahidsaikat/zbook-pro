@@ -6,9 +6,9 @@ from faker import Faker
 from factory.fuzzy import FuzzyChoice
 
 from ...choices import AccountType
-from ...models import AccountSubType
-from ...serializers import AccountSubTypeSerializer
-from ..factory import AccountSubTypeFactory
+from ...models import AccountSubType, Account
+from ...serializers import AccountSubTypeSerializer, AccountSerializer
+from ..factory import AccountSubTypeFactory, AccountFactory
 
 fake = Faker()
 
@@ -57,3 +57,28 @@ class TestAccountSubTypeSerializer:
 
         assert query.count() == 1
         assert saved_sub_type.name == name
+
+
+class TestAccountSerializer:
+
+    def test_create(self, user, sub_type):
+        name = fake.name()
+        data = factory.build(dict, FACTORY_CLASS=AccountFactory,
+                             name=name,
+                             created_by=user.pk,
+                             sub_type=sub_type.pk,
+                             type=FuzzyChoice(choices=AccountType.values.keys()),
+                             )
+
+        serializer = AccountSerializer(data=data)
+        serializer.is_valid()
+
+        assert serializer.validated_data.get('name') == name
+
+        serializer.save()
+
+        query = Account.objects.all()
+        account = query.first()
+
+        assert query.count() == 1
+        assert account.name == name
