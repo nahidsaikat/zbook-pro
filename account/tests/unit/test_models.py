@@ -117,10 +117,6 @@ class TestAccountSubType:
 
 class TestAccount:
 
-    @pytest.fixture
-    def sub_type(self, db):
-        return AccountSubTypeFactory()
-
     def test_name_field(self, db):
         account = Account()
         field = account._meta.get_field('name')
