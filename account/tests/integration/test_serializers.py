@@ -121,3 +121,11 @@ class TestAccountSerializer:
 
         serializer = AccountSerializer(data=data)
         assert not serializer.is_valid()
+
+    @pytest.mark.django_db
+    def test_create_sub_type_error(self):
+        data = factory.build(dict, FACTORY_CLASS=AccountFactory)
+        del data['sub_type']
+
+        serializer = AccountSerializer(data=data)
+        assert not serializer.is_valid()
