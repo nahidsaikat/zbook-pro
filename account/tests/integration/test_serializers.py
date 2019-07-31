@@ -97,3 +97,11 @@ class TestAccountSerializer:
 
         assert query.count() == 1
         assert saved_account.name == name
+
+    @pytest.mark.django_db
+    def test_create_name_error(self):
+        data = factory.build(dict, FACTORY_CLASS=AccountFactory)
+        del data['name']
+
+        serializer = AccountSerializer(data=data)
+        assert not serializer.is_valid()
