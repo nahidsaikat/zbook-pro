@@ -98,32 +98,28 @@ class TestAccountSerializer:
         assert query.count() == 1
         assert saved_account.name == name
 
-    @pytest.mark.django_db
-    def test_create_name_error(self):
+    def test_create_name_error(self, db):
         data = factory.build(dict, FACTORY_CLASS=AccountFactory)
         del data['name']
 
         serializer = AccountSerializer(data=data)
         assert not serializer.is_valid()
 
-    @pytest.mark.django_db
-    def test_create_code_error(self):
+    def test_create_code_error(self, db):
         data = factory.build(dict, FACTORY_CLASS=AccountFactory)
         del data['code']
 
         serializer = AccountSerializer(data=data)
         assert not serializer.is_valid()
 
-    @pytest.mark.django_db
-    def test_create_type_error(self):
+    def test_create_type_error(self, db):
         data = factory.build(dict, FACTORY_CLASS=AccountFactory)
         del data['type']
 
         serializer = AccountSerializer(data=data)
         assert not serializer.is_valid()
 
-    @pytest.mark.django_db
-    def test_create_sub_type_error(self):
+    def test_create_sub_type_error(self, db):
         data = factory.build(dict, FACTORY_CLASS=AccountFactory)
         del data['sub_type']
 
