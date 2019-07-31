@@ -82,3 +82,18 @@ class TestAccountSerializer:
 
         assert query.count() == 1
         assert account.name == name
+
+    @pytest.mark.django_db(transaction=True)
+    def test_update(self, user, sub_type):
+        name = fake.name()
+        account = AccountFactory()
+        data = factory.build(dict, FACTORY_CLASS=AccountFactory, name=name, created_by=user, sub_type=sub_type)
+
+        serializer = AccountSerializer()
+        serializer.update(account, data)
+
+        query = Account.objects.all()
+        saved_account = query.first()
+
+        assert query.count() == 1
+        assert saved_account.name == name
