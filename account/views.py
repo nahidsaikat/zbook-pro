@@ -21,3 +21,9 @@ class AccountListCreateAPIView(ListCreateAPIView):
     queryset = Account.objects.all().order_by('-id')
     serializer_class = AccountSerializer
     permission_classes = [IsAuthenticated]
+
+
+class AccountRetrieveUpdateAPIView(RetrieveUpdateAPIView):
+    queryset = Account.objects.all()
+    serializer_class = AccountSerializer
+    permission_classes = [IsAuthenticated]
