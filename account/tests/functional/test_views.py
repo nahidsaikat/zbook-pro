@@ -313,3 +313,13 @@ class TestAccountRetrieveUpdateAPIView:
 
         assert response.status_code == 200
         assert response.data.get('inactive') == True
+
+    def test_update_deleted(self, auth_client, user, sub_type):
+        account = AccountFactory()
+        data = factory.build(dict, FACTORY_CLASS=AccountFactory, created_by=user.pk, sub_type=sub_type.pk, deleted=1)
+
+        url = reverse('account:detail-update', args=[account.pk])
+        response = auth_client.patch(url, data)
+
+        assert response.status_code == 200
+        assert response.data.get('deleted') == True
