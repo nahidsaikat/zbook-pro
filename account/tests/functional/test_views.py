@@ -173,3 +173,13 @@ class TestAccountListCreateAPIView:
         response = auth_client.post(self.url, data)
 
         assert response.status_code == 400
+
+    def test_create_type(self, auth_client, user):
+        data = factory.build(dict, FACTORY_CLASS=AccountFactory, created_by=user.pk)
+        data['sub_type'] = data['sub_type'].pk
+
+        del data['type']
+
+        response = auth_client.post(self.url, data)
+
+        assert response.status_code == 400
