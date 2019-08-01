@@ -5,7 +5,7 @@ from factory.fuzzy import FuzzyChoice
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 
-from ..factory import AccountSubTypeFactory
+from ..factory import AccountSubTypeFactory, AccountFactory
 from ...choices import AccountType
 
 User = get_user_model()
@@ -133,3 +133,23 @@ class TestAccountSubTypeRetrieveUpdateAPIView:
         response = client.get(url)
 
         assert response.status_code == 401
+
+
+class TestAccountListCreateAPIView:
+
+    url = reverse('account:list-create')
+
+    def test_create(self, auth_client, user, sub_type):
+        name = fake.name()
+        code = fake.random_int(1, 100)
+        _type = FuzzyChoice(choices=AccountType.values.keys()).fuzz()
+        data = factory.build(dict, FACTORY_CLASS=AccountFactory, name=name, type=_type, code=code,
+                             sub_type=sub_type.pk, created_by=user.pk)
+
+        response = auth_client.post(self.url, data)
+
+        assert response.status_code == 201
+        assert response.data.get('name') == name
+        assert response.data.get('type') == _type
+        assert response.data.get('code') == str(code)
+        assert response.data.get('sub_type') == sub_type.pk
