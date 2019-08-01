@@ -244,3 +244,14 @@ class TestAccountRetrieveUpdateAPIView:
 
         assert response.status_code == 200
         assert response.data.get('code') == str(code)
+
+    def test_update_type(self, auth_client, user, sub_type):
+        account = AccountFactory()
+        _type = FuzzyChoice(choices=AccountType.values.keys()).fuzz()
+        data = factory.build(dict, FACTORY_CLASS=AccountFactory, type=_type, created_by=user.pk, sub_type=sub_type.pk)
+
+        url = reverse('account:detail-update', args=[account.pk])
+        response = auth_client.patch(url, data)
+
+        assert response.status_code == 200
+        assert response.data.get('type') == _type
