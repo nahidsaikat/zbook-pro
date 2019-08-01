@@ -219,3 +219,17 @@ class TestAccountListCreateAPIView:
         response = client.get(self.url)
 
         assert response.status_code == 401
+
+
+class TestAccountRetrieveUpdateAPIView:
+
+    def test_update_name(self, auth_client, user, sub_type):
+        account = AccountFactory()
+        name = fake.name()
+        data = factory.build(dict, FACTORY_CLASS=AccountFactory, name=name, created_by=user.pk, sub_type=sub_type.pk)
+
+        url = reverse('account:detail-update', args=[account.pk])
+        response = auth_client.patch(url, data)
+
+        assert response.status_code == 200
+        assert response.data.get('name') == name
