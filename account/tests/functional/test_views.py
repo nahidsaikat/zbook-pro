@@ -118,6 +118,16 @@ class TestAccountSubTypeRetrieveUpdateAPIView:
         assert response.status_code == 200
         assert response.data.get('inactive') == True
 
+    def test_update_deleted(self, auth_client, user):
+        subtype = AccountSubTypeFactory()
+        data = factory.build(dict, FACTORY_CLASS=AccountSubTypeFactory, deleted=1, created_by=user.pk)
+
+        url = reverse('account:subtype:detail-update', args=[subtype.pk])
+        response = auth_client.patch(url, data)
+
+        assert response.status_code == 200
+        assert response.data.get('deleted') == True
+
     def test_update_unauthorize(self, client, user):
         subtype = AccountSubTypeFactory()
         data = factory.build(dict, FACTORY_CLASS=AccountSubTypeFactory, created_by=user.pk)
