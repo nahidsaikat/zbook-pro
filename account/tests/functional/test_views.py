@@ -255,3 +255,14 @@ class TestAccountRetrieveUpdateAPIView:
 
         assert response.status_code == 200
         assert response.data.get('type') == _type
+
+    def test_update_sub_type(self, auth_client, user):
+        account = AccountFactory()
+        sub_type = AccountSubTypeFactory(created_by=user)
+        data = factory.build(dict, FACTORY_CLASS=AccountFactory, created_by=user.pk, sub_type=sub_type.pk)
+
+        url = reverse('account:detail-update', args=[account.pk])
+        response = auth_client.patch(url, data)
+
+        assert response.status_code == 200
+        assert response.data.get('sub_type') == sub_type.pk
