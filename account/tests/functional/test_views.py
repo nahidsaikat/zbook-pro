@@ -279,3 +279,14 @@ class TestAccountRetrieveUpdateAPIView:
 
         assert response.status_code == 200
         assert response.data.get('entry_date') == str(yesterday)
+
+    def test_update_description(self, auth_client, user, sub_type):
+        account = AccountFactory()
+        description = fake.sentence()
+        data = factory.build(dict, FACTORY_CLASS=AccountFactory, description=description, created_by=user.pk, sub_type=sub_type.pk)
+
+        url = reverse('account:detail-update', args=[account.pk])
+        response = auth_client.patch(url, data)
+
+        assert response.status_code == 200
+        assert response.data.get('description') == description
