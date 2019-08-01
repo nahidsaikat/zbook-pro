@@ -364,3 +364,11 @@ class TestAccountRetrieveUpdateAPIView:
         assert response.data.get('type') == account.type
         assert response.data.get('depth') == account.depth
         assert response.data.get('code') == str(account.code)
+
+    def test_get_account_unauthorize(self, client, user):
+        account = AccountFactory(created_by=user)
+        url = reverse('account:detail-update', args=[account.pk])
+
+        response = client.get(url)
+
+        assert response.status_code == 401
