@@ -352,3 +352,15 @@ class TestAccountRetrieveUpdateAPIView:
         response = client.patch(url, data)
 
         assert response.status_code == 401
+
+    def test_get_account(self, auth_client, user):
+        account = AccountFactory(created_by=user)
+        url = reverse('account:detail-update', args=[account.pk])
+
+        response = auth_client.get(url)
+
+        assert response.status_code == 200
+        assert response.data.get('name') == account.name
+        assert response.data.get('type') == account.type
+        assert response.data.get('depth') == account.depth
+        assert response.data.get('code') == str(account.code)
