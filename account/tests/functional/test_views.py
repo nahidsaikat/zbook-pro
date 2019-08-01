@@ -200,3 +200,13 @@ class TestAccountListCreateAPIView:
         response = client.post(self.url, data)
 
         assert response.status_code == 401
+
+    def test_get_list(self, auth_client, user):
+        AccountFactory(created_by=user)
+        AccountFactory(created_by=user)
+        AccountFactory(created_by=user)
+
+        response = auth_client.get(self.url)
+
+        assert response.status_code == 200
+        assert response.data.get('count') == 3
