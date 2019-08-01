@@ -1,3 +1,5 @@
+from datetime import date, timedelta
+
 import factory, random
 from faker import Faker
 from factory.fuzzy import FuzzyChoice
@@ -266,3 +268,14 @@ class TestAccountRetrieveUpdateAPIView:
 
         assert response.status_code == 200
         assert response.data.get('sub_type') == sub_type.pk
+
+    def test_update_entry_date(self, auth_client, user, sub_type):
+        account = AccountFactory()
+        yesterday = date.today() - timedelta(days=1)
+        data = factory.build(dict, FACTORY_CLASS=AccountFactory, entry_date=yesterday, created_by=user.pk, sub_type=sub_type.pk)
+
+        url = reverse('account:detail-update', args=[account.pk])
+        response = auth_client.patch(url, data)
+
+        assert response.status_code == 200
+        assert response.data.get('entry_date') == str(yesterday)
