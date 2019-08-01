@@ -290,3 +290,16 @@ class TestAccountRetrieveUpdateAPIView:
 
         assert response.status_code == 200
         assert response.data.get('description') == description
+
+    def test_update_parent(self, auth_client, user, sub_type):
+        parent = AccountFactory()
+        account = AccountFactory()
+        description = fake.sentence()
+        data = factory.build(dict, FACTORY_CLASS=AccountFactory, description=description, created_by=user.pk,
+                             sub_type=sub_type.pk, parent=parent.pk)
+
+        url = reverse('account:detail-update', args=[account.pk])
+        response = auth_client.patch(url, data)
+
+        assert response.status_code == 200
+        assert response.data.get('parent') == parent.pk
