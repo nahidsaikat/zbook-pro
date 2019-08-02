@@ -22,8 +22,8 @@ class TestAccountSubTypeListCreateAPIView:
         name = fake.name()
         _type = FuzzyChoice(choices=AccountType.values.keys()).fuzz()
         order = random.randint(0, 10)
-        data = factory.build(dict, FACTORY_CLASS=AccountSubTypeFactory, name=name, type=_type,
-                             order=order, created_by=user.pk)
+        data = factory.build(dict, FACTORY_CLASS=AccountSubTypeFactory, name=name, type=_type, order=order)
+        del data['created_by']
 
         response = auth_client.post(self.url, data)
 
@@ -184,8 +184,8 @@ class TestAccountListCreateAPIView:
         name = fake.name()
         code = fake.random_int(1, 100)
         _type = FuzzyChoice(choices=AccountType.values.keys()).fuzz()
-        data = factory.build(dict, FACTORY_CLASS=AccountFactory, name=name, type=_type, code=code,
-                             sub_type=sub_type.pk, created_by=user.pk)
+        data = factory.build(dict, FACTORY_CLASS=AccountFactory, name=name, type=_type, code=code, sub_type=sub_type.pk)
+        del data['created_by']
 
         response = auth_client.post(self.url, data)
 
@@ -194,10 +194,10 @@ class TestAccountListCreateAPIView:
         assert response.data.get('type') == _type
         assert response.data.get('code') == str(code)
         assert response.data.get('sub_type') == sub_type.pk
-        assert response.data.get('created_by') == user.pk
 
     def test_create_created_by(self, auth_client, user, sub_type):
-        data = factory.build(dict, FACTORY_CLASS=AccountFactory, sub_type=sub_type.pk, created_by=user.pk)
+        data = factory.build(dict, FACTORY_CLASS=AccountFactory, sub_type=sub_type.pk)
+        del data['created_by']
 
         response = auth_client.post(self.url, data)
 
