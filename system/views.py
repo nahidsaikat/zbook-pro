@@ -20,7 +20,7 @@ class BaseRetrieveUpdateAPIView(RetrieveUpdateAPIView):
 
     def perform_update(self, serializer):
         super().perform_update(serializer)
-        serializer.save(created_by=self.request.user)
+        serializer.save(updated_by=self.request.user)
 
 
 class BaseRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):

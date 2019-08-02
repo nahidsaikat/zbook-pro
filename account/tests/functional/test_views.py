@@ -344,6 +344,16 @@ class TestAccountRetrieveUpdateAPIView:
         assert response.status_code == 200
         assert response.data.get('deleted') == True
 
+    def test_update_updated_by(self, auth_client, user, user2, sub_type):
+        account = AccountFactory()
+        data = factory.build(dict, FACTORY_CLASS=AccountFactory, created_by=user2.pk, sub_type=sub_type.pk, deleted=1)
+
+        url = reverse('account:detail-update', args=[account.pk])
+        response = auth_client.patch(url, data)
+
+        assert response.status_code == 200
+        assert response.data.get('updated_by') == user.pk
+
     def test_update_unauthorize(self, client, user, sub_type):
         account = AccountFactory()
         data = factory.build(dict, FACTORY_CLASS=AccountFactory, created_by=user.pk, sub_type=sub_type.pk, deleted=1)
