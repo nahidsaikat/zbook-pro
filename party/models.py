@@ -6,6 +6,23 @@ from account.models import Account
 from .choices import PartyType, PartyGender
 
 
+class PartySubType(BaseModel):
+    name = models.CharField(max_length=128)
+    code = models.CharField(max_length=128, blank=True)
+    label = models.CharField(max_length=128, blank=True)
+    type = models.IntegerField(choices=PartyType.choices, default=PartyType.Customer)
+
+    def __str__(self):
+        return self.name
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.label:
+            self.label = self.name
+        # TODO: code should be unique, handle uniqueness using uuid
+        self.code = str(self.name).strip().lower().replace(' ', '-')
+        super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
+
+
 class Party(BaseModel):
     name = models.CharField(max_length=128)
     phone = models.CharField(max_length=16, null=True)
