@@ -25,6 +25,9 @@ class BaseRetrieveUpdateAPIView(RetrieveUpdateAPIView):
         contest['request'] = self.request
         return contest
 
+    def perform_update(self, serializer):
+        serializer.save(updated_by=self.request.user)
+
 
 class BaseRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 
@@ -33,6 +36,9 @@ class BaseRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
         contest['request'] = self.request
         return contest
 
+    def perform_update(self, serializer):
+        serializer.save(updated_by=self.request.user)
+
 
 class BaseUpdateAPIView(UpdateAPIView):
 
@@ -40,3 +46,6 @@ class BaseUpdateAPIView(UpdateAPIView):
         contest = super().get_serializer_context()
         contest['request'] = self.request
         return contest
+
+    def perform_update(self, serializer):
+        serializer.save(updated_by=self.request.user)
