@@ -32,6 +32,15 @@ class TestAccountSubTypeListCreateAPIView:
         assert response.data.get('type') == _type
         assert response.data.get('order') == order
 
+    def test_create_created_by(self, auth_client, user, user2):
+        data = factory.build(dict, FACTORY_CLASS=AccountSubTypeFactory)
+        del data['created_by']
+
+        response = auth_client.post(self.url, data)
+
+        assert response.status_code == 201
+        assert response.data.get('created_by') == user.pk
+
     def test_create_name(self, auth_client, user):
         data = factory.build(dict, FACTORY_CLASS=AccountSubTypeFactory, created_by=user.pk)
 
