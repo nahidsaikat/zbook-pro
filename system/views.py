@@ -4,34 +4,39 @@ from rest_framework.generics import ListCreateAPIView, CreateAPIView, RetrieveUp
 
 class BaseListCreateAPIView(ListCreateAPIView):
 
-    def perform_create(self, serializer):
-        super().perform_create(serializer)
-        serializer.save(created_by=self.request.user)
+    def get_serializer_context(self):
+        contest = super().get_serializer_context()
+        contest['request'] = self.request
+        return contest
 
 
 class BaseCreateAPIView(CreateAPIView):
 
-    def perform_create(self, serializer):
-        super().perform_create(serializer)
-        serializer.save(created_by=self.request.user)
+    def get_serializer_context(self):
+        contest = super().get_serializer_context()
+        contest['request'] = self.request
+        return contest
 
 
 class BaseRetrieveUpdateAPIView(RetrieveUpdateAPIView):
 
-    def perform_update(self, serializer):
-        super().perform_update(serializer)
-        serializer.save(updated_by=self.request.user)
+    def get_serializer_context(self):
+        contest = super().get_serializer_context()
+        contest['request'] = self.request
+        return contest
 
 
 class BaseRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 
-    def perform_update(self, serializer):
-        super().perform_update(serializer)
-        serializer.save(created_by=self.request.user)
+    def get_serializer_context(self):
+        contest = super().get_serializer_context()
+        contest['request'] = self.request
+        return contest
 
 
 class BaseUpdateAPIView(UpdateAPIView):
 
-    def perform_update(self, serializer):
-        super().perform_update(serializer)
-        serializer.save(created_by=self.request.user)
+    def get_serializer_context(self):
+        contest = super().get_serializer_context()
+        contest['request'] = self.request
+        return contest
