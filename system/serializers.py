@@ -8,6 +8,7 @@ class BaseSerializer(serializers.ModelSerializer):
         return self.context.get('request')
 
     def to_internal_value(self, data):
-        data['created_by'] = self.request.user.pk
+        if self.request and self.request.user:
+            data['created_by'] = self.request.user.pk
         ret = super().to_internal_value(data)
         return ret
