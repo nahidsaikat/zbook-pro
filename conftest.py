@@ -27,3 +27,21 @@ def user(db):
 def auth_client(client, user):
     client.force_authenticate(user)
     return client
+
+
+@pytest.fixture
+def client2():
+    return APIClient()
+
+
+@pytest.fixture
+def user2(db):
+    user = User.objects.create(email=fake.email(), password=fake.name())
+    user.save()
+    return user
+
+
+@pytest.fixture
+def auth_client2(client2, user2):
+    client.force_authenticate(user2)
+    return client
