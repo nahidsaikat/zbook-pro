@@ -175,6 +175,15 @@ class TestAccountListCreateAPIView:
         assert response.data.get('type') == _type
         assert response.data.get('code') == str(code)
         assert response.data.get('sub_type') == sub_type.pk
+        assert response.data.get('created_by') == user.pk
+
+    def test_create_created_by(self, auth_client, user, sub_type):
+        data = factory.build(dict, FACTORY_CLASS=AccountFactory, sub_type=sub_type.pk, created_by=user.pk)
+
+        response = auth_client.post(self.url, data)
+
+        assert response.status_code == 201
+        assert response.data.get('created_by') == user.pk
 
     def test_create_name(self, auth_client, user):
         data = factory.build(dict, FACTORY_CLASS=AccountFactory, created_by=user.pk)
