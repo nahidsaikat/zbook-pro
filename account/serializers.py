@@ -1,16 +1,15 @@
-from rest_framework import serializers
-
+from system.serializers import BaseSerializer
 from .models import AccountSubType, Account
 
 
-class AccountSubTypeSerializer(serializers.ModelSerializer):
+class AccountSubTypeSerializer(BaseSerializer):
     """TODO: don't use ModelSerializer, use normal Serializer"""
     class Meta:
         model = AccountSubType
         fields = '__all__'
 
 
-class AccountSerializer(serializers.ModelSerializer):
+class AccountSerializer(BaseSerializer):
     """TODO: don't use ModelSerializer, use normal Serializer"""
     class Meta:
         model = Account
