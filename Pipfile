@@ -23,6 +23,7 @@ drf-yasg = "*"
 coverage = "*"
 pillow = "*"
 pytest-benchmark = "*"
+model-mommy = "*"
 
 [requires]
 python_version = "3.7"
