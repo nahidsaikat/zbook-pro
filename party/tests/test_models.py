@@ -1,5 +1,11 @@
+import pytest
+from faker import Faker
+from django.db import IntegrityError
+
 from ..models import PartySubType
 from ..choices import PartyType
+
+fake = Faker()
 
 
 class TestPartySubType:
@@ -63,3 +69,7 @@ class TestPartySubType:
         assert field.choices == PartyType.choices
         assert not field.hidden
         assert not field.unique
+
+    def test_name_cannot_be_null(self, user):
+        with pytest.raises(IntegrityError) as error:
+            PartySubType.objects.create(name=None, label=fake.name(), type=PartyType.Customer, created_by=user)
