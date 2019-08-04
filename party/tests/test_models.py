@@ -73,3 +73,7 @@ class TestPartySubType:
     def test_name_cannot_be_null(self, user):
         with pytest.raises(IntegrityError) as error:
             PartySubType.objects.create(name=None, label=fake.name(), type=PartyType.Customer, created_by=user)
+
+    def test_created_by_cannot_be_null(self, user):
+        with pytest.raises(IntegrityError) as error:
+            PartySubType.objects.create(name=fake.name(), label=None, type=PartyType.Customer, created_by=None)
