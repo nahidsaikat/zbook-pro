@@ -81,3 +81,8 @@ class TestPartySubType:
     def test_type_default_customer(self, user):
         sub_type = PartySubType.objects.create(name=fake.name(), created_by=user)
         assert sub_type.type == PartyType.Customer
+
+    def test_label_is_name(self, user):
+        name = fake.name()
+        sub_type = PartySubType.objects.create(name=name, created_by=user)
+        assert sub_type.label == name
