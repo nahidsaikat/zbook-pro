@@ -86,3 +86,8 @@ class TestPartySubType:
         name = fake.name()
         sub_type = PartySubType.objects.create(name=name, created_by=user)
         assert sub_type.label == name
+
+    def test_code_is_generated_from_name(self, user):
+        name = fake.name()
+        sub_type = PartySubType.objects.create(name=name, created_by=user)
+        assert sub_type.code == name.strip().lower().replace(' ', '-')
