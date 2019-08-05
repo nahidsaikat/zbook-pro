@@ -15,6 +15,10 @@ class PartySubType(BaseModel):
     def __str__(self):
         return self.name
 
+    @property
+    def type_text(self):
+        return self.get_type_display()
+
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if not self.label:
             self.label = self.name
