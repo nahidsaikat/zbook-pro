@@ -77,3 +77,7 @@ class TestPartySubType:
     def test_created_by_cannot_be_null(self, user):
         with pytest.raises(IntegrityError) as error:
             PartySubType.objects.create(name=fake.name(), label=None, type=PartyType.Customer, created_by=None)
+
+    def test_type_default_customer(self, user):
+        sub_type = PartySubType.objects.create(name=fake.name(), created_by=user)
+        assert sub_type.type == PartyType.Customer
