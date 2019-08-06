@@ -101,3 +101,12 @@ class TestPartySubType:
         instance = PartySubType.objects.get(pk=sub_type.pk)
 
         assert sub_type.pk == instance.pk
+
+    def test_count(self, user):
+        PartySubType.objects.create(name=fake.name(), created_by=user)
+        PartySubType.objects.create(name=fake.name(), created_by=user)
+        PartySubType.objects.create(name=fake.name(), created_by=user)
+
+        count = PartySubType.objects.all()
+
+        assert count.count() == 3
