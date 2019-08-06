@@ -110,3 +110,11 @@ class TestPartySubType:
         count = PartySubType.objects.all()
 
         assert count.count() == 3
+
+    def test_edit(self, user):
+        sub_type = PartySubType.objects.create(name=fake.name(), created_by=user)
+        sub_type.name = str(1234)
+        sub_type.save()
+        instance = PartySubType.objects.get(pk=sub_type.pk)
+
+        assert instance.name == str(1234)
