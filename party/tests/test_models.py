@@ -118,3 +118,7 @@ class TestPartySubType:
         instance = PartySubType.objects.get(pk=sub_type.pk)
 
         assert instance.name == str(1234)
+
+    def test_str(self, user):
+        sub_type = PartySubType.objects.create(name=fake.name(), created_by=user)
+        assert str(sub_type) == sub_type.name
