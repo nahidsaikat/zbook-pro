@@ -95,3 +95,9 @@ class TestPartySubType:
     def test_type_text(self, user):
         sub_type = PartySubType.objects.create(name=fake.name(), created_by=user)
         assert sub_type.type_text == sub_type.get_type_display()
+
+    def test_create(self, user):
+        sub_type = PartySubType.objects.create(name=fake.name(), created_by=user)
+        instance = PartySubType.objects.get(pk=sub_type.pk)
+
+        assert sub_type.pk == instance.pk
