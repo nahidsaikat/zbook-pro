@@ -185,3 +185,18 @@ class TestParty:
         assert field.default.__name__ == 'NOT_PROVIDED'
         assert not field.hidden
         assert not field.unique
+
+    def test_company_name_field(self):
+        party = Party()
+        field = party._meta.get_field('company_name')
+
+        assert field.__class__.__name__ == 'CharField'
+        assert field.verbose_name == 'company name'
+        assert field.max_length == 128
+        assert field.editable
+        assert field.null
+        assert field.blank
+        assert not field.has_default()
+        assert field.default.__name__ == 'NOT_PROVIDED'
+        assert not field.hidden
+        assert not field.unique
