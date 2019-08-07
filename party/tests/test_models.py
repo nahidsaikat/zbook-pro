@@ -2,7 +2,7 @@ import pytest
 from faker import Faker
 from django.db import IntegrityError
 
-from ..models import PartySubType
+from ..models import PartySubType, Party
 from ..choices import PartyType
 
 fake = Faker()
@@ -127,8 +127,8 @@ class TestPartySubType:
 class TestParty:
 
     def test_name_field(self):
-        sub_type = PartySubType()
-        field = sub_type._meta.get_field('name')
+        party = Party()
+        field = party._meta.get_field('name')
 
         assert field.__class__.__name__ == 'CharField'
         assert field.verbose_name == 'name'
@@ -136,6 +136,21 @@ class TestParty:
         assert field.editable
         assert not field.blank
         assert not field.null
+        assert not field.has_default()
+        assert field.default.__name__ == 'NOT_PROVIDED'
+        assert not field.hidden
+        assert not field.unique
+
+    def test_phone_field(self):
+        party = Party()
+        field = party._meta.get_field('phone')
+
+        assert field.__class__.__name__ == 'CharField'
+        assert field.verbose_name == 'phone'
+        assert field.max_length == 16
+        assert field.editable
+        assert field.null
+        assert not field.blank
         assert not field.has_default()
         assert field.default.__name__ == 'NOT_PROVIDED'
         assert not field.hidden
