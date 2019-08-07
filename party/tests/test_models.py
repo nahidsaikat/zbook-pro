@@ -200,3 +200,17 @@ class TestParty:
         assert field.default.__name__ == 'NOT_PROVIDED'
         assert not field.hidden
         assert not field.unique
+
+    def test_address_field(self):
+        party = Party()
+        field = party._meta.get_field('address')
+
+        assert field.__class__.__name__ == 'TextField'
+        assert field.verbose_name == 'address'
+        assert field.editable
+        assert field.null
+        assert field.blank
+        assert field.has_default()
+        assert not field.default        # Default is empty string
+        assert not field.hidden
+        assert not field.unique
