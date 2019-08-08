@@ -4,7 +4,7 @@ import datetime
 from django.db import IntegrityError
 
 from ..models import PartySubType, Party
-from ..choices import PartyType
+from ..choices import PartyType, PartyGender
 
 fake = Faker()
 
@@ -227,5 +227,20 @@ class TestParty:
         assert field.blank
         assert field.has_default()
         assert field.default == datetime.date.today
+        assert not field.hidden
+        assert not field.unique
+
+    def test_gender_field(self):
+        party = Party()
+        field = party._meta.get_field('gender')
+
+        assert field.__class__.__name__ == 'IntegerField'
+        assert field.verbose_name == 'gender'
+        assert field.editable
+        assert field.null
+        assert field.blank
+        assert field.has_default()
+        assert field.default == PartyGender.Male
+        assert field.choices == PartyGender.choices
         assert not field.hidden
         assert not field.unique
