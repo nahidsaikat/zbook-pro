@@ -244,3 +244,21 @@ class TestParty:
         assert field.choices == PartyGender.choices
         assert not field.hidden
         assert not field.unique
+
+    def test_account_id_field(self):
+        from account.models import Account
+        party = Party()
+        field = party._meta.get_field('account_id')
+
+        assert field.__class__.__name__ == 'ForeignKey'
+        assert field.verbose_name == 'account id'
+        assert field.editable
+        assert field.null
+        assert field.blank
+        assert not field.has_default()
+        assert field.default.__name__ == 'NOT_PROVIDED'
+        assert not field.hidden
+        assert not field.unique
+        assert field.remote_field.on_delete.__name__ == 'DO_NOTHING'
+        assert field.remote_field.model == Account
+
