@@ -1,5 +1,6 @@
 import pytest
 from faker import Faker
+import datetime
 from django.db import IntegrityError
 
 from ..models import PartySubType, Party
@@ -212,5 +213,19 @@ class TestParty:
         assert field.blank
         assert field.has_default()
         assert not field.default        # Default is empty string
+        assert not field.hidden
+        assert not field.unique
+
+    def test_entry_date_field(self):
+        party = Party()
+        field = party._meta.get_field('entry_date')
+
+        assert field.__class__.__name__ == 'DateField'
+        assert field.verbose_name == 'entry date'
+        assert field.editable
+        assert field.null
+        assert field.blank
+        assert field.has_default()
+        assert field.default == datetime.date.today
         assert not field.hidden
         assert not field.unique
