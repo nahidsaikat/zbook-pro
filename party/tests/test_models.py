@@ -451,3 +451,7 @@ class TestVendor:
     def test_type_cannot_be_null(self, user):
         with pytest.raises(IntegrityError) as error:
             Vendor.objects.create(created_by=user, name=fake.name(), type=None)
+
+    def test_type_default_vendor(self, user):
+        vendor = Vendor.objects.create(created_by=user, name=fake.name())
+        assert vendor.type == PartyType.Vendor
