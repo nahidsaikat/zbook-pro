@@ -45,10 +45,19 @@ class Party(BaseModel):
     bin = models.CharField(max_length=64, null=True, blank=True)
     vat_reg_no = models.CharField(max_length=64, null=True, blank=True)
 
+    def __str__(self):
+        return f'{self.name}'
+
 
 class Customer(Party):
     type = models.IntegerField(choices=PartyType.choices, default=PartyType.Customer)
 
+    def __str__(self):
+        return f'{self.name}'
+
 
 class Vendor(Party):
     type = models.IntegerField(choices=PartyType.choices, default=PartyType.Vendor)
+
+    def __str__(self):
+        return f'{self.name}'
