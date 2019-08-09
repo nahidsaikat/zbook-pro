@@ -53,7 +53,7 @@ class Customer(Party):
     type = models.IntegerField(choices=PartyType.choices, default=PartyType.Customer)
 
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.name} # {self.type_text}'
 
     @property
     def type_text(self):

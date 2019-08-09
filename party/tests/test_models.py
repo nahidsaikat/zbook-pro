@@ -397,6 +397,10 @@ class TestCustomer:
         customer = Customer.objects.create(created_by=user, name=fake.name())
         assert customer.type_text == customer.get_type_display()
 
+    def test_str(self, user):
+        customer = Customer.objects.create(created_by=user, name=fake.name())
+        assert str(customer) == f'{customer.name} # {customer.type_text}'
+
 
 class TestVendor:
 
