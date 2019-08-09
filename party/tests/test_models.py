@@ -421,6 +421,15 @@ class TestCustomer:
         assert instance.name == name
         assert instance.type == PartyType.Customer
 
+    def test_count(self, user):
+        Customer.objects.create(created_by=user, name=fake.name())
+        Customer.objects.create(created_by=user, name=fake.name())
+        Customer.objects.create(created_by=user, name=fake.name())
+
+        queryset = Customer.objects.all()
+
+        assert queryset.count() == 3
+
 
 class TestVendor:
 
