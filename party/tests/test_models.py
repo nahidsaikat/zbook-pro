@@ -262,3 +262,17 @@ class TestParty:
         assert field.remote_field.on_delete.__name__ == 'DO_NOTHING'
         assert field.remote_field.model == Account
 
+    def test_currency_field(self):
+        party = Party()
+        field = party._meta.get_field('currency')
+
+        assert field.__class__.__name__ == 'CharField'
+        assert field.verbose_name == 'currency'
+        assert field.max_length == 64
+        assert field.editable
+        assert field.null
+        assert field.blank
+        assert not field.has_default()
+        assert field.default.__name__ == 'NOT_PROVIDED'
+        assert not field.hidden
+        assert not field.unique
