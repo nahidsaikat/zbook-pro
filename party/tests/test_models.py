@@ -455,3 +455,7 @@ class TestVendor:
     def test_type_default_vendor(self, user):
         vendor = Vendor.objects.create(created_by=user, name=fake.name())
         assert vendor.type == PartyType.Vendor
+
+    def test_type_text(self, user):
+        vendor = Vendor.objects.create(created_by=user, name=fake.name())
+        assert vendor.type_text == vendor.get_type_display()

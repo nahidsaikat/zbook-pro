@@ -65,3 +65,7 @@ class Vendor(Party):
 
     def __str__(self):
         return f'{self.name}'
+
+    @property
+    def type_text(self):
+        return self.get_type_display()
