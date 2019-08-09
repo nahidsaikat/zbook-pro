@@ -463,3 +463,12 @@ class TestVendor:
     def test_str(self, user):
         vendor = Vendor.objects.create(created_by=user, name=fake.name())
         assert str(vendor) == f'{vendor.name} # {vendor.type_text}'
+
+    def test_create(self, user):
+        name = fake.name()
+        vendor = Vendor.objects.create(created_by=user, name=name)
+
+        instance = Vendor.objects.get(pk=vendor.pk)
+
+        assert instance.name == name
+        assert instance.type == PartyType.Vendor
