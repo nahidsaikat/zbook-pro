@@ -389,6 +389,10 @@ class TestCustomer:
         with pytest.raises(IntegrityError) as error:
             Customer.objects.create(created_by=user, name=fake.name(), type=None)
 
+    def test_type_default_customer(self, user):
+        customer = Customer.objects.create(created_by=user, name=fake.name())
+        assert customer.type == PartyType.Customer
+
     def test_type_text(self, user):
         customer = Customer.objects.create(created_by=user, name=fake.name())
         assert customer.type_text == customer.get_type_display()
