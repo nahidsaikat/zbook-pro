@@ -472,3 +472,14 @@ class TestVendor:
 
         assert instance.name == name
         assert instance.type == PartyType.Vendor
+
+    def test_edit(self, user):
+        name = fake.name()
+        vendor = Vendor.objects.create(created_by=user, name=fake.name())
+        vendor.name = name
+        vendor.save()
+
+        instance = Vendor.objects.get(pk=vendor.pk)
+
+        assert instance.name == name
+        assert instance.type == PartyType.Vendor
