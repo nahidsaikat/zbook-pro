@@ -459,3 +459,7 @@ class TestVendor:
     def test_type_text(self, user):
         vendor = Vendor.objects.create(created_by=user, name=fake.name())
         assert vendor.type_text == vendor.get_type_display()
+
+    def test_str(self, user):
+        vendor = Vendor.objects.create(created_by=user, name=fake.name())
+        assert str(vendor) == f'{vendor.name} # {vendor.type_text}'
