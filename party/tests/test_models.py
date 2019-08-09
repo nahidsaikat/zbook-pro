@@ -401,6 +401,15 @@ class TestCustomer:
         customer = Customer.objects.create(created_by=user, name=fake.name())
         assert str(customer) == f'{customer.name} # {customer.type_text}'
 
+    def test_create(self, user):
+        name = fake.name()
+        customer = Customer.objects.create(created_by=user, name=name)
+
+        instance = Customer.objects.get(pk=customer.pk)
+
+        assert instance.name == name
+        assert instance.type == PartyType.Customer
+
 
 class TestVendor:
 
