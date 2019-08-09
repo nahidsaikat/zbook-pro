@@ -55,6 +55,10 @@ class Customer(Party):
     def __str__(self):
         return f'{self.name}'
 
+    @property
+    def type_text(self):
+        return self.get_type_display()
+
 
 class Vendor(Party):
     type = models.IntegerField(choices=PartyType.choices, default=PartyType.Vendor)
