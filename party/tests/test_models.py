@@ -336,3 +336,18 @@ class TestParty:
         assert field.default.__name__ == 'NOT_PROVIDED'
         assert not field.hidden
         assert not field.unique
+
+    def test_bin_field(self):
+        party = Party()
+        field = party._meta.get_field('bin')
+
+        assert field.__class__.__name__ == 'CharField'
+        assert field.verbose_name == 'bin'
+        assert field.max_length == 64
+        assert field.editable
+        assert field.null
+        assert field.blank
+        assert not field.has_default()
+        assert field.default.__name__ == 'NOT_PROVIDED'
+        assert not field.hidden
+        assert not field.unique
