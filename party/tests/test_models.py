@@ -410,6 +410,17 @@ class TestCustomer:
         assert instance.name == name
         assert instance.type == PartyType.Customer
 
+    def test_edit(self, user):
+        name = fake.name()
+        customer = Customer.objects.create(created_by=user, name=fake.name())
+        customer.name = name
+        customer.save()
+
+        instance = Customer.objects.get(pk=customer.pk)
+
+        assert instance.name == name
+        assert instance.type == PartyType.Customer
+
 
 class TestVendor:
 
