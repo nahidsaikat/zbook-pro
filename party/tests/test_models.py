@@ -3,7 +3,7 @@ from faker import Faker
 import datetime
 from django.db import IntegrityError
 
-from ..models import PartySubType, Party
+from ..models import PartySubType, Party, Customer
 from ..choices import PartyType, PartyGender
 
 fake = Faker()
@@ -364,5 +364,23 @@ class TestParty:
         assert field.blank
         assert not field.has_default()
         assert field.default.__name__ == 'NOT_PROVIDED'
+        assert not field.hidden
+        assert not field.unique
+
+
+class TestCustomer:
+
+    def test_type_field(self, db):
+        party = Customer()
+        field = party._meta.get_field('type')
+
+        assert field.__class__.__name__ == 'IntegerField'
+        assert field.verbose_name == 'type'
+        assert field.choices == PartyType.choices
+        assert field.default == PartyType.Customer
+        assert field.has_default()
+        assert field.editable
+        assert not field.blank
+        assert not field.null
         assert not field.hidden
         assert not field.unique
