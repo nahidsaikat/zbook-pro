@@ -390,6 +390,18 @@ class TestParty:
         assert instance.name == name
         assert instance.account == account
 
+    def test_edit(self, user):
+        name = fake.name()
+        account = AccountFactory(created_by=user)
+        party = Party.objects.create(created_by=user, name=fake.name(), account=account)
+        party.name = name
+        party.save()
+
+        instance = Party.objects.get(pk=party.pk)
+
+        assert instance.name == name
+        assert instance.account == account
+
 
 class TestCustomer:
 
