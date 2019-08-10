@@ -48,6 +48,10 @@ class Party(BaseModel):
     def __str__(self):
         return f'{self.name}'
 
+    @property
+    def gender_text(self):
+        return self.get_gender_display()
+
 
 class Customer(Party):
     type = models.IntegerField(choices=PartyType.choices, default=PartyType.Customer)

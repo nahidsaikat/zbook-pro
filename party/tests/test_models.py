@@ -371,6 +371,10 @@ class TestParty:
         with pytest.raises(IntegrityError) as error:
             Party.objects.create(created_by=user, name=None)
 
+    def test_gender_text(self, user):
+        party = Party.objects.create(created_by=user, name=fake.name())
+        assert party.gender_text == party.get_gender_display()
+
 
 class TestCustomer:
 
