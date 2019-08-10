@@ -402,6 +402,14 @@ class TestParty:
         assert instance.name == name
         assert instance.account == account
 
+    def test_count(self, user):
+        Party.objects.create(created_by=user, name=fake.name())
+        Party.objects.create(created_by=user, name=fake.name())
+
+        queryset = Party.objects.all()
+
+        assert queryset.count() == 2
+
 
 class TestCustomer:
 
