@@ -60,3 +60,22 @@ class TestPartySubTypeSerializer:
         assert query.count() == 1
         assert sub_type.name == name
         assert sub_type.code == str(name).strip().lower().replace(' ', '-')
+
+    def test_create_set_label(self, user):
+        name = fake.name()
+        data = factory.build(dict, FACTORY_CLASS=PartySubTypeFactory, name=name, created_by=user.pk)
+        del data['label']
+
+        serializer = PartySubTypeSerializer(data=data)
+        serializer.is_valid()
+
+        assert serializer.validated_data.get('name') == name
+
+        serializer.save()
+
+        query = PartySubType.objects.all()
+        sub_type = query.first()
+
+        assert query.count() == 1
+        assert sub_type.name == name
+        assert sub_type.label == name
