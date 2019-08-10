@@ -375,6 +375,10 @@ class TestParty:
         party = Party.objects.create(created_by=user, name=fake.name())
         assert party.gender_text == party.get_gender_display()
 
+    def test_str(self, user):
+        party = Party.objects.create(created_by=user, name=fake.name())
+        assert str(party) == f'{party.name}'
+
 
 class TestCustomer:
 
