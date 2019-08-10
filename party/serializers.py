@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import PartySubType
+from .models import PartySubType, Customer
 
 
 class PartySubTypeSerializer(serializers.ModelSerializer):
@@ -9,3 +9,10 @@ class PartySubTypeSerializer(serializers.ModelSerializer):
         model = PartySubType
         fields = '__all__'
         read_only_fields = ('code', )
+
+
+class CustomerSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Customer
+        fields = '__all__'
