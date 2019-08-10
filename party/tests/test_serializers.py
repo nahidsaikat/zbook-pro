@@ -35,3 +35,10 @@ class TestPartySubTypeSerializer:
 
         serializer = PartySubTypeSerializer(data=data)
         assert not serializer.is_valid()
+
+    def test_create_type_error(self):
+        data = factory.build(dict, FACTORY_CLASS=PartySubTypeFactory)
+        del data['type']
+
+        serializer = PartySubTypeSerializer(data=data)
+        assert not serializer.is_valid()
