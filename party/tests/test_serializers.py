@@ -79,3 +79,17 @@ class TestPartySubTypeSerializer:
         assert query.count() == 1
         assert sub_type.name == name
         assert sub_type.label == name
+
+    def test_update(self, user):
+        name = fake.name()
+        data = factory.build(dict, FACTORY_CLASS=PartySubTypeFactory, name=name, created_by=user)
+        sub_type = PartySubTypeFactory(created_by=user)
+
+        serializer = PartySubTypeSerializer()
+        serializer.update(sub_type, data)
+
+        query = PartySubType.objects.all()
+        saved_sub_type = query.first()
+
+        assert query.count() == 1
+        assert saved_sub_type.name == name
