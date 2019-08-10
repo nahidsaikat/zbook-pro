@@ -36,7 +36,7 @@ class Party(BaseModel):
     address = models.TextField(default='', null=True, blank=True)
     entry_date = models.DateField(default=datetime.date.today, null=True, blank=True)
     gender = models.IntegerField(choices=PartyGender.choices, default=PartyGender.Male, null=True, blank=True)
-    account_id = models.ForeignKey(Account, on_delete=models.DO_NOTHING, null=True, blank=True)
+    account = models.ForeignKey(Account, on_delete=models.DO_NOTHING, null=True, blank=True)
     currency = models.CharField(max_length=64, null=True, blank=True)
     bank_account_name = models.CharField(max_length=64, null=True, blank=True)
     bank_account_number = models.CharField(max_length=64, null=True, blank=True)

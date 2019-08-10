@@ -3,6 +3,7 @@ from faker import Faker
 import datetime
 from django.db import IntegrityError
 
+from account.tests.factory import AccountFactory
 from ..models import PartySubType, Party, Customer, Vendor
 from ..choices import PartyType, PartyGender
 
@@ -248,10 +249,10 @@ class TestParty:
     def test_account_id_field(self):
         from account.models import Account
         party = Party()
-        field = party._meta.get_field('account_id')
+        field = party._meta.get_field('account')
 
         assert field.__class__.__name__ == 'ForeignKey'
-        assert field.verbose_name == 'account id'
+        assert field.verbose_name == 'account'
         assert field.editable
         assert field.null
         assert field.blank
@@ -378,6 +379,16 @@ class TestParty:
     def test_str(self, user):
         party = Party.objects.create(created_by=user, name=fake.name())
         assert str(party) == f'{party.name}'
+
+    def test_create(self, user):
+        name = fake.name()
+        account = AccountFactory(created_by=user)
+        party = Party.objects.create(created_by=user, name=name, account=account)
+
+        instance = Party.objects.get(pk=party.pk)
+
+        assert instance.name == name
+        assert instance.account == account
 
 
 class TestCustomer:
