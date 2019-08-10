@@ -367,6 +367,10 @@ class TestParty:
         assert not field.hidden
         assert not field.unique
 
+    def test_type_cannot_be_null(self, user):
+        with pytest.raises(IntegrityError) as error:
+            Party.objects.create(created_by=user, name=None)
+
 
 class TestCustomer:
 
