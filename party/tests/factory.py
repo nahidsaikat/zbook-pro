@@ -3,7 +3,7 @@ from faker import Faker
 from factory.django import DjangoModelFactory
 from factory.fuzzy import FuzzyChoice
 
-from party.models import PartySubType, Customer
+from party.models import PartySubType, Customer, Vendor
 from party.choices import PartyType
 
 fake = Faker()
@@ -21,5 +21,12 @@ class PartySubTypeFactory(DjangoModelFactory):
 class CustomerFactory(DjangoModelFactory):
     class Meta:
         model = Customer
+
+    name = fake.name()
+
+
+class VendorFactory(DjangoModelFactory):
+    class Meta:
+        model = Vendor
 
     name = fake.name()
