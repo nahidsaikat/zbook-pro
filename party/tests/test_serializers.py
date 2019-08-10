@@ -28,3 +28,10 @@ class TestPartySubTypeSerializer:
 
         assert query.count() == 1
         assert sub_type.name == name
+
+    def test_create_name_error(self):
+        data = factory.build(dict, FACTORY_CLASS=PartySubTypeFactory)
+        del data['name']
+
+        serializer = PartySubTypeSerializer(data=data)
+        assert not serializer.is_valid()
