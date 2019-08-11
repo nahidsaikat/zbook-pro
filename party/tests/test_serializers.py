@@ -120,7 +120,7 @@ class TestCustomerSerializer:
         data = factory.build(dict, FACTORY_CLASS=CustomerFactory, created_by=user)
         del data['name']
 
-        serializer = PartySubTypeSerializer(data=data)
+        serializer = CustomerSerializer(data=data)
         assert not serializer.is_valid()
 
     def test_update(self, user):
@@ -128,7 +128,7 @@ class TestCustomerSerializer:
         data = factory.build(dict, FACTORY_CLASS=CustomerFactory, name=name, created_by=user)
         customer = CustomerFactory(created_by=user)
 
-        serializer = PartySubTypeSerializer()
+        serializer = CustomerSerializer()
         serializer.update(customer, data)
 
         query = Customer.objects.all()
