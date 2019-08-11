@@ -75,3 +75,4 @@ class TestPartySubTypeRetrieveUpdateAPIView:
 
         assert response.status_code == 200
         assert response.data.get('name') == name
+        assert response.data.get('code') == name.strip().lower().replace(' ', '-')
