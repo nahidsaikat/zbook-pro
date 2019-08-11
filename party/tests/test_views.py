@@ -149,3 +149,11 @@ class TestPartySubTypeRetrieveUpdateAPIView:
         assert response.data.get('code') == subtype.code
         assert response.data.get('label') == subtype.label
         assert response.data.get('type') == subtype.type
+
+    def test_get_subtype_unauthorize(self, client, user):
+        subtype = PartySubTypeFactory(created_by=user)
+        url = reverse('party:subtype:detail-update', args=[subtype.pk])
+
+        response = client.get(url)
+
+        assert response.status_code == 401
