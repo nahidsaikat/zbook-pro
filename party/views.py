@@ -1,3 +1,5 @@
-from django.shortcuts import render
+from system.views import BaseListCreateAPIView
 
-# Create your views here.
+
+class PartySubTypeListCreateAPIView(BaseListCreateAPIView):
+    pass
