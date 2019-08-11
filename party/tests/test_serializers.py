@@ -156,3 +156,10 @@ class TestVendorSerializer:
 
         assert query.count() == 1
         assert vendor.name == name
+
+    def test_create_name_error(self, user):
+        data = factory.build(dict, FACTORY_CLASS=VendorFactory, created_by=user)
+        del data['name']
+
+        serializer = VendorSerializer(data=data)
+        assert not serializer.is_valid()
