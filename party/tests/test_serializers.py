@@ -115,3 +115,17 @@ class TestCustomerSerializer:
 
         assert query.count() == 1
         assert sub_type.name == name
+
+    def test_update(self, user):
+        name = fake.name()
+        data = factory.build(dict, FACTORY_CLASS=CustomerFactory, name=name, created_by=user)
+        customer = CustomerFactory(created_by=user)
+
+        serializer = PartySubTypeSerializer()
+        serializer.update(customer, data)
+
+        query = Customer.objects.all()
+        saved_customer = query.first()
+
+        assert query.count() == 1
+        assert saved_customer.name == name
