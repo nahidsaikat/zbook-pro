@@ -1,9 +1,9 @@
 import factory
 from faker import Faker
 
-from ..serializers import PartySubTypeSerializer, CustomerSerializer
-from ..models import PartySubType, Customer
-from .factory import PartySubTypeFactory, CustomerFactory
+from ..serializers import PartySubTypeSerializer, CustomerSerializer, VendorSerializer
+from ..models import PartySubType, Customer, Vendor
+from .factory import PartySubTypeFactory, CustomerFactory, VendorFactory
 
 fake = Faker()
 
@@ -136,3 +136,23 @@ class TestCustomerSerializer:
 
         assert query.count() == 1
         assert saved_customer.name == name
+
+
+class TestVendorSerializer:
+
+    def test_create(self, user):
+        name = fake.name()
+        data = factory.build(dict, FACTORY_CLASS=VendorFactory, name=name, created_by=user.pk)
+
+        serializer = VendorSerializer(data=data)
+        serializer.is_valid()
+
+        assert serializer.validated_data.get('name') == name
+
+        serializer.save()
+
+        query = Vendor.objects.all()
+        vendor = query.first()
+
+        assert query.count() == 1
+        assert vendor.name == name
