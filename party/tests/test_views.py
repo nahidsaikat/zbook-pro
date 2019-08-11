@@ -118,3 +118,13 @@ class TestPartySubTypeRetrieveUpdateAPIView:
 
         assert response.status_code == 200
         assert response.data.get('deleted') == True
+
+    def test_update_updated_by(self, auth_client, user, user2):
+        subtype = PartySubTypeFactory(created_by=user2)
+        data = factory.build(dict, FACTORY_CLASS=PartySubTypeFactory, deleted=1, created_by=user2.pk)
+
+        url = reverse('party:subtype:detail-update', args=[subtype.pk])
+        response = auth_client.patch(url, data)
+
+        assert response.status_code == 200
+        assert response.data.get('updated_by') == user.pk
