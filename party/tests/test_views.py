@@ -137,3 +137,15 @@ class TestPartySubTypeRetrieveUpdateAPIView:
         response = client.patch(url, data)
 
         assert response.status_code == 401
+
+    def test_get_subtype(self, auth_client, user):
+        subtype = PartySubTypeFactory(created_by=user)
+        url = reverse('party:subtype:detail-update', args=[subtype.pk])
+
+        response = auth_client.get(url)
+
+        assert response.status_code == 200
+        assert response.data.get('name') == subtype.name
+        assert response.data.get('code') == subtype.code
+        assert response.data.get('label') == subtype.label
+        assert response.data.get('type') == subtype.type
