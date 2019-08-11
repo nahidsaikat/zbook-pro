@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import PartySubType, Customer
+from .models import PartySubType, Customer, Vendor
 
 
 class PartySubTypeSerializer(serializers.ModelSerializer):
@@ -15,4 +15,11 @@ class CustomerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Customer
+        fields = '__all__'
+
+
+class VendorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Vendor
         fields = '__all__'
