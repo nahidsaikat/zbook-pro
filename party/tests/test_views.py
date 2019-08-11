@@ -87,3 +87,14 @@ class TestPartySubTypeRetrieveUpdateAPIView:
 
         assert response.status_code == 200
         assert response.data.get('label') == label
+
+    def test_update_type(self, auth_client, user):
+        subtype = PartySubTypeFactory(created_by=user)
+        _type = FuzzyChoice(choices=PartyType.values.keys()).fuzz()
+        data = factory.build(dict, FACTORY_CLASS=PartySubTypeFactory, type=_type, created_by=user.pk)
+
+        url = reverse('party:subtype:detail-update', args=[subtype.pk])
+        response = auth_client.patch(url, data)
+
+        assert response.status_code == 200
+        assert response.data.get('type') == _type
