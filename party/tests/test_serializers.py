@@ -163,3 +163,17 @@ class TestVendorSerializer:
 
         serializer = VendorSerializer(data=data)
         assert not serializer.is_valid()
+
+    def test_update(self, user):
+        name = fake.name()
+        data = factory.build(dict, FACTORY_CLASS=VendorFactory, name=name, created_by=user)
+        customer = VendorFactory(created_by=user)
+
+        serializer = VendorSerializer()
+        serializer.update(customer, data)
+
+        query = Vendor.objects.all()
+        saved_vendor = query.first()
+
+        assert query.count() == 1
+        assert saved_vendor.name == name
