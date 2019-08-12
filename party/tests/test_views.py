@@ -376,3 +376,14 @@ class TestVendorRetrieveUpdateAPIView:
 
         assert response.status_code == 200
         assert response.data.get('deleted')
+
+    def test_update_unauthorize(self, client, user):
+        vendor = VendorFactory(created_by=user)
+        name = fake.name()
+        phone = '+8801918645392'
+        data = factory.build(dict, FACTORY_CLASS=VendorFactory, name=name, phone=phone)
+
+        url = reverse('party:vendor:detail-update', args=[vendor.pk])
+        response = client.patch(url, data)
+
+        assert response.status_code == 401
