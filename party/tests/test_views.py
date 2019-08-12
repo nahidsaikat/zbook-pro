@@ -222,7 +222,7 @@ class TestCustomerRetrieveUpdateAPIView:
         customer = CustomerFactory(created_by=user)
         name = fake.name()
         phone = '+8801918645392'
-        data = factory.build(dict, FACTORY_CLASS=PartySubTypeFactory, name=name, phone=phone)
+        data = factory.build(dict, FACTORY_CLASS=CustomerFactory, name=name, phone=phone)
 
         url = reverse('party:customer:detail-update', args=[customer.pk])
         response = auth_client.patch(url, data)
@@ -256,7 +256,7 @@ class TestCustomerRetrieveUpdateAPIView:
         customer = CustomerFactory(created_by=user)
         name = fake.name()
         phone = '+8801918645392'
-        data = factory.build(dict, FACTORY_CLASS=PartySubTypeFactory, name=name, phone=phone)
+        data = factory.build(dict, FACTORY_CLASS=CustomerFactory, name=name, phone=phone)
 
         url = reverse('party:customer:detail-update', args=[customer.pk])
         response = client.patch(url, data)
@@ -282,7 +282,6 @@ class TestCustomerRetrieveUpdateAPIView:
         response = client.get(url)
 
         assert response.status_code == 401
-
 
 
 class TestVendorListCreateAPIView:
