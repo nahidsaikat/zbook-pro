@@ -164,14 +164,21 @@ class TestCustomerListCreateAPIView:
 
     def test_create(self, auth_client, user):
         name = fake.name()
-        _type = FuzzyChoice(choices=PartyType.values.keys()).fuzz()
         code = fake.name()
-        data = factory.build(dict, FACTORY_CLASS=CustomerFactory, name=name, type=_type, code=code)
+        data = factory.build(dict, FACTORY_CLASS=CustomerFactory, name=name, code=code)
 
         response = auth_client.post(self.url, data)
 
         assert response.status_code == 201
         assert response.data.get('name') == name
         assert response.data.get('code') == code
-        assert response.data.get('type') == _type
+        assert response.data.get('type') == PartyType.Customer
         assert response.data.get('created_by') == user.pk
+
+    def test_create_name_error(self, auth_client, user):
+        data = factory.build(dict, FACTORY_CLASS=CustomerFactory)
+        del data['name']
+
+        response = auth_client.post(self.url, data)
+
+        assert response.status_code == 400
