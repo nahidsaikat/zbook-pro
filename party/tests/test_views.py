@@ -263,6 +263,19 @@ class TestCustomerRetrieveUpdateAPIView:
 
         assert response.status_code == 401
 
+    def test_get_customer(self, auth_client, user):
+        customer = CustomerFactory(created_by=user)
+        url = reverse('party:customer:detail-update', args=[customer.pk])
+
+        response = auth_client.get(url)
+
+        assert response.status_code == 200
+        assert response.data.get('name') == customer.name
+        assert response.data.get('code') == customer.code
+        assert response.data.get('phone') == customer.phone
+        assert response.data.get('type') == customer.type
+
+
 
 class TestVendorListCreateAPIView:
     url = reverse('party:vendor:list-create')
