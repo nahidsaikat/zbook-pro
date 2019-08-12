@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import PartySubTypeListCreateAPIView, PartySubTypeRetrieveUpdateAPIView
+from .views import PartySubTypeListCreateAPIView, PartySubTypeRetrieveUpdateAPIView, CustomerListCreateAPIView
 
 
 subtype_urlpatterns = [
@@ -7,6 +7,11 @@ subtype_urlpatterns = [
     path('<int:pk>/', PartySubTypeRetrieveUpdateAPIView.as_view(), name='detail-update'),
 ]
 
+customer_urlpatterns = [
+    path('', CustomerListCreateAPIView.as_view(), name='list-create'),
+]
+
 urlpatterns = [
     path('subtype/', include((subtype_urlpatterns, 'subtype'))),
+    path('customer/', include((customer_urlpatterns, 'customer'))),
 ]
