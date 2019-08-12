@@ -29,7 +29,7 @@ class PartySubType(BaseModel):
 
 class Party(BaseModel):
     name = models.CharField(max_length=128)
-    phone = models.CharField(max_length=16, null=True)
+    phone = models.CharField(max_length=16)
     email = models.EmailField(max_length=64, null=True)
     code = models.CharField(max_length=16, null=True, blank=True)
     company_name = models.CharField(max_length=128, null=True, blank=True)
