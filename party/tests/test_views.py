@@ -4,7 +4,7 @@ from factory.fuzzy import FuzzyChoice
 
 from django.urls import reverse
 from ..choices import PartyType
-from .factory import PartySubTypeFactory, CustomerFactory
+from .factory import PartySubTypeFactory, CustomerFactory, VendorFactory
 
 fake = Faker()
 
@@ -214,3 +214,20 @@ class TestCustomerListCreateAPIView:
         response = client.get(self.url)
 
         assert response.status_code == 401
+
+
+class TestVendorListCreateAPIView:
+    url = reverse('party:vendor:list-create')
+
+    def test_create(self, auth_client, user):
+        name = fake.name()
+        code = fake.name()
+        data = factory.build(dict, FACTORY_CLASS=VendorFactory, name=name, code=code)
+
+        response = auth_client.post(self.url, data)
+
+        assert response.status_code == 201
+        assert response.data.get('name') == name
+        assert response.data.get('code') == code
+        assert response.data.get('type') == PartyType.Vendor
+        assert response.data.get('created_by') == user.pk
