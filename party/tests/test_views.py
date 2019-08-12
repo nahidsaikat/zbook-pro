@@ -264,3 +264,10 @@ class TestVendorListCreateAPIView:
 
         assert response.status_code == 200
         assert response.data.get('count') == 3
+
+    def test_get_list_unauthorize(self, client, user):
+        VendorFactory(created_by=user)
+
+        response = client.get(self.url)
+
+        assert response.status_code == 401
