@@ -182,3 +182,11 @@ class TestCustomerListCreateAPIView:
         response = auth_client.post(self.url, data)
 
         assert response.status_code == 400
+
+    def test_create_phone_error(self, auth_client, user):
+        data = factory.build(dict, FACTORY_CLASS=CustomerFactory)
+        del data['phone']
+
+        response = auth_client.post(self.url, data)
+
+        assert response.status_code == 400
