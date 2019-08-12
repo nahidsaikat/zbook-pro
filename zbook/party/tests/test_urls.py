@@ -19,7 +19,7 @@ class TestAccountSubTypeUrls:
         assert resolver.namespace == 'party:subtype'
         assert resolver.func.__name__ == 'PartySubTypeListCreateAPIView'
 
-    def test_detail_update_url_reverse(self, db):
-        subtype = PartySubTypeFactory()
+    def test_detail_update_url_reverse(self, user):
+        subtype = PartySubTypeFactory(created_by=user)
         url = reverse('party:subtype:detail-update', args=[subtype.pk])
         assert url == '/api/v1/party/subtype/1/'
