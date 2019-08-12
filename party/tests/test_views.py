@@ -339,3 +339,20 @@ class TestVendorListCreateAPIView:
         response = client.get(self.url)
 
         assert response.status_code == 401
+
+
+class TestVendorRetrieveUpdateAPIView:
+
+    def test_update(self, auth_client, user):
+        vendor = VendorFactory(created_by=user)
+        name = fake.name()
+        phone = '+8801918645392'
+        data = factory.build(dict, FACTORY_CLASS=VendorFactory, name=name, phone=phone)
+
+        url = reverse('party:vendor:detail-update', args=[vendor.pk])
+        response = auth_client.patch(url, data)
+
+        assert response.status_code == 200
+        assert response.data.get('name') == name
+        assert response.data.get('phone') == phone
+        assert response.data.get('updated_by') == user.pk
