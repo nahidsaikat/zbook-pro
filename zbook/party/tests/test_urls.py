@@ -23,3 +23,15 @@ class TestAccountSubTypeUrls:
         subtype = PartySubTypeFactory(created_by=user)
         url = reverse('party:subtype:detail-update', args=[subtype.pk])
         assert url == '/api/v1/party/subtype/1/'
+
+    def test_detail_update_url_resolve(self, user):
+        subtype = PartySubTypeFactory(created_by=user)
+        url = reverse('party:subtype:detail-update', args=[subtype.pk])
+
+        resolver = resolve(url)
+
+        assert resolver.app_name == 'party:subtype'
+        assert resolver.url_name == 'detail-update'
+        assert resolver.view_name == 'party:subtype:detail-update'
+        assert resolver.namespace == 'party:subtype'
+        assert resolver.func.__name__ == 'PartySubTypeRetrieveUpdateAPIView'
