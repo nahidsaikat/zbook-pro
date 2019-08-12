@@ -240,7 +240,17 @@ class TestCustomerRetrieveUpdateAPIView:
         response = auth_client.patch(url, data)
 
         assert response.status_code == 200
-        assert response.data.get('inactive') == True
+        assert response.data.get('inactive')
+
+    def test_update_deleted(self, auth_client, user):
+        customer = CustomerFactory(created_by=user)
+        data = factory.build(dict, FACTORY_CLASS=CustomerFactory, deleted=1, created_by=user.pk)
+
+        url = reverse('party:customer:detail-update', args=[customer.pk])
+        response = auth_client.patch(url, data)
+
+        assert response.status_code == 200
+        assert response.data.get('deleted')
 
     def test_update_unauthorize(self, client, user):
         customer = CustomerFactory(created_by=user)
