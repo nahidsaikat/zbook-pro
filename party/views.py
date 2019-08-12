@@ -1,8 +1,8 @@
 from rest_framework.permissions import IsAuthenticated
 
 from system.views import BaseListCreateAPIView, BaseRetrieveUpdateAPIView
-from .models import PartySubType, Customer
-from .serializers import PartySubTypeSerializer, CustomerSerializer
+from .models import PartySubType, Customer, Vendor
+from .serializers import PartySubTypeSerializer, CustomerSerializer, VendorSerializer
 
 
 class PartySubTypeListCreateAPIView(BaseListCreateAPIView):
@@ -20,4 +20,10 @@ class PartySubTypeRetrieveUpdateAPIView(BaseRetrieveUpdateAPIView):
 class CustomerListCreateAPIView(BaseListCreateAPIView):
     queryset = Customer.objects.all().order_by('-id')
     serializer_class = CustomerSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class VendorListCreateAPIView(BaseListCreateAPIView):
+    queryset = Vendor.objects.all().order_by('-id')
+    serializer_class = VendorSerializer
     permission_classes = [IsAuthenticated]
