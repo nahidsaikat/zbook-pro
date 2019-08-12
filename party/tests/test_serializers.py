@@ -123,6 +123,13 @@ class TestCustomerSerializer:
         serializer = CustomerSerializer(data=data)
         assert not serializer.is_valid()
 
+    def test_create_phone_error(self, user):
+        data = factory.build(dict, FACTORY_CLASS=CustomerFactory, created_by=user)
+        del data['phone']
+
+        serializer = CustomerSerializer(data=data)
+        assert not serializer.is_valid()
+
     def test_update(self, user):
         name = fake.name()
         data = factory.build(dict, FACTORY_CLASS=CustomerFactory, name=name, created_by=user)
