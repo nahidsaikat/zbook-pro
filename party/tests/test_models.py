@@ -151,7 +151,7 @@ class TestParty:
         assert field.verbose_name == 'phone'
         assert field.max_length == 16
         assert field.editable
-        assert field.null
+        assert not field.null
         assert not field.blank
         assert not field.has_default()
         assert field.default.__name__ == 'NOT_PROVIDED'

@@ -23,6 +23,7 @@ class CustomerFactory(DjangoModelFactory):
         model = Customer
 
     name = fake.name()
+    phone = '+8801738656117'
 
 
 class VendorFactory(DjangoModelFactory):
@@ -30,3 +31,4 @@ class VendorFactory(DjangoModelFactory):
         model = Vendor
 
     name = fake.name()
+    phone = '+8801738656117'
