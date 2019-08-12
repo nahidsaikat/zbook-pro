@@ -387,3 +387,15 @@ class TestVendorRetrieveUpdateAPIView:
         response = client.patch(url, data)
 
         assert response.status_code == 401
+
+    def test_get_vendor(self, auth_client, user):
+        vendor = VendorFactory(created_by=user)
+        url = reverse('party:vendor:detail-update', args=[vendor.pk])
+
+        response = auth_client.get(url)
+
+        assert response.status_code == 200
+        assert response.data.get('name') == vendor.name
+        assert response.data.get('code') == vendor.code
+        assert response.data.get('phone') == vendor.phone
+        assert response.data.get('type') == vendor.type
