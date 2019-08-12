@@ -190,3 +190,10 @@ class TestCustomerListCreateAPIView:
         response = auth_client.post(self.url, data)
 
         assert response.status_code == 400
+
+    def test_create_unauthorize(self, client, user):
+        data = factory.build(dict, FACTORY_CLASS=CustomerFactory)
+
+        response = client.post(self.url, data)
+
+        assert response.status_code == 401
