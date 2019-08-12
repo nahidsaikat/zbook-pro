@@ -2,7 +2,7 @@ from django.urls import reverse, resolve
 from .factory import PartySubTypeFactory
 
 
-class TestAccountSubTypeUrls:
+class TestPartySubTypeUrls:
 
     def test_list_create_url_reverse(self):
         url = reverse('party:subtype:list-create')
