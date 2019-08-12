@@ -399,3 +399,11 @@ class TestVendorRetrieveUpdateAPIView:
         assert response.data.get('code') == vendor.code
         assert response.data.get('phone') == vendor.phone
         assert response.data.get('type') == vendor.type
+
+    def test_get_vendor_unauthorize(self, client, user):
+        vendor = VendorFactory(created_by=user)
+        url = reverse('party:vendor:detail-update', args=[vendor.pk])
+
+        response = client.get(url)
+
+        assert response.status_code == 401
