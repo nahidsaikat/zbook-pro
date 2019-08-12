@@ -1,4 +1,5 @@
 from django.urls import reverse, resolve
+from .factory import PartySubTypeFactory
 
 
 class TestAccountSubTypeUrls:
@@ -17,3 +18,8 @@ class TestAccountSubTypeUrls:
         assert resolver.view_name == 'party:subtype:list-create'
         assert resolver.namespace == 'party:subtype'
         assert resolver.func.__name__ == 'PartySubTypeListCreateAPIView'
+
+    def test_detail_update_url_reverse(self, db):
+        subtype = PartySubTypeFactory()
+        url = reverse('party:subtype:detail-update', args=[subtype.pk])
+        assert url == '/api/v1/party/subtype/1/'
