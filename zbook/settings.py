@@ -42,15 +42,15 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'drf_yasg',
 
-    'user',
-    'account',
-    'voucher',
-    'party',
-    'inventory',
-    'sales',
-    'purchase',
-    'product',
-    'delivery',
+    'zbook.user',
+    'zbook.account',
+    'zbook.voucher',
+    'zbook.party',
+    'zbook.inventory',
+    'zbook.sales',
+    'zbook.purchase',
+    'zbook.product',
+    'zbook.delivery',
 ]
 
 MIDDLEWARE = [

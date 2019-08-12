@@ -35,9 +35,9 @@ schema_view = get_schema_view(
 )
 
 project_url = [
-    path('account/', include(('account.urls', 'account'))),
-    path('party/', include(('party.urls', 'party'))),
-    path('voucher/', include('voucher.urls')),
+    path('account/', include(('zbook.account.urls', 'account'))),
+    path('party/', include(('zbook.party.urls', 'party'))),
+    path('voucher/', include('zbook.voucher.urls')),
 ]
 
 urlpatterns = [
