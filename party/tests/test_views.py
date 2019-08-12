@@ -366,3 +366,13 @@ class TestVendorRetrieveUpdateAPIView:
 
         assert response.status_code == 200
         assert response.data.get('inactive')
+
+    def test_update_deleted(self, auth_client, user):
+        vendor = VendorFactory(created_by=user)
+        data = factory.build(dict, FACTORY_CLASS=VendorFactory, deleted=1, created_by=user.pk)
+
+        url = reverse('party:vendor:detail-update', args=[vendor.pk])
+        response = auth_client.patch(url, data)
+
+        assert response.status_code == 200
+        assert response.data.get('deleted')
