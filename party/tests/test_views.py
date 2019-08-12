@@ -230,6 +230,17 @@ class TestCustomerRetrieveUpdateAPIView:
         assert response.status_code == 200
         assert response.data.get('name') == name
         assert response.data.get('phone') == phone
+        assert response.data.get('updated_by') == user.pk
+
+    def test_update_inactive(self, auth_client, user):
+        customer = CustomerFactory(created_by=user)
+        data = factory.build(dict, FACTORY_CLASS=CustomerFactory, inactive=1, created_by=user.pk)
+
+        url = reverse('party:customer:detail-update', args=[customer.pk])
+        response = auth_client.patch(url, data)
+
+        assert response.status_code == 200
+        assert response.data.get('inactive') == True
 
     def test_update_unauthorize(self, client, user):
         customer = CustomerFactory(created_by=user)
