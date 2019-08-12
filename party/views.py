@@ -27,3 +27,9 @@ class VendorListCreateAPIView(BaseListCreateAPIView):
     queryset = Vendor.objects.all().order_by('-id')
     serializer_class = VendorSerializer
     permission_classes = [IsAuthenticated]
+
+
+class CustomerRetrieveUpdateAPIView(BaseRetrieveUpdateAPIView):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+    permission_classes = [IsAuthenticated]
