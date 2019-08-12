@@ -231,6 +231,17 @@ class TestCustomerRetrieveUpdateAPIView:
         assert response.data.get('name') == name
         assert response.data.get('phone') == phone
 
+    def test_update_unauthorize(self, client, user):
+        customer = CustomerFactory(created_by=user)
+        name = fake.name()
+        phone = '+8801918645392'
+        data = factory.build(dict, FACTORY_CLASS=PartySubTypeFactory, name=name, phone=phone)
+
+        url = reverse('party:customer:detail-update', args=[customer.pk])
+        response = client.patch(url, data)
+
+        assert response.status_code == 401
+
 
 class TestVendorListCreateAPIView:
     url = reverse('party:vendor:list-create')
