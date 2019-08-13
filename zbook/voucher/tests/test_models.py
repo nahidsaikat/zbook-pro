@@ -144,3 +144,12 @@ class TestVoucherSubType:
         instance = VoucherSubType.objects.get(pk=sub_type.pk)
 
         assert instance.name == str(1234)
+
+    def test_count(self, user):
+        VoucherSubType.objects.create(name=fake.name(), prefix=fake.name(), created_by=user)
+        VoucherSubType.objects.create(name=fake.name(), prefix=fake.name(), created_by=user)
+        VoucherSubType.objects.create(name=fake.name(), prefix=fake.name(), created_by=user)
+
+        count = VoucherSubType.objects.all()
+
+        assert count.count() == 3
