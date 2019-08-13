@@ -34,6 +34,29 @@ class Voucher(BaseModel):
     description = models.TextField(default='', null=True, blank=True)
     accounts = models.ManyToManyField(Account, blank=True)
 
+    def __str__(self):
+        return f'{self.voucher_number} # {self.type_text}'
+
+    @property
+    def type_text(self):
+        return self.get_type_display()
+
+    @property
+    def sub_type_text(self):
+        return self.sub_type.name
+
+    @property
+    def party_name(self):
+        return self.party.name
+
+    @property
+    def ref_voucher_number(self):
+        return self.ref_voucher.voucher_number
+
+    @property
+    def accounts_name(self):
+        return ', '.join([account.name for account in self.accounts])
+
 
 class Ledger(BaseModel):
     voucher = models.ForeignKey(Voucher, on_delete=models.CASCADE)
