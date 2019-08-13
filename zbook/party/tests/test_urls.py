@@ -1,5 +1,5 @@
 from django.urls import reverse, resolve
-from .factory import PartySubTypeFactory, CustomerFactory
+from .factory import PartySubTypeFactory, CustomerFactory, VendorFactory
 
 
 class TestPartySubTypeUrls:
@@ -88,3 +88,8 @@ class TestVendorUrls:
         assert resolver.view_name == 'party:vendor:list-create'
         assert resolver.namespace == 'party:vendor'
         assert resolver.func.__name__ == 'VendorListCreateAPIView'
+
+    def test_detail_update_url_reverse(self, user):
+        vendor = VendorFactory(created_by=user)
+        url = reverse('party:vendor:detail-update', args=[vendor.pk])
+        assert url == f'/api/v1/party/vendor/{vendor.pk}/'
