@@ -22,7 +22,7 @@ class TestAccountSubTypeUrls:
     def test_detail_update_url_reverse(self, db):
         subtype = AccountSubTypeFactory()
         url = reverse('account:subtype:detail-update', args=[subtype.pk])
-        assert url == '/api/v1/account/subtype/1/'
+        assert url == f'/api/v1/account/subtype/{subtype.pk}/'
 
     def test_detail_update_url_resolve(self, db):
         subtype = AccountSubTypeFactory()
@@ -35,3 +35,10 @@ class TestAccountSubTypeUrls:
         assert resolver.view_name == 'account:subtype:detail-update'
         assert resolver.namespace == 'account:subtype'
         assert resolver.func.__name__ == 'AccountSubTypeRetrieveUpdateAPIView'
+
+
+class TestAccountUrls:
+
+    def test_list_create_url_reverse(self):
+        url = reverse('account:list-create')
+        assert url == '/api/v1/account/'
