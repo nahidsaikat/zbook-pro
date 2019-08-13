@@ -136,3 +136,11 @@ class TestVoucherSubType:
         instance = VoucherSubType.objects.get(pk=sub_type.pk)
 
         assert sub_type.pk == instance.pk
+
+    def test_edit(self, user):
+        sub_type = VoucherSubType.objects.create(name=fake.name(), prefix=fake.name(), created_by=user)
+        sub_type.name = str(1234)
+        sub_type.save()
+        instance = VoucherSubType.objects.get(pk=sub_type.pk)
+
+        assert instance.name == str(1234)
