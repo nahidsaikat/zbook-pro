@@ -1,5 +1,5 @@
 from django.urls import reverse, resolve
-from .factory import AccountSubTypeFactory
+from .factory import AccountSubTypeFactory, AccountFactory
 
 
 class TestAccountSubTypeUrls:
@@ -53,3 +53,8 @@ class TestAccountUrls:
         assert resolver.view_name == 'account:list-create'
         assert resolver.namespace == 'account'
         assert resolver.func.__name__ == 'AccountListCreateAPIView'
+
+    def test_detail_update_url_reverse(self, db):
+        account = AccountFactory()
+        url = reverse('account:detail-update', args=[account.pk])
+        assert url == f'/api/v1/account/{account.pk}/'
