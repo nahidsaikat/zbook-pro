@@ -15,6 +15,13 @@ class VoucherSubType(BaseModel):
     debit_account = models.ForeignKey(Account, on_delete=models.DO_NOTHING, null=True, blank=True, related_name='voucher_sub_type_debit_account')
     credit_account = models.ForeignKey(Account, on_delete=models.DO_NOTHING, null=True, blank=True, related_name='voucher_sub_type_credit_account')
 
+    def __str__(self):
+        return f'{self.name} # {self.type_text}'
+
+    @property
+    def type_text(self):
+        return self.get_type_display()
+
 
 class Voucher(BaseModel):
     voucher_number = models.CharField(max_length=64, blank=True)
