@@ -58,3 +58,15 @@ class TestAccountUrls:
         account = AccountFactory()
         url = reverse('account:detail-update', args=[account.pk])
         assert url == f'/api/v1/account/{account.pk}/'
+
+    def test_detail_update_url_resolve(self, db):
+        account = AccountFactory()
+        url = reverse('account:detail-update', args=[account.pk])
+
+        resolver = resolve(url)
+
+        assert resolver.app_name == 'account'
+        assert resolver.url_name == 'detail-update'
+        assert resolver.view_name == 'account:detail-update'
+        assert resolver.namespace == 'account'
+        assert resolver.func.__name__ == 'AccountRetrieveUpdateAPIView'
