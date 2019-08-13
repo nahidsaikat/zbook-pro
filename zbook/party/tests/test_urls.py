@@ -70,3 +70,10 @@ class TestCustomerUrls:
         assert resolver.view_name == 'party:customer:detail-update'
         assert resolver.namespace == 'party:customer'
         assert resolver.func.__name__ == 'CustomerRetrieveUpdateAPIView'
+
+
+class TestVendorUrls:
+
+    def test_list_create_url_reverse(self):
+        url = reverse('party:vendor:list-create')
+        assert url == '/api/v1/party/vendor/'
