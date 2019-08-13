@@ -118,3 +118,7 @@ class TestVoucherSubType:
     def test_type_default_receive(self, user):
         sub_type = VoucherSubType.objects.create(name=fake.name(), prefix=fake.name(), created_by=user)
         assert sub_type.type == VoucherType.Receive
+
+    def test_no_start_from_default_1000(self, user):
+        sub_type = VoucherSubType.objects.create(name=fake.name(), prefix=fake.name(), created_by=user)
+        assert sub_type.no_start_from == 1000
