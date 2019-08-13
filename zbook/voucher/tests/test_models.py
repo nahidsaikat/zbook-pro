@@ -1,5 +1,11 @@
+import pytest
+from faker import Faker
+from django.db import IntegrityError
+
 from ..models import VoucherSubType
 from ..choices import VoucherType
+
+fake = Faker()
 
 
 class TestVoucherSubType:
@@ -96,3 +102,7 @@ class TestVoucherSubType:
         assert field.remote_field.on_delete.__name__ == 'DO_NOTHING'
         assert field.remote_field.model == Account
         assert field.remote_field.related_name == 'voucher_sub_type_credit_account'
+
+    def test_name_cannot_be_null(self, user):
+        with pytest.raises(IntegrityError) as error:
+            VoucherSubType.objects.create(name=None, prefix=fake.name(), type=VoucherType.Payment, created_by=user)
