@@ -114,3 +114,7 @@ class TestVoucherSubType:
     def test_type_cannot_be_null(self, user):
         with pytest.raises(IntegrityError) as error:
             VoucherSubType.objects.create(name=fake.name(), prefix=fake.name(), type=None, created_by=user)
+
+    def test_type_default_receive(self, user):
+        sub_type = VoucherSubType.objects.create(name=fake.name(), prefix=fake.name(), created_by=user)
+        assert sub_type.type == VoucherType.Receive
