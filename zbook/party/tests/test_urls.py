@@ -35,3 +35,10 @@ class TestPartySubTypeUrls:
         assert resolver.view_name == 'party:subtype:detail-update'
         assert resolver.namespace == 'party:subtype'
         assert resolver.func.__name__ == 'PartySubTypeRetrieveUpdateAPIView'
+
+
+class TestCustomerUrls:
+
+    def test_list_create_url_reverse(self):
+        url = reverse('party:customer:list-create')
+        assert url == '/api/v1/party/customer/'
