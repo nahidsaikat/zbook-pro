@@ -122,3 +122,7 @@ class TestVoucherSubType:
     def test_no_start_from_default_1000(self, user):
         sub_type = VoucherSubType.objects.create(name=fake.name(), prefix=fake.name(), created_by=user)
         assert sub_type.no_start_from == 1000
+
+    def test_str(self, user):
+        sub_type = VoucherSubType.objects.create(name=fake.name(), prefix=fake.name(), created_by=user)
+        assert str(sub_type) == f'{sub_type.name} # {sub_type.type_text}'
