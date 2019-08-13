@@ -78,3 +78,21 @@ class TestVoucherSubType:
         assert field.remote_field.on_delete.__name__ == 'DO_NOTHING'
         assert field.remote_field.model == Account
         assert field.remote_field.related_name == 'voucher_sub_type_debit_account'
+
+    def test_credit_account_field(self):
+        from zbook.account.models import Account
+        sub_type = VoucherSubType()
+        field = sub_type._meta.get_field('credit_account')
+
+        assert field.__class__.__name__ == 'ForeignKey'
+        assert field.verbose_name == 'credit account'
+        assert field.editable
+        assert field.null
+        assert field.blank
+        assert not field.has_default()
+        assert field.default.__name__ == 'NOT_PROVIDED'
+        assert not field.hidden
+        assert not field.unique
+        assert field.remote_field.on_delete.__name__ == 'DO_NOTHING'
+        assert field.remote_field.model == Account
+        assert field.remote_field.related_name == 'voucher_sub_type_credit_account'
