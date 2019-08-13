@@ -126,3 +126,7 @@ class TestVoucherSubType:
     def test_str(self, user):
         sub_type = VoucherSubType.objects.create(name=fake.name(), prefix=fake.name(), created_by=user)
         assert str(sub_type) == f'{sub_type.name} # {sub_type.type_text}'
+
+    def test_type_text(self, user):
+        sub_type = VoucherSubType.objects.create(name=fake.name(), prefix=fake.name(), created_by=user)
+        assert sub_type.type_text == sub_type.get_type_display()
