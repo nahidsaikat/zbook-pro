@@ -77,3 +77,14 @@ class TestVendorUrls:
     def test_list_create_url_reverse(self):
         url = reverse('party:vendor:list-create')
         assert url == '/api/v1/party/vendor/'
+
+    def test_list_create_url_resolve(self):
+        url = reverse('party:vendor:list-create')
+
+        resolver = resolve(url)
+
+        assert resolver.app_name == 'party:vendor'
+        assert resolver.url_name == 'list-create'
+        assert resolver.view_name == 'party:vendor:list-create'
+        assert resolver.namespace == 'party:vendor'
+        assert resolver.func.__name__ == 'VendorListCreateAPIView'
