@@ -58,3 +58,15 @@ class TestCustomerUrls:
         customer = CustomerFactory(created_by=user)
         url = reverse('party:customer:detail-update', args=[customer.pk])
         assert url == f'/api/v1/party/customer/{customer.pk}/'
+
+    def test_detail_update_url_resolve(self, user):
+        customer = CustomerFactory(created_by=user)
+        url = reverse('party:customer:detail-update', args=[customer.pk])
+
+        resolver = resolve(url)
+
+        assert resolver.app_name == 'party:customer'
+        assert resolver.url_name == 'detail-update'
+        assert resolver.view_name == 'party:customer:detail-update'
+        assert resolver.namespace == 'party:customer'
+        assert resolver.func.__name__ == 'CustomerRetrieveUpdateAPIView'
