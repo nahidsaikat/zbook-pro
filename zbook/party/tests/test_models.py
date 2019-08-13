@@ -246,7 +246,7 @@ class TestParty:
         assert not field.hidden
         assert not field.unique
 
-    def test_account_id_field(self):
+    def test_account_field(self):
         from zbook.account.models import Account
         party = Party()
         field = party._meta.get_field('account')
