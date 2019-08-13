@@ -130,3 +130,9 @@ class TestVoucherSubType:
     def test_type_text(self, user):
         sub_type = VoucherSubType.objects.create(name=fake.name(), prefix=fake.name(), created_by=user)
         assert sub_type.type_text == sub_type.get_type_display()
+
+    def test_create(self, user):
+        sub_type = VoucherSubType.objects.create(name=fake.name(), created_by=user)
+        instance = VoucherSubType.objects.get(pk=sub_type.pk)
+
+        assert sub_type.pk == instance.pk
