@@ -46,3 +46,17 @@ class TestVoucherSubType:
         assert not field.has_default()
         assert not field.hidden
         assert not field.unique
+
+    def test_no_start_from_field(self):
+        sub_type = VoucherSubType()
+        field = sub_type._meta.get_field('no_start_from')
+
+        assert field.__class__.__name__ == 'IntegerField'
+        assert field.verbose_name == 'no start from'
+        assert field.editable
+        assert field.blank
+        assert field.null
+        assert field.has_default()
+        assert field.default == 1000
+        assert not field.hidden
+        assert not field.unique
