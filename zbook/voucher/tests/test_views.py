@@ -38,3 +38,14 @@ class TestPartySubTypeListCreateAPIView:
         response = auth_client.post(self.url, data)
 
         assert response.status_code == 400
+
+    def test_create_prefix_error(self, auth_client, user):
+        data = factory.build(dict, FACTORY_CLASS=VoucherSubTypeFactory, created_by=user.pk)
+        data['debit_account'] = data['debit_account'].pk
+        data['credit_account'] = data['credit_account'].pk
+
+        del data['prefix']
+
+        response = auth_client.post(self.url, data)
+
+        assert response.status_code == 400
