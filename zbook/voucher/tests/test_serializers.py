@@ -45,3 +45,10 @@ class TestVoucherSubTypeSerailizer:
 
         serializer = VoucherSubTypeSerializer(data=data)
         assert not serializer.is_valid()
+
+    def test_create_prefix_error(self):
+        data = factory.build(dict, FACTORY_CLASS=VoucherSubTypeFactory)
+        del data['prefix']
+
+        serializer = VoucherSubTypeSerializer(data=data)
+        assert not serializer.is_valid()
