@@ -52,3 +52,20 @@ class TestVoucherSubTypeSerailizer:
 
         serializer = VoucherSubTypeSerializer(data=data)
         assert not serializer.is_valid()
+
+    def test_update(self, user):
+        name = fake.name()
+        prefix = fake.name()
+        data = factory.build(dict, FACTORY_CLASS=VoucherSubTypeFactory, name=name, prefix=prefix, created_by=user,
+                             debit_account=None, credit_account=None)
+        sub_type = VoucherSubTypeFactory(created_by=user)
+
+        serializer = VoucherSubTypeSerializer()
+        serializer.update(sub_type, data)
+
+        query = VoucherSubType.objects.all()
+        saved_sub_type = query.first()
+
+        assert query.count() == 1
+        assert saved_sub_type.name == name
+        assert saved_sub_type.prefix == prefix
