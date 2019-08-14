@@ -20,4 +20,3 @@ class VoucherSubTypeFactory(DjangoModelFactory):
     prefix = fake.name()
     debit_account = factory.SubFactory(AccountFactory)
     credit_account = factory.SubFactory(AccountFactory)
-    created_by = factory.SubFactory(UserFactory)
