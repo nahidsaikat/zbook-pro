@@ -31,3 +31,10 @@ class TestVoucherSubTypeSerailizer:
         assert query.count() == 1
         assert sub_type.name == name
         assert sub_type.prefix == prefix
+
+    def test_create_type_error(self):
+        data = factory.build(dict, FACTORY_CLASS=VoucherSubTypeFactory)
+        del data['type']
+
+        serializer = VoucherSubTypeSerializer(data=data)
+        assert not serializer.is_valid()
