@@ -61,3 +61,12 @@ class TestPartySubTypeListCreateAPIView:
 
         assert response.status_code == 201
         assert response.data.get('type') == VoucherType.Receive
+
+    def test_create_unauthorize(self, client, user):
+        data = factory.build(dict, FACTORY_CLASS=VoucherSubTypeFactory, created_by=user.pk)
+        data['debit_account'] = data['debit_account'].pk
+        data['credit_account'] = data['credit_account'].pk
+
+        response = client.post(self.url, data)
+
+        assert response.status_code == 401
