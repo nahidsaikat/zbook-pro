@@ -21,7 +21,7 @@ class VoucherAdmin(admin.ModelAdmin):
 
 class LedgerAdmin(admin.ModelAdmin):
     form = LedgerForm
-    list_display = ('voucher', 'account', 'party', 'amount', 'entry_date')
+    list_display = ('voucher', 'account', 'amount', 'entry_date')
     list_filter = ('voucher', 'account')
     search_fields = ('voucher', 'account', 'entry_date')
     ordering = ('entry_date', 'voucher')

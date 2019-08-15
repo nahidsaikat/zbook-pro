@@ -33,6 +33,7 @@ class Voucher(BaseModel):
     ref_voucher = models.ForeignKey('self', on_delete=models.DO_NOTHING, null=True, blank=True)
     description = models.TextField(default='', null=True, blank=True)
     accounts = models.ManyToManyField(Account, blank=True)
+    # TODO: Needs to bring exchange_rate column
 
     def __str__(self):
         return f'{self.voucher_number} # {self.type_text}'
@@ -61,13 +62,17 @@ class Voucher(BaseModel):
 class Ledger(BaseModel):
     voucher = models.ForeignKey(Voucher, on_delete=models.CASCADE)
     account = models.ForeignKey(Account, on_delete=models.DO_NOTHING)
-    party = models.ForeignKey(Party, on_delete=models.DO_NOTHING, null=True, blank=True)
     entry_date = models.DateField(default=datetime.date.today, null=True, blank=True)
     amount = models.DecimalField(default=0, max_digits=15, decimal_places=6)
+    account_amount = models.DecimalField(default=0, max_digits=15, decimal_places=6, blank=True)
     description = models.TextField(default='', null=True, blank=True)
 
     def __str__(self):
         return f"{self.voucher.voucher_number} # {self.voucher.voucher_number} # {self.account.name} # {self.amount}"
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.account_amount = self.amount
+        super().save(force_insert==force_insert, force_update=force_update, using=using, update_fields=update_fields)
 
     @property
     def other_accounts(self):
