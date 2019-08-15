@@ -16,7 +16,7 @@ class TestPartySubTypeListCreateAPIView:
         name = fake.name()
         _type = FuzzyChoice(choices=VoucherType.values.keys()).fuzz()
         prefix = fake.name()
-        data = factory.build(dict, FACTORY_CLASS=VoucherSubTypeFactory, name=name, type=_type, prefix=prefix)
+        data = factory.build(dict, FACTORY_CLASS=VoucherSubTypeFactory, name=name, type=_type, prefix=prefix, created_by=None)
         data['debit_account'] = data['debit_account'].pk
         data['credit_account'] = data['credit_account'].pk
 
