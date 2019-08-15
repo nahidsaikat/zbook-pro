@@ -44,6 +44,7 @@ class Party(BaseModel):
     etin = models.CharField(max_length=64, null=True, blank=True)
     bin = models.CharField(max_length=64, null=True, blank=True)
     vat_reg_no = models.CharField(max_length=64, null=True, blank=True)
+    # TODO: Needs to bring currency column
 
     def __str__(self):
         return f'{self.name}'
