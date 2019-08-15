@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'zbook.purchase',
     'zbook.product',
     'zbook.delivery',
+    'zbook.currency',
 ]
 
 MIDDLEWARE = [
