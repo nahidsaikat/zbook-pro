@@ -56,7 +56,7 @@ class Voucher(BaseModel):
 
     @property
     def accounts_name(self):
-        return ', '.join([account.name for account in self.accounts])
+        return ', '.join([account.name for account in self.accounts.all()])
 
 
 class Ledger(BaseModel):
