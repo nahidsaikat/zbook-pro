@@ -330,10 +330,16 @@ class TestVoucher:
 
     def test_sub_type_cannot_be_null(self, user, sub_type):
         with pytest.raises(IntegrityError) as error:
-            Voucher.objects.create(voucher_number=None, type=VoucherType.Payment, sub_type=None,
+            Voucher.objects.create(voucher_number=fake.name(), type=VoucherType.Payment, sub_type=None,
                                    amount=Decimal(100), created_by=user)
 
     def test_amount_cannot_be_null(self, user, sub_type):
         with pytest.raises(IntegrityError) as error:
             Voucher.objects.create(voucher_number=None, type=VoucherType.Payment, sub_type=sub_type,
                                    amount=None, created_by=user)
+
+    def test_accounts_cannot_be_null(self, user, sub_type):
+        with pytest.raises(TypeError) as error:
+            voucher = Voucher.objects.create(voucher_number=fake.name(), type=VoucherType.Payment, sub_type=sub_type,
+                                   amount=Decimal(100), created_by=user)
+            voucher.accounts.set(None)
