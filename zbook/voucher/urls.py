@@ -4,6 +4,7 @@ from .views import VoucherSubTypeListCreateAPIView
 
 subtype_urlpatterns = [
     path('', VoucherSubTypeListCreateAPIView.as_view(), name='list-create'),
+    path('<int:pk>/', VoucherSubTypeListCreateAPIView.as_view(), name='detail-update'),
 ]
 
 urlpatterns = [
