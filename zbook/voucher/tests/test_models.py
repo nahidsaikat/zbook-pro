@@ -365,3 +365,11 @@ class TestVoucher:
         voucher = Voucher.objects.create(voucher_number=fake.name(), type=VoucherType.Payment, sub_type=sub_type,
                                    party=customer, amount=Decimal(100), created_by=user)
         assert voucher.party_name == customer.name
+
+    def test_ref_voucher_number(self, user, sub_type):
+        customer = CustomerFactory(created_by=user)
+        ref_voucher = Voucher.objects.create(voucher_number=fake.name(), type=VoucherType.Payment, sub_type=sub_type,
+                                   party=customer, amount=Decimal(100), created_by=user)
+        voucher = Voucher.objects.create(voucher_number=fake.name(), type=VoucherType.Payment, sub_type=sub_type,
+                                         ref_voucher=ref_voucher, party=customer, amount=Decimal(100), created_by=user)
+        assert voucher.ref_voucher_number == ref_voucher.voucher_number
