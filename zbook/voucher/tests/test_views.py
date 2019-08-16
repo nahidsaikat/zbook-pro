@@ -87,3 +87,26 @@ class TestPartySubTypeListCreateAPIView:
         response = client.get(self.url)
 
         assert response.status_code == 401
+
+
+class TestVoucherSubTypeRetrieveUpdateAPIView:
+
+    def test_update(self, auth_client, user):
+        subtype = VoucherSubTypeFactory(created_by=user)
+        name = fake.name()
+        prefix = fake.name()
+        _type = FuzzyChoice(choices=VoucherType.values.keys()).fuzz()
+        data = factory.build(dict, FACTORY_CLASS=VoucherSubTypeFactory, type=_type, name=name, prefix=prefix,
+                             no_start_from=2000, created_by=user.pk)
+        debit_account = data['debit_account'] = data['debit_account'].pk
+        credit_account = data['credit_account'] = data['credit_account'].pk
+
+        url = reverse('voucher:subtype:detail-update', args=[subtype.pk])
+        response = auth_client.patch(url, data)
+
+        assert response.status_code == 200
+        assert response.data.get('name') == name
+        assert response.data.get('prefix') == prefix
+        assert response.data.get('type') == _type
+        assert response.data.get('debit_account') == debit_account
+        assert response.data.get('credit_account') == credit_account
