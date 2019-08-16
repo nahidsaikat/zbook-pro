@@ -396,3 +396,15 @@ class TestVoucher:
         instance = Voucher.objects.get(pk=voucher.pk)
 
         assert instance.voucher_number == str(1234)
+
+    def test_count(self, user, sub_type):
+        Voucher.objects.create(voucher_number=fake.name(), type=VoucherType.Payment, sub_type=sub_type,
+                               amount=Decimal(100), created_by=user)
+        Voucher.objects.create(voucher_number=fake.name(), type=VoucherType.Payment, sub_type=sub_type,
+                               amount=Decimal(100), created_by=user)
+        Voucher.objects.create(voucher_number=fake.name(), type=VoucherType.Payment, sub_type=sub_type,
+                               amount=Decimal(100), created_by=user)
+
+        count = Voucher.objects.all()
+
+        assert count.count() == 3
