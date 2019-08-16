@@ -380,3 +380,10 @@ class TestVoucher:
         voucher.accounts.add(debit_account)
         voucher.accounts.add(credit_account)
         assert voucher.accounts_name == ', '.join([account.name for account in voucher.accounts.all()])
+
+    def test_create(self, user, sub_type):
+        voucher = Voucher.objects.create(voucher_number=fake.name(), type=VoucherType.Payment, sub_type=sub_type,
+                                         amount=Decimal(100), created_by=user)
+        instance = Voucher.objects.get(pk=sub_type.pk)
+
+        assert voucher.pk == instance.pk
