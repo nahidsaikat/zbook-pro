@@ -6,7 +6,7 @@ from django.db.models.signals import post_save
 
 from zbook.user.tests.factory import UserFactory
 from zbook.account.tests.factory import AccountFactory
-from ..models import VoucherSubType, Voucher
+from ..models import VoucherSubType, Voucher, Ledger
 from ..choices import VoucherType
 
 fake = Faker()
@@ -47,3 +47,12 @@ class VoucherFactory(DjangoModelFactory):
         else:
             self.accounts.add(AccountFactory())
             self.accounts.add(AccountFactory())
+
+
+@factory.django.mute_signals(post_save)
+class LedgerFactory(DjangoModelFactory):
+    class Meta:
+        model = Ledger
+
+    amount = fake.random_number(digits=5)
+    description = fake.sentence()
