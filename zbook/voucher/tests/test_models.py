@@ -387,3 +387,12 @@ class TestVoucher:
         instance = Voucher.objects.get(pk=sub_type.pk)
 
         assert voucher.pk == instance.pk
+
+    def test_edit(self, user, sub_type):
+        voucher = Voucher.objects.create(voucher_number=fake.name(), type=VoucherType.Payment, sub_type=sub_type,
+                                         amount=Decimal(100), created_by=user)
+        voucher.voucher_number = str(1234)
+        voucher.save()
+        instance = Voucher.objects.get(pk=voucher.pk)
+
+        assert instance.voucher_number == str(1234)
