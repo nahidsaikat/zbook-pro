@@ -1,3 +1,4 @@
+import datetime
 import pytest
 from faker import Faker
 from django.db import IntegrityError
@@ -168,5 +169,19 @@ class TestVoucher:
         assert field.blank
         assert not field.null
         assert not field.has_default()
+        assert not field.hidden
+        assert not field.unique
+
+    def test_entry_date_field(self):
+        voucher = Voucher()
+        field = voucher._meta.get_field('voucher_date')
+
+        assert field.__class__.__name__ == 'DateField'
+        assert field.verbose_name == 'voucher date'
+        assert field.editable
+        assert not field.null
+        assert not field.blank
+        assert field.has_default()
+        assert field.default == datetime.date.today
         assert not field.hidden
         assert not field.unique
