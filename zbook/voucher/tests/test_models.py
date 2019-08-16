@@ -7,6 +7,7 @@ from django.db import IntegrityError
 from zbook.account.choices import AccountType
 from zbook.account.tests.factory import AccountFactory
 from zbook.account.models import Account
+from zbook.party.tests.factory import CustomerFactory
 from zbook.party.models import Party
 from ..models import VoucherSubType, Voucher
 from ..choices import VoucherType
@@ -358,3 +359,9 @@ class TestVoucher:
         voucher = Voucher.objects.create(voucher_number=fake.name(), type=VoucherType.Payment, sub_type=sub_type,
                                    amount=Decimal(100), created_by=user)
         assert voucher.sub_type_text == sub_type.name
+
+    def test_party_name(self, user, sub_type):
+        customer = CustomerFactory(created_by=user)
+        voucher = Voucher.objects.create(voucher_number=fake.name(), type=VoucherType.Payment, sub_type=sub_type,
+                                   party=customer, amount=Decimal(100), created_by=user)
+        assert voucher.party_name == customer.name
