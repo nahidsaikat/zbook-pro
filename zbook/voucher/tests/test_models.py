@@ -1,8 +1,11 @@
 import datetime
 import pytest
 from faker import Faker
+from decimal import Decimal
 from django.db import IntegrityError
 
+from zbook.account.choices import AccountType
+from zbook.account.tests.factory import AccountFactory
 from zbook.account.models import Account
 from zbook.party.models import Party
 from ..models import VoucherSubType, Voucher
@@ -160,6 +163,18 @@ class TestVoucherSubType:
 
 class TestVoucher:
 
+    @pytest.fixture
+    def sub_type(self, user):
+        return VoucherSubType.objects.create(name=fake.name(), prefix=fake.name(), created_by=user)
+
+    @pytest.fixture
+    def debit_account(self, user):
+        return AccountFactory(type=AccountType.Asset)
+
+    @pytest.fixture
+    def credit_account(self, user):
+        return AccountFactory(type=AccountType.Liability)
+
     def test_voucher_number_field(self, db):
         voucher = Voucher()
         field = voucher._meta.get_field('voucher_number')
@@ -302,3 +317,8 @@ class TestVoucher:
         assert field.m2m_column_name() == 'voucher_id'
         assert field.m2m_reverse_name() == 'account_id'
         assert field.m2m_db_table() == 'voucher_voucher_accounts'
+
+    def test_voucher_number_cannot_be_null(self, user, sub_type, debit_account, credit_account):
+        with pytest.raises(IntegrityError) as error:
+            Voucher.objects.create(voucher_number=None, type=VoucherType.Payment, sub_type=sub_type,
+                                   amount=Decimal(100), created_by=user)
