@@ -216,3 +216,19 @@ class TestVoucher:
         assert not field.unique
         assert field.remote_field.on_delete.__name__ == 'DO_NOTHING'
         assert field.remote_field.model == VoucherSubType
+
+    def test_amount_field(self):
+        voucher = Voucher()
+        field = voucher._meta.get_field('amount')
+
+        assert field.__class__.__name__ == 'DecimalField'
+        assert field.verbose_name == 'amount'
+        assert field.editable
+        assert not field.null
+        assert not field.blank
+        assert field.has_default()
+        assert field.default == 0
+        assert not field.hidden
+        assert not field.unique
+        assert field.max_digits == 15
+        assert field.decimal_places == 6
