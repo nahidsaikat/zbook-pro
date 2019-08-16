@@ -318,17 +318,22 @@ class TestVoucher:
         assert field.m2m_reverse_name() == 'account_id'
         assert field.m2m_db_table() == 'voucher_voucher_accounts'
 
-    def test_voucher_number_cannot_be_null(self, user, sub_type, debit_account, credit_account):
+    def test_voucher_number_cannot_be_null(self, user, sub_type):
         with pytest.raises(IntegrityError) as error:
             Voucher.objects.create(voucher_number=None, type=VoucherType.Payment, sub_type=sub_type,
                                    amount=Decimal(100), created_by=user)
 
-    def test_voucher_date_cannot_be_null(self, user, sub_type, debit_account, credit_account):
+    def test_voucher_date_cannot_be_null(self, user, sub_type):
         with pytest.raises(IntegrityError) as error:
             Voucher.objects.create(voucher_number=fake.name(), voucher_date=None, type=VoucherType.Payment,
                                    sub_type=sub_type, amount=Decimal(100), created_by=user)
 
-    def test_sub_type_cannot_be_null(self, user, sub_type, debit_account, credit_account):
+    def test_sub_type_cannot_be_null(self, user, sub_type):
         with pytest.raises(IntegrityError) as error:
             Voucher.objects.create(voucher_number=None, type=VoucherType.Payment, sub_type=None,
                                    amount=Decimal(100), created_by=user)
+
+    def test_amount_cannot_be_null(self, user, sub_type):
+        with pytest.raises(IntegrityError) as error:
+            Voucher.objects.create(voucher_number=None, type=VoucherType.Payment, sub_type=sub_type,
+                                   amount=None, created_by=user)
