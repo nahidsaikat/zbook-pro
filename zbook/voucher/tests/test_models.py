@@ -200,3 +200,19 @@ class TestVoucher:
         assert field.choices == VoucherType.choices
         assert not field.hidden
         assert not field.unique
+
+    def test_sub_type_field(self):
+        voucher = Voucher()
+        field = voucher._meta.get_field('sub_type')
+
+        assert field.__class__.__name__ == 'ForeignKey'
+        assert field.verbose_name == 'sub type'
+        assert field.editable
+        assert not field.null
+        assert not field.blank
+        assert not field.has_default()
+        assert field.default.__name__ == 'NOT_PROVIDED'
+        assert not field.hidden
+        assert not field.unique
+        assert field.remote_field.on_delete.__name__ == 'DO_NOTHING'
+        assert field.remote_field.model == VoucherSubType
