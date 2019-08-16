@@ -185,3 +185,18 @@ class TestVoucher:
         assert field.default == datetime.date.today
         assert not field.hidden
         assert not field.unique
+
+    def test_type_field(self):
+        voucher = Voucher()
+        field = voucher._meta.get_field('type')
+
+        assert field.__class__.__name__ == 'IntegerField'
+        assert field.verbose_name == 'type'
+        assert field.editable
+        assert field.blank
+        assert field.null
+        assert field.has_default()
+        assert field.default == VoucherType.Receive
+        assert field.choices == VoucherType.choices
+        assert not field.hidden
+        assert not field.unique
