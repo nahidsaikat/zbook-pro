@@ -348,3 +348,8 @@ class TestVoucher:
         voucher = Voucher.objects.create(voucher_number=fake.name(), type=VoucherType.Payment, sub_type=sub_type,
                                    amount=Decimal(100), created_by=user)
         assert voucher.type_text == voucher.get_type_display()
+
+    def test_str(self, user, sub_type):
+        voucher = Voucher.objects.create(voucher_number=fake.name(), type=VoucherType.Payment, sub_type=sub_type,
+                                   amount=Decimal(100), created_by=user)
+        assert str(voucher) == f'{voucher.voucher_number} # {voucher.type_text}'
