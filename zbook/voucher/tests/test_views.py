@@ -171,3 +171,11 @@ class TestVoucherSubTypeRetrieveUpdateAPIView:
         assert response.data.get('type') == subtype.type
         assert response.data.get('debit_account') == subtype.debit_account.pk
         assert response.data.get('credit_account') == subtype.credit_account.pk
+
+    def test_get_subtype_unauthorize(self, client, user):
+        subtype = VoucherSubTypeFactory(created_by=user)
+        url = reverse('voucher:subtype:detail-update', args=[subtype.pk])
+
+        response = client.get(url)
+
+        assert response.status_code == 401
