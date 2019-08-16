@@ -265,3 +265,17 @@ class TestVoucher:
         assert not field.unique
         assert field.remote_field.on_delete.__name__ == 'DO_NOTHING'
         assert field.remote_field.model == Voucher
+
+    def test_description_field(self):
+        voucher = Voucher()
+        field = voucher._meta.get_field('description')
+
+        assert field.__class__.__name__ == 'TextField'
+        assert field.verbose_name == 'description'
+        assert field.editable
+        assert field.null
+        assert field.blank
+        assert field.has_default()
+        assert not field.default        # Default is empty string
+        assert not field.hidden
+        assert not field.unique
