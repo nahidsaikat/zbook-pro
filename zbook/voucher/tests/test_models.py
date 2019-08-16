@@ -3,6 +3,7 @@ import pytest
 from faker import Faker
 from django.db import IntegrityError
 
+from zbook.party.models import Party
 from ..models import VoucherSubType, Voucher
 from ..choices import VoucherType
 
@@ -232,3 +233,19 @@ class TestVoucher:
         assert not field.unique
         assert field.max_digits == 15
         assert field.decimal_places == 6
+
+    def test_party_field(self):
+        voucher = Voucher()
+        field = voucher._meta.get_field('party')
+
+        assert field.__class__.__name__ == 'ForeignKey'
+        assert field.verbose_name == 'party'
+        assert field.editable
+        assert field.null
+        assert field.blank
+        assert not field.has_default()
+        assert field.default.__name__ == 'NOT_PROVIDED'
+        assert not field.hidden
+        assert not field.unique
+        assert field.remote_field.on_delete.__name__ == 'DO_NOTHING'
+        assert field.remote_field.model == Party
