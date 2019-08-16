@@ -3,6 +3,7 @@ import pytest
 from faker import Faker
 from django.db import IntegrityError
 
+from zbook.account.models import Account
 from zbook.party.models import Party
 from ..models import VoucherSubType, Voucher
 from ..choices import VoucherType
@@ -279,3 +280,25 @@ class TestVoucher:
         assert not field.default        # Default is empty string
         assert not field.hidden
         assert not field.unique
+
+    def test_accounts_field(self):
+        voucher = Voucher()
+        field = voucher._meta.get_field('accounts')
+
+        assert field.__class__.__name__ == 'ManyToManyField'
+        assert field.verbose_name == 'accounts'
+        assert field.get_attname() == 'accounts'
+        assert field.editable
+        assert field.many_to_many
+        assert not field.null
+        assert field.blank
+        assert not field.has_default()
+        assert field.default.__name__ == 'NOT_PROVIDED'
+        assert not field.hidden
+        assert not field.unique
+        assert field.target_field.__class__.__name__ == 'AutoField'
+        assert field.remote_field.model == Account
+        assert field.related_model == Account
+        assert field.m2m_column_name() == 'voucher_id'
+        assert field.m2m_reverse_name() == 'account_id'
+        assert field.m2m_db_table() == 'voucher_voucher_accounts'
