@@ -110,3 +110,15 @@ class TestVoucherSubTypeRetrieveUpdateAPIView:
         assert response.data.get('type') == _type
         assert response.data.get('debit_account') == debit_account
         assert response.data.get('credit_account') == credit_account
+
+    def test_update_inactive(self, auth_client, user):
+        subtype = VoucherSubTypeFactory(created_by=user)
+        data = factory.build(dict, FACTORY_CLASS=VoucherSubTypeFactory, inactive=1, created_by=user.pk)
+        data['debit_account'] = data['debit_account'].pk
+        data['credit_account'] = data['credit_account'].pk
+
+        url = reverse('voucher:subtype:detail-update', args=[subtype.pk])
+        response = auth_client.patch(url, data)
+
+        assert response.status_code == 200
+        assert response.data.get('inactive') == True
