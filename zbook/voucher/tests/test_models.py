@@ -2,7 +2,7 @@ import pytest
 from faker import Faker
 from django.db import IntegrityError
 
-from ..models import VoucherSubType
+from ..models import VoucherSubType, Voucher
 from ..choices import VoucherType
 
 fake = Faker()
@@ -153,3 +153,20 @@ class TestVoucherSubType:
         count = VoucherSubType.objects.all()
 
         assert count.count() == 3
+
+
+class TestVoucher:
+
+    def test_voucher_number_field(self, db):
+        voucher = Voucher()
+        field = voucher._meta.get_field('voucher_number')
+
+        assert field.__class__.__name__ == 'CharField'
+        assert field.verbose_name == 'voucher number'
+        assert field.max_length == 64
+        assert field.editable
+        assert field.blank
+        assert not field.null
+        assert not field.has_default()
+        assert not field.hidden
+        assert not field.unique
