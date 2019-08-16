@@ -23,3 +23,15 @@ class TestPartySubTypeUrls:
         subtype = VoucherSubTypeFactory(created_by=user)
         url = reverse('voucher:subtype:detail-update', args=[subtype.pk])
         assert url == f'/api/v1/voucher/subtype/{subtype.pk}/'
+
+    def test_detail_update_url_resolve(self, user):
+        subtype = VoucherSubTypeFactory(created_by=user)
+        url = reverse('voucher:subtype:detail-update', args=[subtype.pk])
+
+        resolver = resolve(url)
+
+        assert resolver.app_name == 'voucher:subtype'
+        assert resolver.url_name == 'detail-update'
+        assert resolver.view_name == 'voucher:subtype:detail-update'
+        assert resolver.namespace == 'voucher:subtype'
+        assert resolver.func.__name__ == 'VoucherSubTypeRetrieveUpdateAPIView'
