@@ -9,15 +9,15 @@ fake = Faker()
 
 
 @pytest.fixture
-def sub_type(self, user):
+def sub_type(user):
     return VoucherSubType.objects.create(name=fake.name(), prefix=fake.name(), created_by=user)
 
 
 @pytest.fixture
-def debit_account(self, user):
+def debit_account(user):
     return AccountFactory(type=AccountType.Asset)
 
 
 @pytest.fixture
-def credit_account(self, user):
+def credit_account(user):
     return AccountFactory(type=AccountType.Liability)
