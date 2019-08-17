@@ -68,7 +68,7 @@ class Ledger(BaseModel):
     description = models.TextField(default='', null=True, blank=True)
 
     def __str__(self):
-        return f"{self.voucher.voucher_number} # {self.voucher.voucher_number} # {self.account.name} # {self.amount}"
+        return f'{self.voucher.voucher_number} # {self.voucher.voucher_number} # {self.account.name} # {self.amount}'
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         self.account_amount = self.amount
