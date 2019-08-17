@@ -164,18 +164,6 @@ class TestVoucherSubType:
 
 class TestVoucher:
 
-    @pytest.fixture
-    def sub_type(self, user):
-        return VoucherSubType.objects.create(name=fake.name(), prefix=fake.name(), created_by=user)
-
-    @pytest.fixture
-    def debit_account(self, user):
-        return AccountFactory(type=AccountType.Asset)
-
-    @pytest.fixture
-    def credit_account(self, user):
-        return AccountFactory(type=AccountType.Liability)
-
     def test_voucher_number_field(self, db):
         voucher = Voucher()
         field = voucher._meta.get_field('voucher_number')
