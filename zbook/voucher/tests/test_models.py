@@ -507,3 +507,7 @@ class TestLedger:
     def test_amount_cannot_be_null(self, user, voucher, debit_account):
         with pytest.raises(IntegrityError) as error:
             Ledger.objects.create(voucher=voucher, account=debit_account, amount=None, created_by=user)
+
+    def test_account_amount_set_automatically(self, user, voucher, debit_account):
+        ledger = Ledger.objects.create(voucher=voucher, account=debit_account, amount=Decimal(1000), created_by=user)
+        assert ledger.amount == ledger.account_amount
