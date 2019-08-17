@@ -427,3 +427,19 @@ class TestLedger:
         assert not field.unique
         assert field.remote_field.on_delete.__name__ == 'CASCADE'
         assert field.remote_field.model == Voucher
+
+    def test_account_field(self):
+        ledger = Ledger()
+        field = ledger._meta.get_field('account')
+
+        assert field.__class__.__name__ == 'ForeignKey'
+        assert field.verbose_name == 'account'
+        assert field.editable
+        assert not field.null
+        assert not field.blank
+        assert not field.has_default()
+        assert field.default.__name__ == 'NOT_PROVIDED'
+        assert not field.hidden
+        assert not field.unique
+        assert field.remote_field.on_delete.__name__ == 'DO_NOTHING'
+        assert field.remote_field.model == Account
