@@ -443,3 +443,17 @@ class TestLedger:
         assert not field.unique
         assert field.remote_field.on_delete.__name__ == 'DO_NOTHING'
         assert field.remote_field.model == Account
+
+    def test_entry_date_field(self):
+        ledger = Ledger()
+        field = ledger._meta.get_field('entry_date')
+
+        assert field.__class__.__name__ == 'DateField'
+        assert field.verbose_name == 'entry date'
+        assert field.editable
+        assert field.null
+        assert field.blank
+        assert field.has_default()
+        assert field.default == datetime.date.today
+        assert not field.hidden
+        assert not field.unique
