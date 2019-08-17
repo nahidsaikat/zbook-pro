@@ -16,12 +16,12 @@ def sub_type(user):
 
 @pytest.fixture
 def debit_account(user):
-    return AccountFactory(type=AccountType.Asset)
+    return AccountFactory(name=fake.name(), code=fake.random_int(1, 100), type=AccountType.Asset)
 
 
 @pytest.fixture
 def credit_account(user):
-    return AccountFactory(type=AccountType.Liability)
+    return AccountFactory(name=fake.name(), code=fake.random_int(1, 100), type=AccountType.Liability)
 
 
 @pytest.fixture
