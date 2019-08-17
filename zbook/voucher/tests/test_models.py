@@ -451,9 +451,25 @@ class TestLedger:
         assert field.__class__.__name__ == 'DateField'
         assert field.verbose_name == 'entry date'
         assert field.editable
-        assert field.null
+        assert not field.null
         assert field.blank
         assert field.has_default()
         assert field.default == datetime.date.today
         assert not field.hidden
         assert not field.unique
+
+    def test_amount_field(self):
+        ledger = Ledger()
+        field = ledger._meta.get_field('amount')
+
+        assert field.__class__.__name__ == 'DecimalField'
+        assert field.verbose_name == 'amount'
+        assert field.editable
+        assert not field.null
+        assert not field.blank
+        assert field.has_default()
+        assert field.default == 0
+        assert not field.hidden
+        assert not field.unique
+        assert field.max_digits == 15
+        assert field.decimal_places == 6

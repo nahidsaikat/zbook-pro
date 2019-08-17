@@ -62,7 +62,7 @@ class Voucher(BaseModel):
 class Ledger(BaseModel):
     voucher = models.ForeignKey(Voucher, on_delete=models.CASCADE)
     account = models.ForeignKey(Account, on_delete=models.DO_NOTHING)
-    entry_date = models.DateField(default=datetime.date.today, null=True, blank=True)
+    entry_date = models.DateField(default=datetime.date.today, blank=True)
     amount = models.DecimalField(default=0, max_digits=15, decimal_places=6)
     account_amount = models.DecimalField(default=0, max_digits=15, decimal_places=6, blank=True)
     description = models.TextField(default='', null=True, blank=True)
