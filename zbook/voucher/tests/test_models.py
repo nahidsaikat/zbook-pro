@@ -9,7 +9,7 @@ from zbook.account.tests.factory import AccountFactory
 from zbook.account.models import Account
 from zbook.party.tests.factory import CustomerFactory
 from zbook.party.models import Party
-from ..models import VoucherSubType, Voucher
+from ..models import VoucherSubType, Voucher, Ledger
 from ..choices import VoucherType
 
 fake = Faker()
@@ -408,3 +408,22 @@ class TestVoucher:
         count = Voucher.objects.all()
 
         assert count.count() == 3
+
+
+class TestLedger:
+
+    def test_voucher_field(self):
+        ledger = Ledger()
+        field = ledger._meta.get_field('voucher')
+
+        assert field.__class__.__name__ == 'ForeignKey'
+        assert field.verbose_name == 'voucher'
+        assert field.editable
+        assert not field.null
+        assert not field.blank
+        assert not field.has_default()
+        assert field.default.__name__ == 'NOT_PROVIDED'
+        assert not field.hidden
+        assert not field.unique
+        assert field.remote_field.on_delete.__name__ == 'CASCADE'
+        assert field.remote_field.model == Voucher
