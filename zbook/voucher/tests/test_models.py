@@ -495,3 +495,7 @@ class TestLedger:
     def test_voucher_cannot_be_null(self, user, debit_account):
         with pytest.raises(IntegrityError) as error:
             Ledger.objects.create(voucher=None, account=debit_account, amount=Decimal(1000), created_by=user)
+
+    def test_account_cannot_be_null(self, user, voucher):
+        with pytest.raises(IntegrityError) as error:
+            Ledger.objects.create(voucher=voucher, account=None, amount=Decimal(1000), created_by=user)
