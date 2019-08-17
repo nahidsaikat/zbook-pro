@@ -491,3 +491,7 @@ class TestLedger:
         assert not field.default        # Default is empty string
         assert not field.hidden
         assert not field.unique
+
+    def test_voucher_cannot_be_null(self, user, debit_account):
+        with pytest.raises(IntegrityError) as error:
+            Ledger.objects.create(voucher=None, account=debit_account, amount=Decimal(1000), created_by=user)
