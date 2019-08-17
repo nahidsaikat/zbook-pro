@@ -503,3 +503,7 @@ class TestLedger:
     def test_entry_date_cannot_be_null(self, user, voucher, debit_account):
         with pytest.raises(IntegrityError) as error:
             Ledger.objects.create(voucher=voucher, account=debit_account, entry_date=None, amount=Decimal(1000), created_by=user)
+
+    def test_amount_cannot_be_null(self, user, voucher, debit_account):
+        with pytest.raises(IntegrityError) as error:
+            Ledger.objects.create(voucher=voucher, account=debit_account, amount=None, created_by=user)
