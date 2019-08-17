@@ -473,3 +473,19 @@ class TestLedger:
         assert not field.unique
         assert field.max_digits == 15
         assert field.decimal_places == 6
+
+    def test_account_amount_field(self):
+        ledger = Ledger()
+        field = ledger._meta.get_field('account_amount')
+
+        assert field.__class__.__name__ == 'DecimalField'
+        assert field.verbose_name == 'account amount'
+        assert field.editable
+        assert not field.null
+        assert field.blank
+        assert field.has_default()
+        assert field.default == 0
+        assert not field.hidden
+        assert not field.unique
+        assert field.max_digits == 15
+        assert field.decimal_places == 6
