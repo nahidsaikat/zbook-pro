@@ -519,3 +519,7 @@ class TestLedger:
     def test_other_accounts(self, user, voucher, debit_account, credit_account):
         ledger = Ledger.objects.create(voucher=voucher, account=debit_account, amount=Decimal(1000), created_by=user)
         assert ledger.other_accounts.first() == credit_account
+
+    def test_other_accounts_name(self, user, voucher, debit_account, credit_account):
+        ledger = Ledger.objects.create(voucher=voucher, account=debit_account, amount=Decimal(1000), created_by=user)
+        assert ledger.other_accounts_name == [credit_account.name]
