@@ -4,6 +4,7 @@ from faker import Faker
 from zbook.account.choices import AccountType
 from zbook.account.tests.factory import AccountFactory
 from zbook.voucher.models import VoucherSubType
+from zbook.voucher.tests.factory import VoucherFactory
 
 fake = Faker()
 
@@ -21,3 +22,8 @@ def debit_account(user):
 @pytest.fixture
 def credit_account(user):
     return AccountFactory(type=AccountType.Liability)
+
+
+@pytest.fixture
+def voucher(user, debit_account, credit_account):
+    return VoucherFactory(accounts=[debit_account, credit_account], created_by=user)
