@@ -76,7 +76,7 @@ class Ledger(BaseModel):
 
     @property
     def other_accounts(self):
-        return self.voucher.accounts.exclude(account_id=self.account_id)
+        return self.voucher.accounts.exclude(id=self.account.pk)
 
     @property
     def other_accounts_name(self):
