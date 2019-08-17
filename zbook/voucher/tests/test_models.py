@@ -489,3 +489,17 @@ class TestLedger:
         assert not field.unique
         assert field.max_digits == 15
         assert field.decimal_places == 6
+
+    def test_description_field(self):
+        ledger = Ledger()
+        field = ledger._meta.get_field('description')
+
+        assert field.__class__.__name__ == 'TextField'
+        assert field.verbose_name == 'description'
+        assert field.editable
+        assert field.null
+        assert field.blank
+        assert field.has_default()
+        assert not field.default        # Default is empty string
+        assert not field.hidden
+        assert not field.unique
