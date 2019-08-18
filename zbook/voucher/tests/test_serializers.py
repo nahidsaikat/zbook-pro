@@ -1,9 +1,10 @@
 import factory
 from faker import Faker
+from decimal import Decimal
 
-from .factory import VoucherSubTypeFactory
-from ..models import VoucherSubType
-from ..serializers import VoucherSubTypeSerializer
+from .factory import VoucherSubTypeFactory, VoucherFactory
+from ..models import VoucherSubType, Voucher
+from ..serializers import VoucherSubTypeSerializer, VoucherSerializer
 
 fake = Faker()
 
@@ -69,3 +70,27 @@ class TestVoucherSubTypeSerailizer:
         assert query.count() == 1
         assert saved_sub_type.name == name
         assert saved_sub_type.prefix == prefix
+
+
+class TestVoucherSerailizer:
+
+    def test_create(self, user, sub_type, debit_account, credit_account):
+        voucher_number = fake.name()
+        data = factory.build(dict, FACTORY_CLASS=VoucherFactory, voucher_number=voucher_number, amount=Decimal(1000),
+                             created_by=user.pk, sub_type=sub_type.pk, counts=[debit_account.pk, credit_account.pk])
+
+        serializer = VoucherSerializer(data=data)
+        serializer.is_valid()
+
+        assert serializer.validated_data.get('voucher_number') == voucher_number
+        assert serializer.validated_data.get('sub_type') == sub_type
+
+        serializer.save()
+
+        query = Voucher.objects.all()
+        voucher = query.first()
+
+        assert query.count() == 1
+        assert voucher.voucher_number == voucher_number
+        assert voucher.sub_type.pk == sub_type.pk
+        assert voucher.amount == Decimal(1000)
