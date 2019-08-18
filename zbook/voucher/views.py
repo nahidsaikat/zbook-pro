@@ -1,8 +1,8 @@
 from rest_framework.permissions import IsAuthenticated
 
 from zbook.system.views import BaseListCreateAPIView, BaseRetrieveUpdateAPIView
-from .models import VoucherSubType
-from .serializers import VoucherSubTypeSerializer
+from .models import VoucherSubType, Voucher
+from .serializers import VoucherSubTypeSerializer, VoucherSerializer
 
 
 class VoucherSubTypeListCreateAPIView(BaseListCreateAPIView):
@@ -14,4 +14,10 @@ class VoucherSubTypeListCreateAPIView(BaseListCreateAPIView):
 class VoucherSubTypeRetrieveUpdateAPIView(BaseRetrieveUpdateAPIView):
     queryset = VoucherSubType.objects.all()
     serializer_class = VoucherSubTypeSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class VoucherListCreateAPIView(BaseListCreateAPIView):
+    queryset = Voucher.objects.all().order_by('-id')
+    serializer_class = VoucherSerializer
     permission_classes = [IsAuthenticated]
