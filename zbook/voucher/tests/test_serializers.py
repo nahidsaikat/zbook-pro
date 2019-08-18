@@ -94,3 +94,12 @@ class TestVoucherSerailizer:
         assert voucher.voucher_number == voucher_number
         assert voucher.sub_type.pk == sub_type.pk
         assert voucher.amount == Decimal(1000)
+
+    def test_create_sub_type_error(self, user, sub_type, debit_account, credit_account):
+        data = factory.build(dict, FACTORY_CLASS=VoucherFactory, created_by=user.pk, sub_type=sub_type.pk,
+                             accounts=[debit_account.pk, credit_account.pk])
+        del data['sub_type']
+
+        serializer = VoucherSerializer(data=data)
+        assert not serializer.is_valid()
+
