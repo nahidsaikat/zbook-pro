@@ -228,3 +228,13 @@ class TestVoucherListCreateAPIView:
         response = client.post(self.url, data)
 
         assert response.status_code == 401
+
+    def test_get_list(self, auth_client, user, debit_account, credit_account):
+        VoucherFactory(accounts=[debit_account, credit_account], created_by=user)
+        VoucherFactory(accounts=[debit_account, credit_account], created_by=user)
+        VoucherFactory(accounts=[debit_account, credit_account], created_by=user)
+
+        response = auth_client.get(self.url)
+
+        assert response.status_code == 200
+        assert response.data.get('count') == 3
