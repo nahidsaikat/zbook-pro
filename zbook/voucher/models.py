@@ -71,8 +71,9 @@ class Ledger(BaseModel):
         return f'{self.voucher.voucher_number} # {self.voucher.voucher_number} # {self.account.name} # {self.amount}'
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        # TODO: Change according to currency app
         self.account_amount = self.amount
-        super().save(force_insert==force_insert, force_update=force_update, using=using, update_fields=update_fields)
+        super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
 
     @property
     def other_accounts(self):

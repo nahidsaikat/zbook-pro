@@ -530,6 +530,15 @@ class TestLedger:
 
         assert ledger.pk == instance.pk
 
+    def test_edit(self, user, voucher, debit_account):
+        ledger = Ledger.objects.create(voucher=voucher, account=debit_account, amount=Decimal(1000), created_by=user)
+        ledger.amount = voucher.amount
+        ledger.save()
+
+        instance = Ledger.objects.get(pk=ledger.pk)
+
+        assert instance.amount == voucher.amount
+
     def test_count(self, user, voucher, debit_account):
         Ledger.objects.create(voucher=voucher, account=debit_account, amount=Decimal(1000), created_by=user)
         Ledger.objects.create(voucher=voucher, account=debit_account, amount=Decimal(1000), created_by=user)
