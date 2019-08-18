@@ -111,3 +111,17 @@ class TestVoucherSerailizer:
         serializer = VoucherSerializer(data=data)
         assert not serializer.is_valid()
 
+    def test_update(self, user, sub_type, debit_account, credit_account):
+        voucher_number = fake.name()
+        data = factory.build(dict, FACTORY_CLASS=VoucherFactory, created_by=user, sub_type=sub_type,
+                             voucher_number=voucher_number, accounts=[debit_account.pk, credit_account.pk])
+        voucher = VoucherFactory(created_by=user)
+
+        serializer = VoucherSerializer()
+        serializer.update(voucher, data)
+
+        query = Voucher.objects.all()
+        saved_voucher = query.first()
+
+        assert query.count() == 1
+        assert saved_voucher.voucher_number == voucher_number
