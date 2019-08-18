@@ -207,3 +207,14 @@ class TestVoucherListCreateAPIView:
         response = auth_client.post(self.url, data)
 
         assert response.status_code == 400
+
+    def test_create_amount_error(self, auth_client, user, sub_type, debit_account, credit_account):
+        voucher_number = fake.name()
+        _type = FuzzyChoice(choices=VoucherType.values.keys()).fuzz()
+        data = factory.build(dict, FACTORY_CLASS=VoucherFactory, created_by=user.pk, type=_type, sub_type=sub_type.pk,
+                             voucher_number=voucher_number, accounts=[debit_account.pk, credit_account.pk])
+        del data['amount']
+
+        response = auth_client.post(self.url, data)
+
+        assert response.status_code == 400
