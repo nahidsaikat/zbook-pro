@@ -103,3 +103,11 @@ class TestVoucherSerailizer:
         serializer = VoucherSerializer(data=data)
         assert not serializer.is_valid()
 
+    def test_create_amount_error(self, user, sub_type, debit_account, credit_account):
+        data = factory.build(dict, FACTORY_CLASS=VoucherFactory, created_by=user.pk, sub_type=sub_type.pk,
+                             accounts=[debit_account.pk, credit_account.pk])
+        del data['amount']
+
+        serializer = VoucherSerializer(data=data)
+        assert not serializer.is_valid()
+
