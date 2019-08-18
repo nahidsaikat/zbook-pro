@@ -4,12 +4,12 @@ from factory.fuzzy import FuzzyChoice
 from django.urls import reverse
 
 from zbook.voucher.choices import VoucherType
-from .factory import VoucherSubTypeFactory
+from .factory import VoucherSubTypeFactory, VoucherFactory
 
 fake = Faker()
 
 
-class TestPartySubTypeListCreateAPIView:
+class TestVoucherSubTypeListCreateAPIView:
     url = reverse('voucher:subtype:list-create')
 
     def test_create(self, auth_client, user):
@@ -179,3 +179,20 @@ class TestVoucherSubTypeRetrieveUpdateAPIView:
         response = client.get(url)
 
         assert response.status_code == 401
+
+
+class TestVoucherListCreateAPIView:
+    url = reverse('voucher:list-create')
+
+    def test_create(self, auth_client, user, sub_type, debit_account, credit_account):
+        voucher_number = fake.name()
+        _type = FuzzyChoice(choices=VoucherType.values.keys()).fuzz()
+        data = factory.build(dict, FACTORY_CLASS=VoucherFactory, created_by=user.pk, type=_type, sub_type=sub_type.pk,
+                             voucher_number=voucher_number, accounts=[debit_account.pk, credit_account.pk])
+
+        response = auth_client.post(self.url, data)
+
+        assert response.status_code == 201
+        assert response.data.get('voucher_number') == voucher_number
+        assert response.data.get('type') == _type
+        assert response.data.get('created_by') == user.pk
