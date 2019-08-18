@@ -232,8 +232,8 @@ class TestVoucher:
         assert field.editable
         assert not field.null
         assert not field.blank
-        assert field.has_default()
-        assert field.default == 0
+        assert not field.has_default()
+        assert field.default.__name__ == 'NOT_PROVIDED'
         assert not field.hidden
         assert not field.unique
         assert field.max_digits == 15

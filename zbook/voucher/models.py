@@ -28,7 +28,7 @@ class Voucher(BaseModel):
     voucher_date = models.DateField(default=datetime.date.today)
     type = models.IntegerField(choices=VoucherType.choices, default=VoucherType.Receive, null=True, blank=True)
     sub_type = models.ForeignKey(VoucherSubType, on_delete=models.DO_NOTHING)
-    amount = models.DecimalField(default=0, max_digits=15, decimal_places=6)
+    amount = models.DecimalField(max_digits=15, decimal_places=6)
     party = models.ForeignKey(Party, on_delete=models.DO_NOTHING, null=True, blank=True)
     ref_voucher = models.ForeignKey('self', on_delete=models.DO_NOTHING, null=True, blank=True)
     description = models.TextField(default='', null=True, blank=True)
