@@ -42,3 +42,14 @@ class TestVoucherUrls:
     def test_list_create_url_reverse(self):
         url = reverse('voucher:list-create')
         assert url == '/api/v1/voucher/'
+
+    def test_list_create_url_resolve(self):
+        url = reverse('voucher:list-create')
+
+        resolver = resolve(url)
+
+        assert resolver.app_name == 'voucher'
+        assert resolver.url_name == 'list-create'
+        assert resolver.view_name == 'voucher:list-create'
+        assert resolver.namespace == 'voucher'
+        assert resolver.func.__name__ == 'VoucherListCreateAPIView'
