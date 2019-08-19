@@ -30,8 +30,8 @@ class VoucherFactory(DjangoModelFactory):
         model = Voucher
 
     voucher_number = fake.name()
-    type = FuzzyChoice(choices=VoucherType.values.keys())
     sub_type = factory.SubFactory(VoucherSubTypeFactory)
+    type = factory.SelfAttribute('sub_type.type')
     amount = fake.random_number(digits=5)
     description = fake.sentence()
     created_by = factory.SubFactory(UserFactory)

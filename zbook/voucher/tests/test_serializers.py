@@ -77,7 +77,8 @@ class TestVoucherSerailizer:
     def test_create(self, user, sub_type, debit_account, credit_account):
         voucher_number = fake.name()
         data = factory.build(dict, FACTORY_CLASS=VoucherFactory, voucher_number=voucher_number, amount=Decimal(1000),
-                             created_by=user.pk, sub_type=sub_type.pk, counts=[debit_account.pk, credit_account.pk])
+                             created_by=user.pk, sub_type=sub_type.pk, type=sub_type.type,
+                             accounts=[debit_account.pk, credit_account.pk])
 
         serializer = VoucherSerializer(data=data)
         serializer.is_valid()
@@ -97,7 +98,7 @@ class TestVoucherSerailizer:
 
     def test_create_sub_type_error(self, user, sub_type, debit_account, credit_account):
         data = factory.build(dict, FACTORY_CLASS=VoucherFactory, created_by=user.pk, sub_type=sub_type.pk,
-                             accounts=[debit_account.pk, credit_account.pk])
+                             type=sub_type.type, accounts=[debit_account.pk, credit_account.pk])
         del data['sub_type']
 
         serializer = VoucherSerializer(data=data)
@@ -105,7 +106,7 @@ class TestVoucherSerailizer:
 
     def test_create_amount_error(self, user, sub_type, debit_account, credit_account):
         data = factory.build(dict, FACTORY_CLASS=VoucherFactory, created_by=user.pk, sub_type=sub_type.pk,
-                             accounts=[debit_account.pk, credit_account.pk])
+                             type=sub_type.type, accounts=[debit_account.pk, credit_account.pk])
         del data['amount']
 
         serializer = VoucherSerializer(data=data)
