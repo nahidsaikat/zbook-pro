@@ -2,7 +2,7 @@ from django.urls import reverse, resolve
 from .factory import VoucherSubTypeFactory
 
 
-class TestPartySubTypeUrls:
+class TestVoucherSubTypeUrls:
 
     def test_list_create_url_reverse(self):
         url = reverse('voucher:subtype:list-create')
@@ -35,3 +35,10 @@ class TestPartySubTypeUrls:
         assert resolver.view_name == 'voucher:subtype:detail-update'
         assert resolver.namespace == 'voucher:subtype'
         assert resolver.func.__name__ == 'VoucherSubTypeRetrieveUpdateAPIView'
+
+
+class TestVoucherUrls:
+
+    def test_list_create_url_reverse(self):
+        url = reverse('voucher:list-create')
+        assert url == '/api/v1/voucher/'
