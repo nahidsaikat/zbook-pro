@@ -1,9 +1,12 @@
+from decimal import Decimal
+
 import factory
 from faker import Faker
 from factory.fuzzy import FuzzyChoice
 from django.urls import reverse
 
-from zbook.voucher.choices import VoucherType
+from ..choices import VoucherType
+from ..models import Ledger
 from .factory import VoucherSubTypeFactory, VoucherFactory
 
 fake = Faker()
@@ -188,7 +191,10 @@ class TestVoucherListCreateAPIView:
         voucher_number = fake.name()
         _type = FuzzyChoice(choices=VoucherType.values.keys()).fuzz()
         data = factory.build(dict, FACTORY_CLASS=VoucherFactory, created_by=user.pk, type=_type, sub_type=sub_type.pk,
-                             voucher_number=voucher_number, accounts=[debit_account.pk, credit_account.pk])
+                             voucher_number=voucher_number, accounts=[debit_account.pk, credit_account.pk], ledgers=[{
+                            'account_id': debit_account.pk, 'amount': Decimal(1000)}, {
+                            'account_id': credit_account.pk, 'amount': Decimal(-1000)}]
+                             )
 
         response = auth_client.post(self.url, data)
 
@@ -196,6 +202,9 @@ class TestVoucherListCreateAPIView:
         assert response.data.get('voucher_number') == voucher_number
         assert response.data.get('type') == _type
         assert response.data.get('created_by') == user.pk
+
+        ledger_query = Ledger.objects.all()
+        assert ledger_query.count() == 2
 
     def test_create_sub_type_error(self, auth_client, user, sub_type, debit_account, credit_account):
         voucher_number = fake.name()
