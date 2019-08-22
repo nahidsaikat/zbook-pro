@@ -1,4 +1,3 @@
-from django.db import transaction
 from rest_framework import serializers
 
 
@@ -13,18 +12,3 @@ class BaseSerializer(serializers.ModelSerializer):
             data['created_by'] = self.request.user.pk
         ret = super().to_internal_value(data)
         return ret
-
-
-class LedgerCreateSerializerMixin:
-
-    def create(self, validated_data):
-
-        with transaction.atomic():
-            instance = super().create(validated_data)
-        return instance
-
-    def update(self, instance, validated_data):
-
-        with transaction.atomic():
-            instance = super().update(instance, validated_data)
-        return instance
