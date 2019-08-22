@@ -3,7 +3,7 @@ from faker import Faker
 from decimal import Decimal
 
 from .factory import VoucherSubTypeFactory, VoucherFactory
-from ..models import VoucherSubType, Voucher
+from ..models import VoucherSubType, Voucher, Ledger
 from ..serializers import VoucherSubTypeSerializer, VoucherSerializer
 
 fake = Faker()
@@ -78,7 +78,10 @@ class TestVoucherSerailizer:
         voucher_number = fake.name()
         data = factory.build(dict, FACTORY_CLASS=VoucherFactory, voucher_number=voucher_number, amount=Decimal(1000),
                              created_by=user.pk, sub_type=sub_type.pk, type=sub_type.type,
-                             accounts=[debit_account.pk, credit_account.pk])
+                             accounts=[debit_account.pk, credit_account.pk], ledgers=[{
+                            'account_id': debit_account.pk, 'amount': Decimal(1000)}, {
+                            'account_id': credit_account.pk, 'amount': Decimal(-1000)}]
+                             )
 
         serializer = VoucherSerializer(data=data)
         serializer.is_valid()
@@ -95,6 +98,9 @@ class TestVoucherSerailizer:
         assert voucher.voucher_number == voucher_number
         assert voucher.sub_type.pk == sub_type.pk
         assert voucher.amount == Decimal(1000)
+
+        ledger_query = Ledger.objects.all()
+        assert ledger_query.count() == 2
 
     def test_create_sub_type_error(self, user, sub_type, debit_account, credit_account):
         data = factory.build(dict, FACTORY_CLASS=VoucherFactory, created_by=user.pk, sub_type=sub_type.pk,
