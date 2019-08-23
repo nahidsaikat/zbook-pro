@@ -2,7 +2,7 @@ import factory
 from faker import Faker
 from decimal import Decimal
 
-from .factory import VoucherSubTypeFactory, VoucherFactory
+from .factory import VoucherSubTypeFactory, VoucherFactory, LedgerFactory
 from ..models import VoucherSubType, Voucher, Ledger
 from ..serializers import VoucherSubTypeSerializer, VoucherSerializer
 
@@ -120,9 +120,15 @@ class TestVoucherSerailizer:
 
     def test_update(self, user, sub_type, debit_account, credit_account):
         voucher_number = fake.name()
-        data = factory.build(dict, FACTORY_CLASS=VoucherFactory, created_by=user, sub_type=sub_type,
-                             voucher_number=voucher_number, accounts=[debit_account.pk, credit_account.pk])
         voucher = VoucherFactory(created_by=user)
+        debit_ledger = LedgerFactory(voucher=voucher, account=debit_account, amount=voucher.amount, created_by=user)
+        credit_ledger = LedgerFactory(voucher=voucher, account=credit_account, amount=-voucher.amount, created_by=user)
+
+        data = factory.build(dict, FACTORY_CLASS=VoucherFactory, created_by=user, sub_type=sub_type, amount=Decimal(10),
+                             voucher_number=voucher_number, accounts=[debit_account.pk, credit_account.pk], ledgers=[{
+                            'id': debit_ledger.pk, 'account_id': debit_account.pk, 'amount': Decimal(10)}, {
+                            'id': credit_ledger.pk, 'account_id': credit_account.pk, 'amount': Decimal(-10)}]
+                             )
 
         serializer = VoucherSerializer()
         serializer.update(voucher, data)
@@ -132,3 +138,7 @@ class TestVoucherSerailizer:
 
         assert query.count() == 1
         assert saved_voucher.voucher_number == voucher_number
+
+        for ledger in Ledger.objects.all():
+            assert abs(ledger.amount) == Decimal(10)
+            assert ledger.account.pk in [debit_account.pk, credit_account.pk]
