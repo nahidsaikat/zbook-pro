@@ -59,3 +59,16 @@ class TestVoucherUrls:
         voucher = VoucherFactory(created_by=user, sub_type=subtype)
         url = reverse('voucher:detail-update', args=[voucher.pk])
         assert url == f'/api/v1/voucher/{voucher.pk}/'
+
+    def test_detail_update_url_resolve(self, user):
+        subtype = VoucherSubTypeFactory(created_by=user)
+        voucher = VoucherFactory(created_by=user, sub_type=subtype)
+        url = reverse('voucher:detail-update', args=[voucher.pk])
+
+        resolver = resolve(url)
+
+        assert resolver.app_name == 'voucher'
+        assert resolver.url_name == 'detail-update'
+        assert resolver.view_name == 'voucher:detail-update'
+        assert resolver.namespace == 'voucher'
+        assert resolver.func.__name__ == 'VoucherRetrieveUpdateAPIView'
