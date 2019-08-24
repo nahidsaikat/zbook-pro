@@ -21,3 +21,9 @@ class VoucherListCreateAPIView(BaseListCreateAPIView):
     queryset = Voucher.objects.all().order_by('-id')
     serializer_class = VoucherSerializer
     permission_classes = [IsAuthenticated]
+
+
+class VoucherRetrieveUpdateAPIView(BaseRetrieveUpdateAPIView):
+    queryset = Voucher.objects.all()
+    serializer_class = VoucherSerializer
+    permission_classes = [IsAuthenticated]
