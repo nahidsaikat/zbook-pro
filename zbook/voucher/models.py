@@ -38,6 +38,11 @@ class Voucher(BaseModel):
     def __str__(self):
         return f'{self.voucher_number} # {self.type_text}'
 
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if hasattr(self, 'sub_type'):
+            self.type = self.sub_type.type
+        super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
+
     @property
     def type_text(self):
         return self.get_type_display()

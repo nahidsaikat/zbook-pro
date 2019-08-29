@@ -189,8 +189,7 @@ class TestVoucherListCreateAPIView:
 
     def test_create(self, auth_client, user, sub_type, debit_account, credit_account):
         voucher_number = fake.name()
-        _type = FuzzyChoice(choices=VoucherType.values.keys()).fuzz()
-        data = factory.build(dict, FACTORY_CLASS=VoucherFactory, created_by=user.pk, type=_type, sub_type=sub_type.pk,
+        data = factory.build(dict, FACTORY_CLASS=VoucherFactory, created_by=user.pk, sub_type=sub_type.pk, type=sub_type.type,
                              voucher_number=voucher_number, accounts=[debit_account.pk, credit_account.pk], ledgers=[{
                             'account_id': debit_account.pk, 'amount': Decimal(1000)}, {
                             'account_id': credit_account.pk, 'amount': Decimal(-1000)}]
@@ -200,7 +199,7 @@ class TestVoucherListCreateAPIView:
 
         assert response.status_code == 201
         assert response.data.get('voucher_number') == voucher_number
-        assert response.data.get('type') == _type
+        assert response.data.get('type') == sub_type.type
         assert response.data.get('created_by') == user.pk
 
         ledger_query = Ledger.objects.all()
