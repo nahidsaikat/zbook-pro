@@ -294,3 +294,15 @@ class TestVoucherRetrieveUpdateAPIView:
 
         assert response.status_code == 200
         assert response.data.get('deleted') == True
+
+    def test_update_updated_by(self, auth_client, user, sub_type, debit_account, credit_account):
+        voucher = VoucherFactory(accounts=[debit_account, credit_account], created_by=user)
+        voucher_number = fake.name()
+        data = factory.build(dict, FACTORY_CLASS=VoucherFactory, voucher_number=voucher_number, sub_type=sub_type.pk,
+                             type=sub_type.type, created_by=user.pk, deleted=True)
+
+        url = reverse('voucher:subtype:detail-update', args=[voucher.pk])
+        response = auth_client.patch(url, data)
+
+        assert response.status_code == 200
+        assert response.data.get('updated_by') == user.pk
