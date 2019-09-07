@@ -330,3 +330,11 @@ class TestVoucherRetrieveUpdateAPIView:
         assert response.data.get('voucher_date') == str(voucher.voucher_date)
         assert response.data.get('sub_type') == voucher.sub_type.pk
         assert Decimal(response.data.get('amount')) == Decimal(voucher.amount)
+
+    def test_get_voucher_unauthorize(self, client, user, debit_account, credit_account):
+        voucher = VoucherFactory(accounts=[debit_account, credit_account], created_by=user)
+        url = reverse('voucher:detail-update', args=[voucher.pk])
+
+        response = client.get(url)
+
+        assert response.status_code == 401
